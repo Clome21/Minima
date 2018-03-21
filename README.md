@@ -1,0 +1,2 @@
+# Minima
+The Minima project
