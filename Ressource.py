@@ -39,10 +39,6 @@ class Ressource(object):
             self.car(), self.x, self.y,self.valeur)
         
         
-    
-
-
-
             
     def car(self):
         """

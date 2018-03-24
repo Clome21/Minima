@@ -32,9 +32,9 @@ class Unites_Humain_Attaquant():
 
         self._role = role
         self.__sante = sante
-
-        self._max = sante
         self._carte = carte
+        self._max = sante
+        carte.ss_carte[abscisse][ordonnee] = self
         self.coords = abscisse, ordonnee
 
 
@@ -158,7 +158,7 @@ class Unites_Humain_Attaquant():
             value = 0
     
 
-    def combat(self):
+    def combat(self,carte):
         """
         Méthode permettant à l'unité de combattre, si un objet ennemi se trouve 
         dans sa zone d'attaque.
@@ -167,13 +167,13 @@ class Unites_Humain_Attaquant():
         Si il y a bien un objet, celui-ci perd de la vie.
         """
 
-        Ennemi = self.chx_ennemi(self.L_ennemi)
+        Ennemi = self.chx_ennemi(carte)
         if Ennemi != None:
             Ennemi.sante = Ennemi.sante - self.capcbt
         print(Ennemi)
  
     
-    def chx_ennemi(self, L_ennemis):
+    def chx_ennemi(self,carte):
         """
         Méthode sélectionnant l'objet le plus proche de l'unité.
         Elle parcourt pour chaque joueur ennemi l'ensemble des unités qu'elle
@@ -186,33 +186,40 @@ class Unites_Humain_Attaquant():
         Contient l'ensemble des joueurs ennemis de l'unité.
 
         """
-        R_plus_petit = self.zonecbt + 1
-        print(L_ennemis)
+        x,y = self.coords
+        x_inf = max(0,int(-self.zonecbt + x))
+        x_sup = min(self._carte.dims[0], int(self.zonecbt + x))
+        y_inf = max(0,int(-self.zonecbt + y))
+        y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
+        
+        print(x_inf, x_sup)
+        print(y_inf,y_sup)
+        
         Ennemi = None
-        for J in L_ennemis:
-            L_unites = J._list_unit
-
-            for j in range( len(L_unites)):
-                x,y = L_unites[j].coords
-                R_unite = math.sqrt((x-self.x)**2 + (y-self.y)**2)
-                if R_unite < min(R_plus_petit,self.zonecbt):
-                    Ennemi = L_unites[j]
-                    R_plus_petit = R_unite
-        if R_plus_petit > self.zonecbt:
-            for i in range(len(L_ennemis)):
-                L_bat = L_ennemis[i]._list_bat
-                for l in range( len(L_bat)):
-                    x,y = L_bat[l].coords
-                    R_bat = math.sqrt((x-self.x)**2 + (y-self.y)**2)
-                    if R_bat < min(R_plus_petit,self.zonecbt):
-                        Ennemi = L_bat[l]
-                        R_plus_petit = R_bat
-        if R_plus_petit > self.zonecbt:
-            return (None)
+        R_plus_petit_unit = self.zonecbt +1
+        R_plus_petit_bat = self.zonecbt + 1
+        
+        
+        for i in range(x_inf,x_sup+1):
+            for j in range(y_inf,y_sup+1):
+                Obj = carte.ss_carte[i][j]
+                if Obj != ' ' and Obj.T_car()[0] == 'D':
+                    R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
+                    
+                    print(R_Obj,Obj)
+                    
+                    if Obj.T_car()[2] == 'U' and R_Obj < R_plus_petit_unit:
+                        R_plus_petit_unit = R_Obj
+                        Ennemi = Obj
+                        
+                    if Obj.T_car()[2] == 'B' and R_Obj < min(R_plus_petit_bat,R_plus_petit_unit):
+                        R_plus_petit_bat = R_Obj
+                        Ennemi = Obj
+        
         return(Ennemi)
-                
+#                
 
-class Fourmi(Unites_Humain_Attaquant):
+class Scorpion(Unites_Humain_Attaquant):
     """
     Classe spécialisant Unites_Humain_Attaquant pour représenter une Fourmi.
     """
@@ -240,16 +247,16 @@ class Fourmi(Unites_Humain_Attaquant):
         super().__init__(x, y, carte, role, self.__sante)
         self.L_ennemi = L_ennemi
         self.L_autres_joueurs = L_autres_joueurs
-        self.id = Fourmi.Id 
-        Fourmi.Id += 1
+        self.id = Scorpion.Id 
+        Scorpion.Id += 1
         self.capmvt = 1
         self.capcbt = 2
         self.zonecbt = math.sqrt(2)
     
     def car(self):
-        return 'F'
+        return 'S'
     
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
-        return "%r_U_F%i"%(self._role, self.id )
+        return "%r_U_S%i"%(self._role, self.id )
     

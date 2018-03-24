@@ -12,7 +12,7 @@ import sys
 import math
 from Joueur import Joueur
 
-from Unites_Hn_Attaquant import Fourmi
+from Unites_Hn_Attaquant import Scorpion
 from Unites_Hn_Defenseur import Robot_combat
 
 # from dprint import dprint
@@ -49,6 +49,7 @@ class Partie():
             Posdisp = Posdisp[1:]
             nb_ia -= 1
         self.mise_en_place()
+        self.carte = Map.Map(40,30,6)
     
     def mise_en_place(self):
         """
@@ -65,18 +66,20 @@ class Partie():
             else : 
                 J_vu.L_ennemi = self.L_joueur[1:n] 
             J_vu.L_autres_joueurs = self.L_joueur[0:k] + self.L_joueur[k+1:n]
+            
 
 
 
 if __name__ == "__main__":
-    carte = Map.Map(40,30,6,4)
     Game = Partie(0,2)
-    Game.L_joueur[1]._liste_unite.append( Fourmi('AHN',carte,0,1, Game.L_joueur[1].L_ennemi, Game.L_joueur[1].L_autres_joueurs ) )
-    Game.L_joueur[0]._liste_unite.append( Robot_combat('DH',carte,1,1, Game.L_joueur[0].L_ennemi) )
-    Game.L_joueur[0]._liste_unite.append( Robot_combat('DH',carte,1,0, Game.L_joueur[0].L_ennemi) )
+    Game.L_joueur[1]._liste_unite.append( Scorpion('AH0',Game.carte,0,1, Game.L_joueur[1].L_ennemi, Game.L_joueur[1].L_autres_joueurs ) )
+    Game.L_joueur[0]._liste_unite.append( Robot_combat('DH',Game.carte,1,1, Game.L_joueur[0].L_ennemi) )
+    Game.L_joueur[0]._liste_unite.append( Robot_combat('DH', Game.carte,1,0, Game.L_joueur[0].L_ennemi) )
+    S = {0 : { 'a' : 'I', 'b' : 'II' }, 1 : { 'c' : 'III', 'd' : 'IV'} }
+    for c in S:
+        print(S[c])
 
     
     
 
 
-# RAISONNER VIA UNE LISTE, ET NON UNE SOUS-MAP ! BEAUCOUP MOINS LOURD!

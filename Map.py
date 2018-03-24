@@ -1,10 +1,11 @@
+import numpy as np
 
 from numpy.random import randint
 from numpy.random import choice
 import time
 from Ressource import metal
 from Batiments import Foreuse,QG,Panneau_solaire
-from IA_facile import Fourmi_Facile,Fourmi_Moins_Facile
+from IA_facile import Scorpion_Facile,Scorpion_Moins_Facile
 
 
 class Map(list):
@@ -22,8 +23,16 @@ class Map(list):
         self.energie_tot=energie_tot
         self.nb_unite_IA_In_Wave=0
         self.createInitObject()
+        self.ss_carte = [[' ' for j in range(ymax)] for i in range(xmax)]
+        U = QG(xmax/2,ymax/2,self)
+        self.ss_carte[int(xmax/2)][int(ymax/2)] = U
 
-        self.append(QG(xmax/2,ymax/2,self))
+        self.append(U)
+
+        """Actuellement, carte contient l'ensemble des objets en jeu """
+        
+        
+        
 
     def createInitObject(self):        
         self.Panneau_solaire=Panneau_solaire(0,0,self)
@@ -52,7 +61,10 @@ class Map(list):
             
        
         """
-        return self.generation_Terrain()     # Pour l'affichage sur deux caractères
+
+        return self.generation_Terrain()
+
+        # Pour l'affichage sur deux caractères
     
     def generation_Terrain(self):
         """
@@ -148,7 +160,7 @@ class Map(list):
                 i=randint(0,self.__xmax)
                 j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
                 for obj in self:
-                    if obj.name != "Fourmi":
+                    if obj.name != "Scorpion":
                         while i==obj.x and j==obj.y:
                             i=randint(0,self.__xmax)
                             j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])                        
@@ -158,7 +170,7 @@ class Map(list):
                 i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
                 j=randint(0,self.__ymax)
                 for obj in self:
-                    if obj.name != "Fourmi":
+                    if obj.name != "Scorpion":
                         while i==obj.x and j==obj.y:
                             i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
                             j=randint(0,self.__ymax)
@@ -188,7 +200,7 @@ class Map(list):
                 
             if zone_app==1:
                 self.Zone1()
-                self.append(Fourmi_Facile(self.i_Z1,self.i_Z1,self))
+                self.append(Scorpion_Facile(self.i_Z1,self.i_Z1,self))
         
             if zone_app==2:
                 j=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
@@ -197,7 +209,7 @@ class Map(list):
                     while i ==obj.x and j==obj.y:
                         j=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
                         i=self.__xmax-1
-                self.append(Fourmi_Facile(i,j,self))
+                self.append(Scorpion_Facile(i,j,self))
             
             if zone_app==3:
                 j=0
@@ -206,7 +218,7 @@ class Map(list):
                     while (i ==obj.x and j==obj.y):
                         j=0
                         i=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))
-                self.append(Fourmi_Facile(i,j,self))
+                self.append(Scorpion_Facile(i,j,self))
         
             if zone_app==4:
                 j=self.__ymax-1
@@ -215,7 +227,7 @@ class Map(list):
                     while i ==obj.x and j==obj.y:
                         j=self.__ymax-1
                         i=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))
-                self.append(Fourmi_Facile(i,j,self))
+                self.append(Scorpion_Facile(i,j,self))
              
     def spawn_wave_Niveau_1(self):
         """
@@ -234,9 +246,9 @@ class Map(list):
                         i=0
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Fourmi_Facile(i,j,self))
+                    self.append(Scorpion_Facile(i,j,self))
                 else:
-                    self.append(Fourmi_Moins_Facile(i,j,self))
+                    self.append(Scorpion_Moins_Facile(i,j,self))
         
             if zone_app==2:
                 j=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
@@ -247,9 +259,9 @@ class Map(list):
                         i=self.__xmax-1
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Fourmi_Facile(i,j,self))
+                    self.append(Scorpion_Facile(i,j,self))
                 else:
-                    self.append(Fourmi_Moins_Facile(i,j,self))
+                    self.append(Scorpion_Moins_Facile(i,j,self))
             
             if zone_app==3:
                 j=0
@@ -260,9 +272,9 @@ class Map(list):
                         i=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Fourmi_Facile(i,j,self))
+                    self.append(Scorpion_Facile(i,j,self))
                 else:
-                    self.append(Fourmi_Moins_Facile(i,j,self))
+                    self.append(Scorpion_Moins_Facile(i,j,self))
         
             if zone_app==4:
                 j=self.__ymax-1
@@ -273,9 +285,9 @@ class Map(list):
                         i=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Fourmi_Facile(i,j,self))
+                    self.append(Scorpion_Facile(i,j,self))
                 else:
-                    self.append(Fourmi_Moins_Facile(i,j,self))
+                    self.append(Scorpion_Moins_Facile(i,j,self))
         
     def spawn_wave_Niveau_2(self):
         """
@@ -292,7 +304,7 @@ class Map(list):
                     while i ==obj.x and j==obj.y:
                         j=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
                         i=0
-                self.append(Fourmi_Moins_Facile(i,j,self))
+                self.append(Scorpion_Moins_Facile(i,j,self))
         
             if zone_app==2:
                 j=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
@@ -301,7 +313,7 @@ class Map(list):
                     while i ==obj.x and j==obj.y:
                         j=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
                         i=self.__xmax-1
-                self.append(Fourmi_Moins_Facile(i,j,self))
+                self.append(Scorpion_Moins_Facile(i,j,self))
             
             if zone_app==3:
                 j=0
@@ -310,7 +322,7 @@ class Map(list):
                     while (i ==obj.x and j==obj.y):
                         j=0
                         i=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))
-                self.append(Fourmi_Moins_Facile(i,j,self))
+                self.append(Scorpion_Moins_Facile(i,j,self))
         
             if zone_app==4:
                 j=self.__ymax-1
@@ -319,7 +331,7 @@ class Map(list):
                     while i ==obj.x and j==obj.y:
                         j=self.__ymax-1
                         i=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))
-                self.append(Fourmi_Moins_Facile(i,j,self))  
+                self.append(Scorpion_Moins_Facile(i,j,self))  
         
         
     def ressource_tot(self):
@@ -383,7 +395,7 @@ class Map(list):
         # rnd.shuffle(self)    Utile si gestion des collisions
         self.construction_bat()
         for unite in self:
-            if unite.name=="Fourmi":
+            if unite.name=="Scorpion":
                 unite.bouger()
         for obj in self:
             obj.affichage()

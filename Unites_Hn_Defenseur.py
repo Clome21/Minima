@@ -37,6 +37,7 @@ class Unites_Humain_Defenseur():
 
         self._max = sante
         self._carte = carte
+        carte.ss_carte[abscisse][ordonnee] = self
         self.coords = abscisse, ordonnee
 
 
@@ -158,7 +159,7 @@ class Unites_Humain_Defenseur():
             value = 0
     
 
-    def combat(self):
+    def combat(self,carte):
         """
         Méthode permettant à l'unité de combattre, si un objet ennemi se trouve 
         dans sa zone d'attaque.
@@ -167,13 +168,13 @@ class Unites_Humain_Defenseur():
         Si il y a bien un objet, celui-ci perd de la vie.
         """
 
-        Ennemi = self.chx_ennemi(self.L_ennemi)
+        Ennemi = self.chx_ennemi(carte)
         if Ennemi != None:
             Ennemi.sante = Ennemi.sante - self.capcbt
         print(Ennemi)
  
     
-    def chx_ennemi(self, L_ennemis):
+    def chx_ennemi(self,carte):
         """
         Méthode sélectionnant l'objet le plus proche de l'unité.
         Elle parcourt pour chaque joueur ennemi l'ensemble des unités qu'elle
@@ -186,31 +187,27 @@ class Unites_Humain_Defenseur():
         Contient l'ensemble des joueurs ennemis de l'unité.
 
         """
-        R_plus_petit = self.zonecbt + 1
-        print(L_ennemis)
+        x,y = self.coords
+        x_inf = max(0,int(-self.zonecbt + x))
+        x_sup = min(self._carte.dims[0], int(self.zonecbt + x))
+        y_inf = max(0,int(-self.zonecbt + y))
+        y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
+        
         Ennemi = None
-        for J in L_ennemis:
-            L_unites = J._list_unit
+        R_plus_petit_unit = self.zonecbt +1
 
-            for j in range( len(L_unites)):
-                x,y = L_unites[j].coords
-                R_unite = math.sqrt((x-self.x)**2 + (y-self.y)**2)
-                if R_unite < min(R_plus_petit,self.zonecbt):
-                    Ennemi = L_unites[j]
-                    R_plus_petit = R_unite
-        if R_plus_petit > self.zonecbt:
-            for i in range(len(L_ennemis)):
-                L_bat = L_ennemis[i]._list_bat
-                for l in range( len(L_bat)):
-                    x,y = L_bat[l].coords
-                    R_bat = math.sqrt((x-self.x)**2 + (y-self.y)**2)
-                    if R_bat < min(R_plus_petit,self.zonecbt):
-                        Ennemi = L_bat[l]
-                        R_plus_petit = R_bat
-        if R_plus_petit > self.zonecbt:
-            return (None)
+        
+        for i in range(x_inf,x_sup+1):
+            for j in range(y_inf,y_sup+1):
+                Obj = carte.ss_carte[i][j]
+                if Obj != ' ' and Obj.T_car()[0] == 'A':
+                    R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
+                    
+                    if  R_Obj < R_plus_petit_unit:
+                        R_plus_petit_unit = R_Obj
+                        Ennemi = Obj
+        
         return(Ennemi)
-
     
 class Robot_combat(Unites_Humain_Defenseur):
     """

@@ -22,5 +22,7 @@ class Joueur(object):
         self._liste_unite = []
         self._liste_bat = []
         self.L_ennemi = []
+
+
       
 
