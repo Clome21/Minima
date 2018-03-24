@@ -1,0 +1,37 @@
+
+Salut!
+
+Je propose ce fichier pour que l'on note les avancées qu'on a fait sur le boulot, ça sera un peu long à faire mais on a moyen
+de mieux bosser en équipe!
+
+24/03 :
+
+Modification majeure (= sur plusieurs fichiers à la fois):
+
+- Suppression du système de dictionnaire, mise en place d'une sous-carte.
+
+Motif : plus je réfléchissais à ce système, plus ça me semblait compliqué : il fallait mettre à jour les dictionnaires d'ennemis 
+à chaque déplacement, sachant qu'un dictionnaire est compliqué à manipuler ... 
+L'avantage d'une sous-carte est que, même si ça prend beaucoup de place, ça a un aspect plus "visible" pour les tests et ça devrait
+pas mal réduire les calculs pour le combat et les problèmes de collision. En plus, on peut supprimer comme ça les listes des 
+ennemis de chaque joueur.
+On va quand même les garder pour le moment, au cas où.
+
+J'ai également gardé sur mon PC des sauvegardes des fichiers sans la sous-carte.
+
+
+- MAJ des noms d'insectes.
+J'ai choisi scorpion pour l'unité remplaçant la fourmi.
+
+
+- MAJ des méthodes de combat pour chaque unité.
+La MAJ prend en compte la mise en place d'une sous-carte.
+
+
+- Ajout des méthodes de combat pour les IA.
+
+
+
+Sur le fichier batiment : 
+
+- Mise en place des méthodes pour obtenir l'identifiant complet de ceux-ci ( T_car() ).
