@@ -70,8 +70,10 @@ nos constantes définitives dans les fichiers.
 Sur tes programmes :
 
 *Tu as supprimé ma MAJ au niveau de Map :c
+J'ai corrigé ça.
 
-[En cours]
+*Au niveau de tes programmes, prends en compte l'ajout de la sous-carte pour la gestion des collisions (ne pas vérifier le nom
+de l'unité, mais si la case est un ' ').
 
 
 
