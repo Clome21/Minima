@@ -37,10 +37,13 @@ Sur le fichier batiment :
 - Mise en place des méthodes pour obtenir l'identifiant complet de ceux-ci ( T_car() ).
 
 25/03- 2h10-Clome01
-Excelente idée le texte, comme ça on se souviendra pourquoi on a fait tel ou tel changement. Cela sera une bonne chose pour le rapport.
+Excelente idée le texte, comme ça on se souviendra pourquoi on a fait tel ou tel changement. Cela sera une bonne chose
+pour le rapport.
 
 Donc j'ai fini de mettre unTour dans une classe à part de tel façon que le jeu continue de tourner.
-J'ai également créé une classe Constante (sorry, une classe en plus) car je commençais à me perdre avec plein de constantes identiques partouts (et c'est plus simple pour les test). La au moins elles sont en un seul exemplaire et facile à récuperer (libre a toi de l'utiliser pour tes constantes ou pas).
+J'ai également créé une classe Constante (sorry, une classe en plus) car je commençais à me perdre avec plein de constantes
+identiques partouts (et c'est plus simple pour les test). La au moins elles sont en un seul exemplaire et facile à récuperer 
+(libre a toi de l'utiliser pour tes constantes ou pas).
 J'ai également appelé les unitées IA Scorpion1 et Scorpion2 pour que ça reste logique avec toi.
 Je pense qu'il faudra renommer IA_facile en unite_IA, cela me semble plus logique.
 
@@ -50,3 +53,25 @@ Je pense qu'il faudra renommer IA_facile en unite_IA, cela me semble plus logiqu
 
 Sur le fichier IA_facile:
   - Mise en place des méthodes pour obtenir l'identifiant complet de ceux-ci ( T_car() ).
+  
+25/03 - 18h - XV25
+
+Sur tes remarques : 
+
+*Aucun problème pour renommer le fichier IA : ça serait unites_IA_facile, pour ne pas confondre avec les unités de niveau
+supérieur.
+
+*Pour la classe Constante, je suis partagé. D'un côté, ça force à charger un fichier de plus, et également à faire un passage
+vers une autre classe uniquement pour trouver une valeur. De l'autre, ça va énormément simplifier l'équilibrage du jeu! On aura
+juste à modifier un fichier pour modifier la jouabilité.
+Donc je suis pour qu'on garde pour le moment; et dès qu'on aura trouvé des valeurs satisfaisantes, on la supprimera pour mettre
+nos constantes définitives dans les fichiers.
+
+Sur tes programmes :
+
+*Tu as supprimé ma MAJ au niveau de Map :c
+
+[En cours]
+
+
+
