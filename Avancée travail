@@ -36,16 +36,17 @@ Sur le fichier batiment :
 
 - Mise en place des méthodes pour obtenir l'identifiant complet de ceux-ci ( T_car() ).
 
-25/03 Clome01
+25/03- 2h10-Clome01
 Excelente idée le texte.
 
 Donc j'ai fini de mettre unTour dans une classe à part de tel façon que le jeu continue de tourner
 J'ai également créé une classe Constante car je commencer à me perdre à avoir des constantes identiques partouts (et c'est plus simple pour les test). La au moins elles sont en un seul exemplaire et facile à récuperer.
 J'ai également appelé les unitées IA Scorpion1 et Scorpion2 pour que ça reste logique avec toi.
+Je pense qu'il faudra renommer IA_facile en unite_IA, ça me semble plus logique.
 
 -MAJ de unTour
--MAJ des constantes pour Map, Un_Tour_Du_Joueur, Batiment et unité_IA
+-MAJ des constantes pour Map, Un_Tour_Du_Joueur, Batiment et IA_facile
 -MAJ nom en français comme on avait dit
 
-Sur le fichier unite_IA:
+Sur le fichier IA_facile:
   - Mise en place des méthodes pour obtenir l'identifiant complet de ceux-ci ( T_car() ).
