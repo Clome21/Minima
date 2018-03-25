@@ -34,7 +34,8 @@ class Unites_Humain_Attaquant():
         self.__sante = sante
         self._carte = carte
         self._max = sante
-        carte.ss_carte[abscisse][ordonnee] = self
+        self._carte.ss_carte[abscisse][ordonnee] = self
+        self._carte.append(self)
         self.coords = abscisse, ordonnee
 
 
@@ -71,6 +72,10 @@ class Unites_Humain_Attaquant():
             Le caractère représentant l'unité.
         """
         return 'U'    
+    
+    def affichage(self):
+        print(str(self))
+    
 
 
     def bouger(self):
@@ -78,14 +83,37 @@ class Unites_Humain_Attaquant():
         Mouvement de l'unité, choisie par l'utilisateur. Elle a lieu dans un rayon correspondant 
         à la capacité de mouvement autour de la position courante. Utilise l'accesseur coords.
         """
+        L_vide = self.mvt_poss()
+        xi, yi = self.coords
+        print("Mouvements possibles :", L_vide)
+        
         X = int(input('Envoyez la nouvelle position en x. \n'))
         Y = int(input('Envoyez la nouvelle position en y. \n'))
-        while self.capmvt < math.sqrt((X -self.x)**2 + (Y-self.y)**2) :
+        while (X,Y) not in L_vide:
+#        while self.capmvt < math.sqrt((X -self.x)**2 + (Y-self.y)**2) :
             print("Position hors du rayon d'action de l'unité. \n")
             X = int(input('Envoyez la nouvelle position en x. \n'))
             Y = int(input('Envoyez la nouvelle position en y. \n'))
         self.coords = (X, Y)
+        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)  
+    
+    def mvt_poss(self):
+        x,y = self.coords
+        
+        self.L_vide = []
+        x_inf = max(0,int(-self.capmvt + x))
+        x_sup = min(self._carte.dims[0], int(self.capmvt + x))
+        y_inf = max(0,int(-self.capmvt + y))
+        y_sup = min(self._carte.dims[1], int(self.capmvt + y))
+        
+        for i in range(x_inf,x_sup+1):
+            for j in range(y_inf,y_sup+1):
+                Obj = self._carte.ss_carte[i][j]
+                if Obj == ' ' :
+                    self.L_vide.append((i,j))
+        return(self.L_vide)
+    
 
     @property
     def coords(self):
@@ -158,7 +186,7 @@ class Unites_Humain_Attaquant():
             value = 0
     
 
-    def combat(self,carte):
+    def combat(self):
         """
         Méthode permettant à l'unité de combattre, si un objet ennemi se trouve 
         dans sa zone d'attaque.
@@ -167,13 +195,13 @@ class Unites_Humain_Attaquant():
         Si il y a bien un objet, celui-ci perd de la vie.
         """
 
-        Ennemi = self.chx_ennemi(carte)
+        Ennemi = self.chx_ennemi()
         if Ennemi != None:
             Ennemi.sante = Ennemi.sante - self.capcbt
         print(Ennemi)
  
     
-    def chx_ennemi(self,carte):
+    def chx_ennemi(self):
         """
         Méthode sélectionnant l'objet le plus proche de l'unité.
         Elle parcourt pour chaque joueur ennemi l'ensemble des unités qu'elle
@@ -202,7 +230,7 @@ class Unites_Humain_Attaquant():
         
         for i in range(x_inf,x_sup+1):
             for j in range(y_inf,y_sup+1):
-                Obj = carte.ss_carte[i][j]
+                Obj = self._carte.ss_carte[i][j]
                 if Obj != ' ' and Obj.T_car()[0] == 'D':
                     R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
                     
@@ -218,6 +246,7 @@ class Unites_Humain_Attaquant():
         
         return(Ennemi)
 #                
+
 
 class Scorpion(Unites_Humain_Attaquant):
     """

@@ -37,7 +37,8 @@ class Unites_Humain_Defenseur():
 
         self._max = sante
         self._carte = carte
-        carte.ss_carte[abscisse][ordonnee] = self
+        self._carte.ss_carte[abscisse][ordonnee] = self
+        self._carte.append(self)
         self.coords = abscisse, ordonnee
 
 
@@ -60,6 +61,7 @@ class Unites_Humain_Defenseur():
             self.sante, self._max
             )
     
+    
     def car(self):
         """
         Renvoie l'identifiant de l'unité en question
@@ -74,6 +76,9 @@ class Unites_Humain_Defenseur():
             Le caractère représentant l'unité.
         """
         return 'U'    
+    
+    def affichage(self):
+        print(str(self))
 
 
     def bouger(self):
@@ -81,14 +86,36 @@ class Unites_Humain_Defenseur():
         Mouvement de l'unité, choisie par l'utilisateur. Elle a lieu dans un rayon correspondant 
         à la capacité de mouvement autour de la position courante. Utilise l'accesseur coords.
         """
+        L_vide = self.mvt_poss()
+        xi, yi = self.coords
+        print("Mouvements possibles :", L_vide)
+        
         X = int(input('Envoyez la nouvelle position en x. \n'))
         Y = int(input('Envoyez la nouvelle position en y. \n'))
-        while self.capmvt < math.sqrt((X -self.x)**2 + (Y-self.y)**2) :
+        while (X,Y) not in L_vide:
             print("Position hors du rayon d'action de l'unité. \n")
             X = int(input('Envoyez la nouvelle position en x. \n'))
             Y = int(input('Envoyez la nouvelle position en y. \n'))
         self.coords = (X, Y)
+        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)  
+    
+    def mvt_poss(self):
+        x,y = self.coords
+        
+        self.L_vide = []
+        x_inf = max(0,int(-self.capmvt + x))
+        x_sup = min(self._carte.dims[0], int(self.capmvt + x))
+        y_inf = max(0,int(-self.capmvt + y))
+        y_sup = min(self._carte.dims[1], int(self.capmvt + y))
+        
+        for i in range(x_inf,x_sup+1):
+            for j in range(y_inf,y_sup+1):
+                Obj = self._carte.ss_carte[i][j]
+                if Obj == ' ' :
+                    self.L_vide.append((i,j))
+        return(self.L_vide)
+        
 
     @property
     def coords(self):
@@ -208,6 +235,7 @@ class Unites_Humain_Defenseur():
                         Ennemi = Obj
         
         return(Ennemi)
+    
     
 class Robot_combat(Unites_Humain_Defenseur):
     """

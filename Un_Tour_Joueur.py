@@ -6,21 +6,20 @@ class Un_Tour_Du_Joueur():
 
 
     
-    def __init__(self):
+    def __init__(self,carte):
+        self._carte = carte
+        self.L_joueur = self._carte.L_joueur
   
         self.metal_tot=Constante.metal_tot
         self.energie_tot=Constante.energie_tot
         self.nb_unite_IA_In_Wave=0
-        self.createInitObject()
+
         self.unite_IA=[]
-        self.L_batiment=[]
+        self._liste_bat =[]
         self.unite_IA_in_wave=[]
         
         
 
-    def createInitObject(self):        
-        self.Panneau_solaire=Panneau_solaire(0,0,self)
-        self.Foreuse=Foreuse(0,0,self)
         #self.Fourmi_Facile=Fourmi_Facile(0,0,self,self,self)
  
             
@@ -38,8 +37,9 @@ class Un_Tour_Du_Joueur():
                     while (i==batiment.x and j==batiment.y) or not ((i>(Constante.xmax-Constante.L_Z_Constructible)/2 and i<((Constante.xmax-Constante.L_Z_Constructible)/2+Constante.L_Z_Constructible)) and (j>(Constante.ymax-Constante.H_Z_Constructible)/2 and j<((Constante.ymax-Constante.H_Z_Constructible)/2+Constante.H_Z_Constructible+(Constante.ymax-Constante.H_Z_Constructible-1)/2))):
                         i=float(input("Emplacement non valide : quelle coordonnée en x ?"))
                         j=float(input("Emplacement non valide : quelle coordonnée en y ?"))
-                self.append(Foreuse(i,j,self))
-                self.L_batiment.append(Foreuse(i,j,self))                
+                U = Foreuse(i,j,self._carte)
+                self._carte.append(U)
+                self._liste_bat.append(U)                
                 self.metal_tot=self.metal_tot-Constante.cout_M_F
                 self.energie_tot=self.energie_tot-Constante.cout_E_F
                         
@@ -60,8 +60,9 @@ class Un_Tour_Du_Joueur():
                     while (i==batiment.x and j==batiment.y) or not ((i>(Constante.xmax-Constante.L_Z_Constructible)/2 and i<(Constante.xmax+(Constante.L_Z_Constructible-1))/2) and (j>(Constante.ymax-(Constante.H_Z_Constructible))/2 and j<(Constante.ymax+(Constante.H_Z_Constructible-1))/2)):
                         i=float(input("Emplacement occupé : quelle coordonnée en x ?"))
                         j=float(input("Emplacement occupé : quelle coordonnée en y ?"))
-                self.append(Panneau_solaire(i,j,self))
-                self.L_batiment.append(Panneau_solaire(i,j,self))
+                U = Panneau_solaire(i,j,self._carte)
+                self._carte.append(U)
+                self._liste_bat.append(U)
                 self.metal_tot=self.metal_tot-Constante.cout_M_P
                 self.energie_tot=self.energie_tot-Constante.cout_E_P
                         
@@ -94,9 +95,15 @@ class Un_Tour_Du_Joueur():
         Rien
         """
         # rnd.shuffle(self)    Utile si gestion des collisions
-        Un_Tour_Du_Joueur.construction_bat(self)
-        for unite in self:
-            if unite.name=="Scorpion":
-                unite.bouger()
-        for obj in self:
+
+        n = len(self.L_joueur)
+        for k in range(n):
+            print("\\\ Tour du joueur %r ///"%(self.L_joueur[k]._role))
+            if self.L_joueur[k]._role[0] == 'D':
+                Un_Tour_Du_Joueur.construction_bat(self)
+            L_unite = self.L_joueur[k]._liste_unite
+            for c in L_unite:
+                print("Tour de %r"%(c.T_car()))
+                c.bouger()
+        for obj in self._carte:
             obj.affichage()

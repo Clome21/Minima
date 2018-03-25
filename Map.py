@@ -2,6 +2,7 @@
 from numpy.random import randint
 from numpy.random import choice
 import time
+from Un_Tour_Joueur import Un_Tour_Du_Joueur
 from Ressource import metal
 from Batiments import Foreuse,QG,Panneau_solaire
 from unites_IA_facile import Scorpion1,Scorpion2
@@ -11,19 +12,28 @@ class Map(list):
     """
     Classe gérant le déroulement du jeu. 
     """
-    def __init__(self,xmax,ymax,nbt,L=19,H=15,spawn_ress=2,metal_tot=5,energie_tot=5):
+    def __init__(self,xmax,ymax,nbt,L_joueur,L=19,H=15,spawn_ress=2,metal_tot=5,energie_tot=5):
         self.__xmax = xmax
         self.__ymax = ymax  
         self.nbtour =  nbt  
+        self.L_joueur = L_joueur
         self.H=H
         self.L=L
         self.spawn_ress=spawn_ress
+        self.Tr = Un_Tour_Du_Joueur(self)
         self.metal_tot=metal_tot
         self.energie_tot=energie_tot
         self.nb_unite_IA_In_Wave=0
         self.createInitObject()
+        
+        self.ss_carte = [[' ' for j in range(ymax)] for i in range(xmax)]
+        U = QG(xmax/2,ymax/2,self)
+        self.ss_carte[int(xmax/2)][int(ymax/2)] = U
+        self.append(U)
+        self.L_joueur[0]._liste_bat.append(U)
 
-        self.append(QG(xmax/2,ymax/2,self))
+        """Actuellement, carte contient l'ensemble des objets en jeu """
+
 
     def createInitObject(self):        
         self.Panneau_solaire=Panneau_solaire(0,0,self)
@@ -80,7 +90,7 @@ class Map(list):
                     s += " "
             s += "\n"
         return s
-    
+        
     def spawn_ressource(self):
         """
         permet de faire apparaitre une ressource de metal en dehors de la zone 
@@ -282,7 +292,7 @@ class Map(list):
         """
         Permet au joueur de choisir le niveau de difficulté de l'IA
         """
-        self.niveau=input("Quelle niveau voulez vous jouer ? Niveau0 / Niveau1 / Niveau2")
+        self.niveau=input("Quel niveau voulez vous jouer ? Niveau0 / Niveau1 / Niveau2")
         
         if self.niveau=='Niveau0' or self.niveau=='Niveau1' or self.niveau=='Niveau2':
             self.lvl=True
@@ -290,7 +300,7 @@ class Map(list):
             self.lvl=False
             
             while self.lvl==False:
-                self.niveau=input("Erreur. Quelle niveau voulez vous jouer ? Niveau0 / Niveau1 / Niveau2")                    
+                self.niveau=input("Erreur. Quel niveau voulez vous jouer ? Niveau0 / Niveau1 / Niveau2")                    
                 if self.niveau=='Niveau0' or self.niveau=='Niveau1' or self.niveau=='Niveau2':
                     self.lvl=True
                 else:
@@ -309,8 +319,7 @@ class Map(list):
         if self.niveau == 'Niveau2':
             self.spawn_wave_Niveau_2()
             self.grossir_wave()
-
-     
+       
             
     def simuler (self):
         """
@@ -326,16 +335,16 @@ class Map(list):
         Rien  
         """
         self.choix_niveau()
-            
+                    
         for t in range(self.nbtour):
             print("### Tour %i ###"%(t))
-            if t%5==0:
-                self.spawn_ressource()
+#            if t%5==0:
+#                self.spawn_ressource()
             if t%2==0:
                 self.niveau_choisi()
                     
-            self.ressource_tot()
-            self.unTour()
+#            self.ressource_tot()
+            self.Tr.unTour()
             print(self)
             time.sleep(0.2)
 

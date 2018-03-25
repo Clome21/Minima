@@ -35,8 +35,8 @@ class Batiment(object):
         s: str
             La chaîne de caractères qui sera affichée via ''print''
         """
-        return "%c : position (%i, %i) etat %i/%i"%(
-            self.car(), self.x, self.y,
+        return "%r : position (%i, %i) etat %i/%i"%(
+            self.T_car(), self.x, self.y,
             self.sante, self._max
             )
     
@@ -139,6 +139,9 @@ class QG(Batiment):
 
     def car(self):
         return 'Q'
+    
+    def T_car(self):
+        return("D_B_QG ")
 
 
 
@@ -155,8 +158,8 @@ class Panneau_solaire(Batiment):
         self.id = Panneau_solaire.Id
         Panneau_solaire.Id += 1
 
-     def T_car(self):
-        return("%D_B_P%i"%( self.id ))
+    def T_car(self):
+        return("D_B_P%i"%( self.id ))
         
     def car(self):
         return 'P'
@@ -179,7 +182,7 @@ class Foreuse(Batiment):
         return 'F'
     
     def T_car(self):
-        return("%D_B_F%i"%( self.id ))
+        return("D_B_F%i"%( self.id ))
         
 
             
