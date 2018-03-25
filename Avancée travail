@@ -70,10 +70,14 @@ nos constantes définitives dans les fichiers.
 Sur tes programmes :
 
 *Tu as supprimé ma MAJ au niveau de Map :c
-J'ai corrigé ça.
+J'ai corrigé ça. N'oublie pas : à chaque fois que tu recommences à travailler sur le projet, retélécharge tous les fichiers
+sur ce site.
 
 *Au niveau de tes programmes, prends en compte l'ajout de la sous-carte pour la gestion des collisions (ne pas vérifier le nom
 de l'unité, mais si la case est un ' ').
+Egalement, il va falloir modifier tes méthodes de déplacement en conséquence : l'unité doit d'abord situer tous les objets dans
+sa zone de déplacement et en déduire les cases vides (inspire-toi de la méthode combat() ). Il choisit alors une case parmi 
+celles-ci pour se rapprocher du QG.
 
 POINT IMPORTANT A NOTER!!
 Les self._carte dans les classes Unites_Humain_Attaquant et Unites_Humain_Defenseur sont mises à jour automatiquement, à chaque
