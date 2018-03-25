@@ -20,6 +20,7 @@ class Batiment(object):
         self.__sante = 20
         self._cart = cart
         self.coords = abscisse, ordonnee
+        self.rayon_hit_box=0,5
 
     def __str__(self):
         """
@@ -53,7 +54,7 @@ class Batiment(object):
             Le caractère représentant l'animal.
         """
         return 'B' 
-
+    
     
     def affichage(self):
         print(str(self))
@@ -138,57 +139,47 @@ class QG(Batiment):
 
     def car(self):
         return 'Q'
-    
-    def T_car(self):
-        return("D_B_QG")
-    
 
 
 
 class Panneau_solaire(Batiment):
+    
+    Id=0
     """
     Classe spécialisant Batiments pour représenter le panneau solaire.
     """
-    Id = 0
     def __init__(self, x, y, cart):
         super().__init__(x, y, cart)
         self.name = "Panneau_solaire"
-        self.cout_E=2
-        self.cout_M=2
-        self.prod_E=5
+        self.sante = self._max
         self.id = Panneau_solaire.Id
         Panneau_solaire.Id += 1
-        self.sante = self._max
+
+     def T_car(self):
+        return("%D_B_P%i"%( self.id ))
         
     def car(self):
         return 'P'
-    
-    def T_car(self):
-        return("%D_B_P%i"%( self.id ))
-
 
     
 class Foreuse(Batiment):
+    
+    Id=0
     """
     Classe spécialisant Batiments pour représenter le panneau solaire.
     """
-    Id = 0
     def __init__(self, x, y, cart):
         super().__init__(x, y, cart)
         self.name = "Foreuse"
-        self.cout_E=2
-        self.cout_M=3
-        self.prod_M=5
+        self.sante = self._max
         self.id = Foreuse.Id
         Foreuse.Id += 1
-        self.sante = self._max
 
     def car(self):
         return 'F'
     
     def T_car(self):
         return("%D_B_F%i"%( self.id ))
-    
         
 
             
