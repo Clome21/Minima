@@ -81,62 +81,6 @@ class Map(list):
             s += "\n"
         return s
     
-
-    
-            
-    def placer_une_foreuse(self)   :
-        """
-        Permet au joueur s'il le souhaite et s'il en a le droit de construire le batiment Foreuse
-        Mets également à jour la quantité de ressource à sa disposition
-        """
-        while (self.metal_tot>=self.Foreuse.cout_M and self.energie_tot>=self.Foreuse.cout_E):
-            choix2=input("placer Foreuse ? (YES/NO)")
-            if choix2 == 'YES':
-                i=float(input("en quelle abscisse ?"))
-                j=float(input("en quelle ordonnée ?"))
-                for batiment in self:
-                    while (i==batiment.x and j==batiment.y) or not ((i>(self.__xmax-(self.L))/2 and i<(self.__xmax+(self.L-1))/2) and (j>(self.__ymax-(self.H))/2 and j<(self.__ymax+(self.H-1))/2)):
-                        i=float(input("Emplacement non valide : quelle coordonnée en x ?"))
-                        j=float(input("Emplacement non valide : quelle coordonnée en y ?"))
-                self.append(Foreuse(i,j,self))                
-                self.metal_tot=self.metal_tot-self.Foreuse.cout_M
-                self.energie_tot=self.energie_tot-self.Foreuse.cout_E
-                        
-            elif choix2=='NO':
-                break
-
-    def placer_un_Panneau_solaire(self):
-        """
-        Permet au joueur s'il le souhaite et s'il en a le droit de construire le batiment Panneau solaire
-        Mets également à jour la quantité de ressource à sa disposition
-        """
-        while (self.metal_tot>=self.Panneau_solaire.cout_M and self.energie_tot>=self.Panneau_solaire.cout_E):
-            choix2=input("placer Panneau solaire ? (YES/NO)")
-            if choix2 == 'YES':
-                i=float(input("en quelle abscisse ?"))
-                j=float(input("en quelle ordonnée ?"))
-                for batiment in self:
-                    while (i==batiment.x and j==batiment.y) or not ((i>(self.__xmax-(self.L))/2 and i<(self.__xmax+(self.L-1))/2) and (j>(self.__ymax-(self.H))/2 and j<(self.__ymax+(self.H-1))/2)):
-                        i=float(input("Emplacement occupé : quelle coordonnée en x ?"))
-                        j=float(input("Emplacement occupé : quelle coordonnée en y ?"))
-                self.append(Panneau_solaire(i,j,self))
-                self.metal_tot=self.metal_tot-self.Panneau_solaire.cout_M
-                self.energie_tot=self.energie_tot-self.Panneau_solaire.cout_E
-                        
-            elif choix2=='NO':
-                break
-    
-    def construction_bat(self):
-        """
-        Permet au joueur s'il le souhaite de placer un batiment
-        """
-        choix=input("placer un batiment ? (YES/NO)")
-        if choix=='YES':
-            self.placer_une_foreuse()
-            self.placer_un_Panneau_solaire()
-        elif choix=='NO':
-            pass
-        
     def spawn_ressource(self):
         """
         permet de faire apparaitre une ressource de metal en dehors de la zone 
@@ -366,28 +310,7 @@ class Map(list):
             self.spawn_wave_Niveau_2()
             self.grossir_wave()
 
-        
-    def unTour(self):
-
-        """
-        Effectue toutes les actions liées à un tour de jeu.
-        
-        Paramètres
-        ----------
-        Aucun
-        
-        Renvoie
-        -------
-        Rien
-        """
-        # rnd.shuffle(self)    Utile si gestion des collisions
-        self.construction_bat()
-        for unite in self:
-            if unite.name=="Scorpion":
-                unite.bouger()
-        for obj in self:
-            obj.affichage()
-        
+     
             
     def simuler (self):
         """
