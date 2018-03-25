@@ -101,8 +101,9 @@ Il y a encore pas mal de bugs à régler d'ailleurs.
 Là ça devient costaud. Le gros soucis actuel, c'est l'absence de liens entre ces classes. C'est responsable de pas mal de trucs
 qui vont poser problèmes par la suite (au niveau de l'attribution de chaque unité IA à son joueur, dans sa liste d'unité 
 correspondante; pour le déroulement des tours ...).
-J'ai commencé à créer ces liens, notamment en redéfinissant le choix de niveau dans Partie. Mais c'est encore énoooormément 
-buggé, rien que dans le passage d'un tour. Il faut à tout prix arranger ça.
+J'ai commencé à créer ces liens, notamment en redéfinissant le choix de niveau dans Partie et en faisant en sorte que
+la simulation ait lieu dans Partie. Mais c'est encore énoooormément buggé, rien que dans le passage d'un tour. Il faut
+à tout prix arranger ça.
 
 Sur les fichiers d'unité humaines :
 
