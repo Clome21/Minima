@@ -44,7 +44,7 @@ J'ai également créé une classe Constante (sorry, une classe en plus) car je c
 J'ai également appelé les unitées IA Scorpion1 et Scorpion2 pour que ça reste logique avec toi.
 Je pense qu'il faudra renommer IA_facile en unite_IA, cela me semble plus logique.
 
--MAJ de unTour
+-MAJ de Un_Tour_Joueur
 -MAJ des constantes pour Map, Un_Tour_Du_Joueur, Batiment et IA_facile
 -MAJ nom en français comme on avait dit
 
