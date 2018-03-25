@@ -71,7 +71,7 @@ Sur tes programmes :
 
 *Tu as supprimé ma MAJ au niveau de Map :c
 J'ai corrigé ça. N'oublie pas : à chaque fois que tu recommences à travailler sur le projet, retélécharge tous les fichiers
-sur ce site.
+sur ce site. Et ne réuploade pas des fichiers si il y a une MAJ sur le site.
 
 *Au niveau de tes programmes, prends en compte l'ajout de la sous-carte pour la gestion des collisions (ne pas vérifier le nom
 de l'unité, mais si la case est un ' ').
@@ -79,7 +79,39 @@ Egalement, il va falloir modifier tes méthodes de déplacement en conséquence 
 sa zone de déplacement et en déduire les cases vides (inspire-toi de la méthode combat() ). Il choisit alors une case parmi 
 celles-ci pour se rapprocher du QG.
 
+*Je n'aime pas trop également l'option self.name que tu as mis un peu partout au niveau de tes programmes... le gros inconvénient
+de ça, c'est qu'il faut vérifier les noms de chaque objet dans l'objet carte, et donc c'est super long... sans compter qu'il faut
+faire des conditions pour chaque nom d'unité.
+J'ai fait une 1e modification plus simple au niveau de Un_Tour_Du_Joueur à ce propos, au niveau de la méthode bouger().
+
+*Je pense que les méthodes Spawn_Wave devraient être mises au niveau des fichiers Unites.
+
 POINT IMPORTANT A NOTER!!
 Les self._carte dans les classes Unites_Humain_Attaquant et Unites_Humain_Defenseur sont mises à jour automatiquement, à chaque
-modification de self._carte ou de carte dans une classe quelconque. Il n'y a donc pas besoin d'un mécanisme de MAJ.
+modification de self._carte ou de carte dans une classe quelconque. Bref, créer un objet self._carte ne crée pas une nouvelle 
+carte au sein des classes filles : il n'y a donc pas besoin d'un mécanisme de MAJ.
+
+
+Modification majeure : 
+
+- Débugage diverses, suite à l'ajout de la classe Un_Tour_Joueur.
+Il y a encore pas mal de bugs à régler d'ailleurs.
+
+- Création de liens entre la classe Map et Partie!
+Là ça devient costaud. Le gros soucis actuel, c'est l'absence de liens entre ces classes. C'est responsable de pas mal de trucs
+qui vont poser problèmes par la suite (au niveau de l'attribution de chaque unité IA à son joueur, dans sa liste d'unité 
+correspondante; pour le déroulement des tours ...).
+J'ai commencé à créer ces liens, notamment en redéfinissant le choix de niveau dans Partie. Mais c'est encore énoooormément 
+buggé, rien que dans le passage d'un tour. Il faut à tout prix arranger ça.
+
+Sur les fichiers d'unité humaines :
+
+- Régler le bug où la sous-carte n'était pas mise à jour suite aux déplacements d'unités.
+
+- Mise en place d'une liste donnant les déplacements possibles.
+
+Sur le fichier batiments : 
+
+- Ajouté un T_car au niveau de QG.
+
 
