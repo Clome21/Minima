@@ -1,13 +1,13 @@
-from Batiments import Foreuse,Panneau_solaire
+from Batiments import Foreuse,Panneau_solaire,QG
 from Constantes import Constante
 
 
 class Un_Tour_Du_Joueur():
 
 
+    
     def __init__(self):
-        self.__xmax = Constante.xmax
-        self.__ymax = Constante.ymax  
+  
         self.metal_tot=Constante.metal_tot
         self.energie_tot=Constante.energie_tot
         self.nb_unite_IA_In_Wave=0
@@ -15,7 +15,8 @@ class Un_Tour_Du_Joueur():
         self.unite_IA=[]
         self.L_batiment=[]
         self.unite_IA_in_wave=[]
-
+        
+        
 
     def createInitObject(self):        
         self.Panneau_solaire=Panneau_solaire(0,0,self)
@@ -34,7 +35,7 @@ class Un_Tour_Du_Joueur():
                 i=float(input("en quelle abscisse ?"))
                 j=float(input("en quelle ordonnée ?"))
                 for batiment in self.L_batiment:
-                    while (i==batiment.x and j==batiment.y) or not ((i>(self.__xmax-Constante.H_Z_Constructible)/2 and i<(self.__xmax+(Constante.H_Z_Constructible-1))/2) and (j>(self.__ymax-(Constante.L_Z_Constructible))/2 and j<(self.__ymax+(Constante.L_Z_Constructible-1))/2)):
+                    while (i==batiment.x and j==batiment.y) or not ((i>(Constante.xmax-Constante.L_Z_Constructible)/2 and i<((Constante.xmax-Constante.L_Z_Constructible)/2+Constante.L_Z_Constructible)) and (j>(Constante.ymax-Constante.H_Z_Constructible)/2 and j<((Constante.ymax-Constante.H_Z_Constructible)/2+Constante.H_Z_Constructible+(Constante.ymax-Constante.H_Z_Constructible-1)/2))):
                         i=float(input("Emplacement non valide : quelle coordonnée en x ?"))
                         j=float(input("Emplacement non valide : quelle coordonnée en y ?"))
                 self.append(Foreuse(i,j,self))
@@ -56,7 +57,7 @@ class Un_Tour_Du_Joueur():
                 i=float(input("en quelle abscisse ?"))
                 j=float(input("en quelle ordonnée ?"))
                 for batiment in self.L_batiment:
-                    while (i==batiment.x and j==batiment.y) or not ((i>(self.__xmax-(Constante.H_Z_Constructible))/2 and i<(self.__xmax+(Constante.H_Z_Constructible-1))/2) and (j>(self.__ymax-(Constante.L_Z_Constructible))/2 and j<(self.__ymax+(Constante.L_Z_Constructible-1))/2)):
+                    while (i==batiment.x and j==batiment.y) or not ((i>(Constante.xmax-Constante.L_Z_Constructible)/2 and i<(Constante.xmax+(Constante.L_Z_Constructible-1))/2) and (j>(Constante.ymax-(Constante.H_Z_Constructible))/2 and j<(Constante.ymax+(Constante.H_Z_Constructible-1))/2)):
                         i=float(input("Emplacement occupé : quelle coordonnée en x ?"))
                         j=float(input("Emplacement occupé : quelle coordonnée en y ?"))
                 self.append(Panneau_solaire(i,j,self))
