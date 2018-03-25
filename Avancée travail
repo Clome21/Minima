@@ -75,5 +75,7 @@ J'ai corrigé ça.
 *Au niveau de tes programmes, prends en compte l'ajout de la sous-carte pour la gestion des collisions (ne pas vérifier le nom
 de l'unité, mais si la case est un ' ').
 
-
+POINT IMPORTANT A NOTER!!
+Les self._carte dans les classes Unites_Humain_Attaquant et Unites_Humain_Defenseur sont mises à jour automatiquement, à chaque
+modification de self._carte ou de carte dans une classe quelconque. Il n'y a donc pas besoin d'un mécanisme de MAJ.
 
