@@ -13,7 +13,7 @@ class Unite_IA():
     utilisée en l'état ou sous classée pour définir des comportements de
     déplacement différents.
     """
-    def __init__(self, abscisse, ordonnee, cart,unite_IA,capacite=10):
+    def __init__(self, abscisse, ordonnee, carte,unite_IA,capacite=10):
         """
         Crée une Unite_IA aux coordonnées désirées.
         
@@ -27,7 +27,7 @@ class Unite_IA():
         """
         self._max = capacite
         self.__sante = 10
-        self._cart = cart
+        self._carte = carte
         self.coords = abscisse, ordonnee  
         self._carte.ss_carte[abscisse][ordonnee] = self
 
@@ -106,9 +106,9 @@ class Unite_IA():
                       l'Unite_IA essaie de se rendre.
         """
         x, y = nouv_coords
-        x = min(x, self._cart.dims[0]-1)
+        x = min(x, self._carte.dims[0]-1)
         x = max(x, 0)
-        y = min(y, self._cart.dims[1]-1)
+        y = min(y, self._carte.dims[1]-1)
         y = max(y, 0)
         self.__coords = (x, y)
 
@@ -141,45 +141,79 @@ class Unite_IA():
         """
         Permet de séparer notre zone de jeu en 2 parties égales
         """
-        return -(self._cart.dims[1]/self._cart.dims[0])*x + self._cart.dims[1]
+        return -(self._carte.dims[1]/self._carte.dims[0])*x + self._cart.dims[1]
     
 
     def droite2(self,x):
         """
         Permet de séparer notre zone de jeu en 2 parties égales
         """
-        return (self._cart.dims[1]/self._cart.dims[0])*x
+        return (self._carte.dims[1]/self._carte.dims[0])*x
    
-    
-    def distance (self,x1,y1,x2,y2):
-        Xdistance = x2-x1
-        Ydistance = y2-y1        
-        return (math.sqrt(Xdistance**2+Ydistance**2))
-    
-#    def collision_unite_IA (self,a,c):
-#            for b in self._unite_IA:
-#                #d=self.distance(a,c,b.x,b.y)           
-#                if (a==b.x and c==b.y):
-#                    print("collision",a,c)
-#                else:
-#                    return False
-
-        def mvt_poss(self):
-            x,y = self.coords
+            
         
-            self.L_vide = []
-            x_inf = max(0,int(-self.capmvt + x))
-            x_sup = min(self._carte.dims[0], int(self.capmvt + x))
-            y_inf = max(0,int(-self.capmvt + y))
-            y_sup = min(self._carte.dims[1], int(self.capmvt + y))
-        
-            for i in range(x_inf,x_sup+1):
-                for j in range(y_inf,y_sup+1):
-                    Obj = self._carte.ss_carte[i][j]
-                    if Obj == ' ' :
-                        self.L_vide.append((i,j))
-            return(self.L_vide)
 
+    
+    def combat(self):
+        """
+        Méthode permettant à l'unité de combattre, si un objet ennemi se trouve 
+        dans sa zone d'attaque.
+        L'unité recherche les ennemis dans sa zone de combat et sélectionne 
+        l'objet le plus proche grâce à la méthode chx_ennemi.
+        Si il y a bien un objet, celui-ci perd de la vie.
+        """
+
+        Ennemi = self.chx_ennemi()
+        if Ennemi != None:
+            Ennemi.sante = Ennemi.sante - self.capcbt
+        print(Ennemi)
+ 
+    
+    def chx_ennemi(self):
+        """
+        Méthode sélectionnant l'objet le plus proche de l'unité.
+        Elle parcourt pour chaque joueur ennemi l'ensemble des unités qu'elle
+        possède, et sélectionne le plus proche.
+        Elle vérifie ensuite si il n'y a pas un bâtiment plus proche.
+        
+        Paramètres
+        ----------
+        L_ennemis : liste
+        Contient l'ensemble des joueurs ennemis de l'unité.
+
+        """
+        x,y = self.coords
+        x_inf = max(0,int(-self.zonecbt + x))
+        x_sup = min(self._carte.dims[0], int(self.zonecbt + x))
+        y_inf = max(0,int(-self.zonecbt + y))
+        y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
+        
+        print(x_inf, x_sup)
+        print(y_inf,y_sup)
+        
+        Ennemi = None
+        R_plus_petit_unit = self.zonecbt +1
+        R_plus_petit_bat = self.zonecbt + 1
+        
+        
+        for i in range(x_inf,x_sup+1):
+            for j in range(y_inf,y_sup+1):
+                Obj = self._carte.ss_carte[i][j]
+                if Obj != ' ' and Obj.T_car()[0] == 'D':
+                    R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
+                    
+                    print(R_Obj,Obj)
+                    
+                    if Obj.T_car()[2] == 'U' and R_Obj < R_plus_petit_unit:
+                        R_plus_petit_unit = R_Obj
+                        Ennemi = Obj
+                        
+                    if Obj.T_car()[2] == 'B' and R_Obj < min(R_plus_petit_bat,R_plus_petit_unit):
+                        R_plus_petit_bat = R_Obj
+                        Ennemi = Obj
+        
+        return(Ennemi)
+    
     
 class Scorpion1(Unite_IA):
     """
@@ -189,10 +223,12 @@ class Scorpion1(Unite_IA):
     
     def __init__(self, x, y, cart,unite_IA,identifiant):
         super().__init__(x, y, cart,unite_IA)
-        self.name = "Scorpion"
+#        self.name = "Scorpion"
         self.id = Scorpion1.Id 
         Scorpion1.Id += 1
         self.capmvt = 1
+        self.capcbt = 1
+        self.zonecbt = math.sqrt(2)
 
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
@@ -213,87 +249,98 @@ class Scorpion1(Unite_IA):
         L_vide = self.mvt_poss()
         xi, yi = self.coords
         
-#-------------------Zone Est-----------------------------
+#-------------------Zone Oust-----------------------------
         if ((Constante.ymax>=self.droite1(Constante.xmax)) and (Constante.ymax<=self.droite2(Constante.xmax))):
-            X = xi + randint(-1,2)
-            Y = yi + randint(0,2)
+            X = xi + randint(0,self.capmvt+1)
+            Y = yi + randint(-self.capmvt,self.capmvt+1)
         
             if (X,Y) not in L_vide :
                 pass
                 
             else:                
-                if (xi == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((yi> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and yi< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((yi> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and yi< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
-                    while (X,Y) not in L_vide:
-                        Y = yi + randint(-1,2)
-                    self.coords = (X,Y)
-                elif ((self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
-                    while (X,Y) not in L_vide:
-                        X = xi - randint(0,2)
-                    self.coords = (X,Y)                        
-                else:
-                    while (X,Y) not in L_vide:
-                        X = xi + randint(0,2)
-                        Y = yi + randint(-1,2)
-                    self.coords = (X,Y)
+                self.dep_possible=[]
+                for i in range (0,self.capmvt+1):
+                    for j in range(-self.capmvt,self.capmvt+1):
+                        Obj = self._carte.ss_carte[i][j]
+                        if Obj == ' ' :
+                            self.dep_possible.append((i,j))
+                return(self.dep_possible)
+                
+                Choix=randint(0,len(self.dep_possible))
+                X=self.dep_possible[Choix][0]
+                Y=self.dep_possible[Choix][1]
+                self.coords = (X,Y)
+                    
+                        
 
-#-------------------Zone Ouest-----------------------------                                 
+
+#-------------------Zone Est-----------------------------                                 
         elif ((self.y<=self.droite1(self.x)) and (self.y>=self.droite2(self.x))):
-            X = xi + randint(-1,2)
-            Y = yi + randint(0,2)
+            X = xi + randint(-self.capmvt,1)
+            Y = yi + randint(-self.capmvt,self.capmvt+1)
         
             if (X,Y) not in L_vide :
                 pass
             
             else:
-                if (self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
-                    while (X,Y) not in L_vide:
-                        Y = yi + randint(-1,2)
-                    self.coords = (X,Y)
-                elif ((self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
-                    while (X,Y) not in L_vide:
-                        X = xi + randint(0,2)
-                    self.coords = (self.x+randint(0,2),self.y)
-                else:
-                    X = xi + randint(0,2)
-                    Y = yi + randint(-1,2)
-                    self.coords = (X,Y)
+                self.dep_possible=[]
+                for i in range (-self.capmvt,1):
+                    for j in range(-self.capmvt,self.capmvt+1):
+                        Obj = self._carte.ss_carte[i][j]
+                        if Obj == ' ' :
+                            self.dep_possible.append((i,j))
+                return(self.dep_possible)
+                
+                Choix=randint(0,len(self.dep_possible))
+                X=self.dep_possible[Choix][0]
+                Y=self.dep_possible[Choix][1]
+                self.coords = (X,Y)
+                
 
 #-------------------Zone Sud-----------------------------                                    
         elif ((self.y>self.droite1(self.x)) and (self.y>self.droite2(self.x))):
-            X = xi + randint(-1,2)
-            Y = yi + randint(0,2)
+            X = xi + randint(-self.capmvt,self.capmvt+1)
+            Y = yi + randint(-self.capmvt,1)
         
             if (X,Y) not in L_vide :
                 pass
             
             else:
-                if ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
-                    while (X,Y) not in L_vide:
-                        X = xi + randint(1,2)
-                    self.coords = (X,Y)
-                elif ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :
-                    while (X,Y) not in L_vide:
-                        Y = yi - randint(0,2)
-                    self.coords = (X,Y)
-#            else:
-#                self.coords = (self.x+randint(-1,2),self.y-randint(0,2))        
-# 
+                self.dep_possible=[]
+                for i in range (-self.capmvt,self.capmvt+1):
+                    for j in range(-self.capmvt,1):
+                        Obj = self._carte.ss_carte[i][j]
+                        if Obj == ' ' :
+                            self.dep_possible.append((i,j))
+                return(self.dep_possible)
+                
+                Choix=randint(0,len(self.dep_possible))
+                X=self.dep_possible[Choix][0]
+                Y=self.dep_possible[Choix][1]
+                self.coords = (X,Y)
+ 
 #-------------------Zone Nord-----------------------------
-#        elif ((self.y<self.droite1(self.x)) and (self.y<self.droite2(self.x))):
-#            if ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
-#                self.coords = (self.x+randint(-1,2),self.y)
-#            elif ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :               
-#                self.coords = (self.x,self.y+randint(0,2))
-#            else: 
-#                self.coords = (self.x+randint(-1,2),self.y+randint(0,2))
-#        X,Y = self.coords
-#        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
-#        for b in self._unite_IA: 
-#            if self.id==b.id:
-#                continue
-#            elif ((self.x==b.x) and (self.y==b.y)):
-#                print("collision",self.x,self.y)
+        elif ((self.y<self.droite1(self.x)) and (self.y<self.droite2(self.x))):
+            X = xi + randint(-self.capmvt,self.capmvt+1)
+            Y = yi + randint(-self.capmvt+1)
         
+            if (X,Y) not in L_vide :
+                pass
+            
+            else:
+                self.dep_possible=[]
+                for i in range (-self.capmvt,self.capmvt+1):
+                    for j in range(0,self.capmvt+1):
+                        Obj = self._carte.ss_carte[i][j]
+                        if Obj == ' ' :
+                            self.dep_possible.append((i,j))
+                return(self.dep_possible)
+                
+                Choix=randint(0,len(self.dep_possible))
+                X=self.dep_possible[Choix][0]
+                Y=self.dep_possible[Choix][1]
+                self.coords = (X,Y)
+                
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)
                 
@@ -309,6 +356,8 @@ class Scorpion2(Unite_IA):
         self.id = Scorpion2.Id 
         Scorpion2.Id += 1
         self.capmvt = 1
+        self.capcbt = 1
+        self.zonecbt = math.sqrt(2)
 
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """

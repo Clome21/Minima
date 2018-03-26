@@ -80,7 +80,8 @@ class Map(list):
                 if (i>(self.__xmax-(self.L))/2 and i<(self.__xmax+(self.L-1))/2) and (j>(self.__ymax-(self.H))/2 and j<(self.__ymax+(self.H-1))/2):
                     s += "#" #zone constructible
                 elif (((i> (self.__xmax - self.L )/2-1 and i< (self.__xmax - self.L )/2+self.L/2-1)) or((i> (self.__xmax - self.L )/2+self.L/2) and i< (self.__xmax - self.L )/2+self.L)) and (((j> (self.__ymax - self.H )/2-1) and (j< (self.__ymax - self.H )/2+self.H/2-1)) or((j> (self.__ymax - self.H )/2+self.H/2) and j< (self.__ymax - self.H )/2+self.H)):
-                    s += "/" #Mur de protection                            
+                    s += "/" #Mur de protection
+                    self.ss_carte[i][j]='/'                           
                 elif ((i==0 ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H))) or ((i==self.__xmax-1 ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H))) or ((j==0) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2))) or ((j==self.__ymax-1) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2))) :
                     s +="!" #zone d'apparition des unites qui attaques   
                 else:
@@ -102,22 +103,31 @@ class Map(list):
             for z in range(int(self.spawn_ress/2)): #spawn les ressource en generation de map
                 i=randint(0,self.__xmax)
                 j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
-                for obj in self:
-                    if obj.name != "Scorpion":
-                        while i==obj.x and j==obj.y:
-                            i=randint(0,self.__xmax)
-                            j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])                        
-                self.append(metal(i,j,self,self))
+                Obj = self.ss_carte[i][j]
+                if Obj == ' ' :
+                    self.append(metal(i,j,self,self))
+                    self.ss_carte[i][j]=metal(i,j,self,self)
+                else:
+                    while Obj != ' ':
+                        i=randint(0,self.__xmax)
+                        j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
+                    self.append(metal(i,j,self,self))
+                    self.ss_carte[i][j]=metal(i,j,self,self)
+        
         elif val==1:
             for z in range(int(self.spawn_ress/2)):                      
                 i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
                 j=randint(0,self.__ymax)
-                for obj in self:
-                    if obj.name != "Scorpion":
-                        while i==obj.x and j==obj.y:
-                            i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
-                            j=randint(0,self.__ymax)
+                Obj = self.ss_carte[i][j]
+                if Obj == ' ' :
+                    self.append(metal(i,j,self,self))
+                    self.ss_carte[i][j]=metal(i,j,self,self)
+                else:
+                    while Obj != ' ':
+                        i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
+                        j=randint(0,self.__ymax)
                 self.append(metal(i,j,self,self))
+                self.ss_carte[i][j]=metal(i,j,self,self)
                 
     
     def grossir_vague(self):
@@ -173,20 +183,20 @@ class Map(list):
                 
             if zone_app==1:
                 self.Zone_Nord()
-                self.append(Scorpion1(self.i_Z1,self.i_Z1,self))
-                self.L_unite.append(Scorpion1(self.i_Z1,self.i_Z1,self))
+                self.append(Scorpion1(self.i_Z1,self.i_Z1,self,self,self))
+                self.L_unite.append(Scorpion1(self.i_Z1,self.i_Z1,self,self,self))
             
             if zone_app==2:
                self.Zone_Sud()
-               self.append(Scorpion1(self.i_Z2,self.j_Z2,self))
+               self.append(Scorpion1(self.i_Z2,self.j_Z2,self,self,self))
             
             if zone_app==3:
                 self.Zone_Ouest()
-                self.append(Scorpion1(self.i_Z3,self.j_Z3,self))
+                self.append(Scorpion1(self.i_Z3,self.j_Z3,self,self,self))
         
             if zone_app==4:
                 self.Zone_Est()
-                self.append(Scorpion1(self.i_Z4,self.j_Z4,self))
+                self.append(Scorpion1(self.i_Z4,self.j_Z4,self,self,self))
              
     def apparition_vague_Niveau_1(self):
         """
@@ -200,32 +210,32 @@ class Map(list):
                 self.Zone_Nord()
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Scorpion1(self.i_Z1,self.j_Z1,self))
+                    self.append(Scorpion1(self.i_Z1,self.j_Z1,self,self,self))
                 else:
-                    self.append(Scorpion2(self.i_Z1,self.j_Z1,self))
+                    self.append(Scorpion2(self.i_Z1,self.j_Z1,self,self,self))
         
             if zone_app==2:
                 self.Zone_Sud()
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Scorpion1(self.i_Z2,self.j_Z2,self))
+                    self.append(Scorpion1(self.i_Z2,self.j_Z2,self,self,self))
                 else:
-                    self.append(Scorpion2(self.i_Z2,self.j_Z2,self))
+                    self.append(Scorpion2(self.i_Z2,self.j_Z2,self,self,self))
             
             if zone_app==3:
                 self.Zone_Ouest()
                 if (p ==0 or p==1):
-                    self.append(Scorpion1(self.i_Z3,self.j_Z3,self))
+                    self.append(Scorpion1(self.i_Z3,self.j_Z3,self,self,self))
                 else:
-                    self.append(Scorpion2(self.i_Z3,self.j_Z3,self))
+                    self.append(Scorpion2(self.i_Z3,self.j_Z3,self,self,self))
         
             if zone_app==4:
                 self.Zone_Est()
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Scorpion1(self.i_Z4,self.j_Z4,self))
+                    self.append(Scorpion1(self.i_Z4,self.j_Z4,self,self,self))
                 else:
-                    self.append(Scorpion2(self.i_Z4,self.j_Z4,self))
+                    self.append(Scorpion2(self.i_Z4,self.j_Z4,self,self,self))
         
     def apparition_vague_Niveau_2(self):
         """
@@ -237,19 +247,19 @@ class Map(list):
                 
             if zone_app==1:
                 self.Zone1()
-                self.append(Scorpion2(self.i_Z1,self.j_Z1,self))
+                self.append(Scorpion2(self.i_Z1,self.j_Z1,self,self,self))
         
             if zone_app==2:
                 self.Zone2()
-                self.append(Scorpion2(self.i_Z2,self.j_Z2,self))
+                self.append(Scorpion2(self.i_Z2,self.j_Z2,self,self,self))
             
             if zone_app==3:
                 self.Zone_Ouest()
-                self.append(Scorpion2(self.i_Z3,self.j_Z3,self))
+                self.append(Scorpion2(self.i_Z3,self.j_Z3,self,self,self))
         
             if zone_app==4:
                 self.Zone_Est()
-                self.append(Scorpion2(self.i_Z4,self.j_Z4,self))  
+                self.append(Scorpion2(self.i_Z4,self.j_Z4,self,self,self))  
         
         
     def ressource_tot(self):
@@ -257,9 +267,9 @@ class Map(list):
         renvoie au joueur l'information su nombre de ressources qu'il possède
         """
         for obj in self:
-            if obj.name == "Panneau_solaire":
+            if obj.car == 'P':
                 self.energie_tot+=self.Panneau_solaire.prod_E
-            elif obj.name == "Foreuse":
+            elif obj.car == 'F':
                 self.metal_tot+=self.Foreuse.prod_M
         print('energie total = ' + str(self.energie_tot))
         print('metal total = ' + str(self.metal_tot))                
