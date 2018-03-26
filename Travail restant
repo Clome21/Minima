@@ -1,0 +1,53 @@
+Travaux essentiels : 
+
+- Débogage total de la simulation : rendre possible les déplacements, mettre les unités dans les listes des joueurs
+correspondants, faire en sorte que la production de bâtiments fonctionne et donne des ressources au jour correspondant...
+Il faut qu'au moins 10 tours fonctionnent.
+
+- Méthodes de production d'unité
+Ajout pour les joueurs humains.
+MAJ pour les joueurs IA : ces méthodes doivent être mises en lien avec les joueurs correspondants.
+
+- Méthode gérant la mort des objets
+
+- Méthode gérant la victoire / défaite de la partie.
+Prendre en compte le nombre de tours qui passent pour cela.
+
+- Associer la difficulté 0 aux unités IA faciles UNIQUEMENT. (Donc uniquement scorpion1).
+Cette difficulté est définie par, pour les unités :
+Zone d'apparition au hasard, déplacement au hasard, toutes unités déployées à chaque cycle d’apparition.
+
+- Mettre en place une méthode de sauvegarde et de chargement.
+
+- Appliquer la vectorisation à notre jeu.
+*Trouver à quoi ça correspond.
+*Trouver où l'appliquer; je pense que ça peut se faire au niveau des méthodes liant notre sous-carte.
+
+- Interface graphique :
+
+	* Afficher les zones de déplacement et de combat des unités dont on clique dessus ; ces zones doivent être visibles
+  pour chaque joueur, dès qu’il clique sur l’unité.
+	*Mettre en place une interface graphique, comptant :  #le nombre de tours avant la fin (via une barre).
+								# les ressources du joueur (Timer avant nouvelles unités disponibles pour le joueur humain attaquant, 
+                métal et énergie pour le joueur humain défenseur.)
+                
+								# boutons de production d’unités (Activer certains / en désactiver d’autres selon le joueur : pas 
+                de production d’unité d’attaque si défenseur, etc …).
+
+								# boutons de production de bâtiments.
+
+								# affichage de la map sur une fenêtre.
+
+TOUT DOIT ETRE TERMINE POUR LE 5 MAI.
+
+Travaux secondaires : 
+
+- Ajout de 2 niveaux d’IA :
+
+#Niveau 1 : zone d’apparition au hasard, déplacement vers le centre, déploie des unités par « cycle » 
+(petit / moyen / gros, +1 unité à la fin du cycle).
+
+#Niveau 2 : zone d’apparition sur le côté où il y a le moins d’unités en défense, déplacement vers les 
+bâtiments ennemis les plus proches, déploiement par vagues aléatoires ( petit / moyen / gros au hasard, +1 à chaque déploiement).
+
+- Ajout d’autres unités, ...
