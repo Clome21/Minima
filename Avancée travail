@@ -140,5 +140,8 @@ J'ai renomé L_vide par L_dep_poss, pour Unité_IA_Facile,Unité_IA_Moyenne,Unit
     
     J'ai pensé qu'il fallait que je rajoute L_batiment dans Partie commme L_ennemi mais ça ne change rien donc j'ai pas fait. Je comprends pas
   tous dans Partie donc je préfère pas trop y toucher.
+  
+  PB pour apparition metal, il voulais pas que je regarde Obj.car ='M' il me dit 'str' object has no attribute 'car'
+  donc j'ai mis Obj =' '. Mais plus on aura de Scorpion sur la map, plus ça sera long a calculer.
 
 
