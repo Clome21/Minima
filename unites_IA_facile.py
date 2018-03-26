@@ -214,6 +214,40 @@ class Unite_IA():
         
         return(Ennemi)
     
+class Scorpion0(Unite_IA_facile):
+    """
+    Classe spécialisant Unite_IA pour représenter une Fourmi.
+    """
+    Id=0
+    
+    def __init__(self, x, y, cart,unite_IA,identifiant):
+        super().__init__(x, y, cart,unite_IA)
+        self.name = "Scorpion"
+        self.id = Scorpion1.Id 
+        Scorpion1.Id += 1
+        self.capmvt = 1
+
+    def T_car(self):
+        """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
+        return "A_U_S1%i"%( self.id )
+    
+    def car(self):
+        return 's'
+       
+    
+    def bouger(self):
+        """
+        Mouvement aléatoire uniforme dans un rayon d'une case vers le centre ou le cotée autour
+        de la position courante, mais ne peut passer a travers les cases marquées par /. Utilise les 
+        zones délimité par droite1 et droite2. Le QG vers lequel les fourmis essaient de ce diriger se trouve 
+        à l'ntersection de ces deux droites.
+        """
+        L_vide = self.mvt_poss()
+        xi, yi = self.coords
+        X,Y = choice(L_vide)
+        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
+        return(self.coords)
+    
     
 class Scorpion1(Unite_IA):
     """
