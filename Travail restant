@@ -1,7 +1,7 @@
 Travaux essentiels : 
 
 - Débogage total de la simulation : rendre possible les déplacements, mettre les unités dans les listes des joueurs
-correspondants, faire en sorte que la production de bâtiments fonctionne et donne des ressources au jour correspondant...
+correspondants, faire en sorte que la production de bâtiments fonctionne et donne des ressources au joueur correspondant...
 Il faut qu'au moins 10 tours fonctionnent.
 
 - Méthodes de production d'unité
