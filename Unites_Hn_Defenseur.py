@@ -89,13 +89,12 @@ class Unites_Humain_Defenseur():
         L_vide = self.mvt_poss()
         xi, yi = self.coords
         print("Mouvements possibles :", L_vide)
-        
-        X = int(input('Envoyez la nouvelle position en x. \n'))
-        Y = int(input('Envoyez la nouvelle position en y. \n'))
+        L = list(input('Envoyez la nouvelle position en x et en y (format x,y. \n'))
+        X,Y = int(L[0]), int(L[2])
         while (X,Y) not in L_vide:
             print("Position hors du rayon d'action de l'unité. \n")
-            X = int(input('Envoyez la nouvelle position en x. \n'))
-            Y = int(input('Envoyez la nouvelle position en y. \n'))
+            L = list(input('Envoyez la nouvelle position en x et en y (format x,y). \n'))
+            X,Y = L[0], L[2]
         self.coords = (X, Y)
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)  
