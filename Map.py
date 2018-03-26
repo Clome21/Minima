@@ -105,34 +105,48 @@ class Map(list):
                 i=randint(0,self.__xmax)
                 j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
                 Obj = self.ss_carte[i][j]
-                if Obj== ' ' :
+                if Obj == ' ' :                    
                     U=metal(i,j,self,self)
                     self.append(U)
                     self.ss_carte[i][j]=U
+                    
                 else:
-                    while Obj.car() != ' ':
-                        i=randint(0,self.__xmax)
-                        j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
-                    U=metal(i,j,self,self)
-                    self.append(U)
-                    self.ss_carte[i][j]=U
+                    A=self[i][j]
+                    if A.car != 'M':
+                        U=metal(i,j,self,self)
+                        self.append(U)
+                        self.ss_carte[i][j]=U
+                    else:
+                        while ( A.car == 'M'):
+                            i=randint(0,self.__xmax)
+                            j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
+                            U=metal(i,j,self,self)
+                            self.append(U)
+                            self.ss_carte[i][j]=U
         
         elif val==1:
             for z in range(int(self.spawn_ress/2)):                      
                 i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
                 j=randint(0,self.__ymax)
                 Obj = self.ss_carte[i][j]
-                if Obj == ' ' :
+                if Obj == ' ' :                    
                     U=metal(i,j,self,self)
                     self.append(U)
                     self.ss_carte[i][j]=U
+                    
                 else:
-                    while Obj != ' ':
-                        i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
-                        j=randint(0,self.__ymax)
+                    A=self[i][j]
+                    if A.car != 'M':
                         U=metal(i,j,self,self)
                         self.append(U)
                         self.ss_carte[i][j]=U
+                    else:
+                        while ( A.car == 'M'):
+                            i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
+                            j=randint(0,self.__ymax)
+                            U=metal(i,j,self,self)
+                            self.append(U)
+                            self.ss_carte[i][j]=U
                 
     
     def grossir_vague(self):
