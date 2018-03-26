@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Mar 26 22:13:53 2018
+
+@author: utilisateurPC
+"""
+
 from numpy.random import randint,choice
 from Constantes import Constante
 import numpy as np
@@ -7,7 +14,7 @@ import math
 
 
 
-class Unite_IA_Facile():
+class Unite_IA_Difficile():
     """
     Classe décrivant les comportement par défaut de l'IA niv facile. Peut-être 
     utilisée en l'état ou sous classée pour définir des comportements de
@@ -135,8 +142,25 @@ class Unite_IA_Facile():
 
     def affichage(self):
         print(str(self))
-              
+        
+       
+    def droite1(self,x):
+        """
+        Permet de séparer notre zone de jeu en 2 parties égales
+        """
+        return -(self._carte.dims[1]/self._carte.dims[0])*x + self._cart.dims[1]
+    
+
+    def droite2(self,x):
+        """
+        Permet de séparer notre zone de jeu en 2 parties égales
+        """
+        return (self._carte.dims[1]/self._carte.dims[0])*x
+   
             
+        
+
+    
     def combat(self):
         """
         Méthode permettant à l'unité de combattre, si un objet ennemi se trouve 
@@ -178,7 +202,7 @@ class Unite_IA_Facile():
         R_plus_petit_unit = self.zonecbt +1
         R_plus_petit_bat = self.zonecbt + 1
         
-        
+
         for i in range(x_inf,x_sup+1):
             for j in range(y_inf,y_sup+1):
                 Obj = self._carte.ss_carte[i][j]
@@ -197,40 +221,27 @@ class Unite_IA_Facile():
         
         return(Ennemi)
         
-        def mvt_poss(self):
-            x,y = self.coords
-        
-            self.L_dep_poss = []
-            x_inf = max(0,int(-self.capmvt + x))
-            x_sup = min(self._carte.dims[0], int(self.capmvt + x))
-            y_inf = max(0,int(-self.capmvt + y))
-            y_sup = min(self._carte.dims[1], int(self.capmvt + y))
-        
-            for i in range(x_inf,x_sup+1):
-                for j in range(y_inf,y_sup+1):
-                    Obj = self._carte.ss_carte[i][j]
-                    if Obj == ' ' :
-                        self.L_dep_poss .append((i,j))
-                    return(self.L_dep_poss )
-        
-class Scorpion0(Unite_IA_Facile):
+class Scorpion2(Unite_IA_Difficile):
     
     Id=0
-    
-    def __init__(self, x, y, cart,unite_IA,identifiant):
-        super().__init__(x, y, cart,unite_IA)
+    """
+    Classe spécialisant Unite_IA pour représenter une Fourmi.
+    """
+    def __init__(self, x, y, cart, unite_IA):
+        super().__init__(x, y, cart, unite_IA)
 #        self.name = "Scorpion"
-        self.id = Scorpion0.Id 
-        Scorpion0.Id += 1
+        self.id = Scorpion2.Id 
+        Scorpion2.Id += 1
         self.capmvt = 1
+        self.capcbt = 1
+        self.zonecbt = math.sqrt(2)
 
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
-        return "A_U_S0%i"%( self.id )
+        return "A_U_S2%i"%( self.id )
     
     def car(self):
-        return 's'
-       
+        return 'S'
     
     def bouger(self):
         """
@@ -239,19 +250,60 @@ class Scorpion0(Unite_IA_Facile):
         zones délimité par droite1 et droite2. Le QG vers lequel les fourmis essaient de ce diriger se trouve 
         à l'ntersection de ces deux droites.
         """
-        L_dep_poss  = self.mvt_poss()
+
+        L_vide = self.mvt_poss()
         xi, yi = self.coords
-        X,Y = choice(L_dep_poss )
+        
+        X_dep = choice([-1,1])
+        Y_dep = choice([0,1])
+        X = xi + X_dep
+        Y = yi + Y_dep
+        
+        if (X,Y) not in L_vide :
+            pass
+        else:
+            while (X,Y) not in L_vide:
+#        while self.capmvt < math.sqrt((X -self.x)**2 + (Y-self.y)**2) :
+                X_dep = randint(-1,2)
+                Y_dep = randint(-1,2)
+                X = xi + X_dep
+                Y = yi + Y_dep
+                self.coords = (X, Y)
+                
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)
-        
-        
-        
+#        if ((self.y>=self.droite1(self.x)) and (self.y<=self.droite2(self.x))):
+#            if (self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
+#                self.coords = (self.x,self.y+choice([-1,1]))
+#            elif ((self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
+#                self.coords = (self.x-1,self.y)
+#            else:
+#                self.coords = (self.x-1,self.y+choice([-1,1]))
+#        
+#        elif ((self.y<=self.droite1(self.x)) and (self.y>=self.droite2(self.x))):
+#            if (self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
+#                self.coords = (self.x,self.y+choice([-1,1]))
+#            elif ((self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
+#                self.coords = (self.x+1,self.y)
+#            else:
+#                self.coords = (self.x+1,self.y+choice([-1,1]))
+#                
+#        elif ((self.y>self.droite1(self.x)) and (self.y>self.droite2(self.x))):
+#            if ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
+#                self.coords = (self.x+choice([-1,1]),self.y)
+#            elif ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :
+#                self.coords = (self.x,self.y-1)
+#            else:
+#                self.coords = (self.x+choice([-1,1]),self.y-1)        
+#        
+#        elif ((self.y<self.droite1(self.x)) and (self.y<self.droite2(self.x))):
+#            if ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
+#                self.coords = (self.x+choice([-1,1]),self.y)
+#            elif ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :               
+#                self.coords = (self.x,self.y+1)
+#            else: 
+#                self.coords = (self.x+choice([-1,1]),self.y+1)
+#                
+        X,Y = self.coords
+        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
 
-
-
-
- 
-
-
-            

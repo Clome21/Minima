@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Mar 26 21:58:49 2018
+
+@author: utilisateurPC
+"""
+
 from numpy.random import randint,choice
 from Constantes import Constante
 import numpy as np
@@ -7,7 +14,7 @@ import math
 
 
 
-class Unite_IA_Facile():
+class Unite_IA_Moyenne():
     """
     Classe décrivant les comportement par défaut de l'IA niv facile. Peut-être 
     utilisée en l'état ou sous classée pour définir des comportements de
@@ -135,8 +142,25 @@ class Unite_IA_Facile():
 
     def affichage(self):
         print(str(self))
-              
+        
+       
+    def droite1(self,x):
+        """
+        Permet de séparer notre zone de jeu en 2 parties égales
+        """
+        return -(self._carte.dims[1]/self._carte.dims[0])*x + self._cart.dims[1]
+    
+
+    def droite2(self,x):
+        """
+        Permet de séparer notre zone de jeu en 2 parties égales
+        """
+        return (self._carte.dims[1]/self._carte.dims[0])*x
+   
             
+        
+
+    
     def combat(self):
         """
         Méthode permettant à l'unité de combattre, si un objet ennemi se trouve 
@@ -196,41 +220,68 @@ class Unite_IA_Facile():
                         Ennemi = Obj
         
         return(Ennemi)
-        
-        def mvt_poss(self):
-            x,y = self.coords
-        
-            self.L_dep_poss = []
-            x_inf = max(0,int(-self.capmvt + x))
-            x_sup = min(self._carte.dims[0], int(self.capmvt + x))
-            y_inf = max(0,int(-self.capmvt + y))
-            y_sup = min(self._carte.dims[1], int(self.capmvt + y))
-        
-            for i in range(x_inf,x_sup+1):
-                for j in range(y_inf,y_sup+1):
-                    Obj = self._carte.ss_carte[i][j]
-                    if Obj == ' ' :
-                        self.L_dep_poss .append((i,j))
-                    return(self.L_dep_poss )
-        
-class Scorpion0(Unite_IA_Facile):
+
     
+    def mvt_poss_Est(self): 
+        self.L_dep_possible=[]
+        for i in range (0,self.capmvt+1):
+            for j in range(-self.capmvt,self.capmvt+1):
+                Obj = self._carte.ss_carte[i][j]
+                if Obj == ' ' :
+                    self.L_dep_possible.append((i,j))
+        return(self.L_dep_possible)
+        
+    def mvt_poss_Ouest(self):
+        self.L_dep_possible=[]
+        for i in range (-self.capmvt,1):
+            for j in range(-self.capmvt,self.capmvt+1):
+                Obj = self._carte.ss_carte[i][j]
+                if Obj == ' ' :
+                    self.L_dep_possible.append((i,j))
+        return(self.L_dep_possible)
+        
+        
+    def mvt_poss_Sud(self):
+        self.L_dep_possible=[]
+        for i in range (-self.capmvt,self.capmvt+1):
+            for j in range(-self.capmvt,1):
+                Obj = self._carte.ss_carte[i][j]
+                if Obj == ' ' :
+                    self.L_dep_possible.append((i,j))
+        return(self.L_dep_possible)
+    
+    def mvt_poss_Nord(self):
+        self.L_dep_possible=[]
+        for i in range (-self.capmvt,self.capmvt+1):
+            for j in range(0,self.capmvt+1):
+                Obj = self._carte.ss_carte[i][j]
+                if Obj == ' ' :
+                    self.L_dep_possible.append((i,j))
+        return(self.L_dep_possible)
+        
+class Scorpion1(Unite_IA_Moyenne):
+    """
+    Classe spécialisant Unite_IA_Moyenne pour représenter un Scorpion1.
+    """
     Id=0
     
     def __init__(self, x, y, cart,unite_IA,identifiant):
         super().__init__(x, y, cart,unite_IA)
 #        self.name = "Scorpion"
-        self.id = Scorpion0.Id 
-        Scorpion0.Id += 1
+        self.id = Scorpion1.Id 
+        Scorpion1.Id += 1
         self.capmvt = 1
+        self.capcbt = 1
+        self.zonecbt = math.sqrt(2)
 
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
-        return "A_U_S0%i"%( self.id )
+        return "A_U_S1%i"%( self.id )
     
     def car(self):
         return 's'
        
+    
     
     def bouger(self):
         """
@@ -239,19 +290,76 @@ class Scorpion0(Unite_IA_Facile):
         zones délimité par droite1 et droite2. Le QG vers lequel les fourmis essaient de ce diriger se trouve 
         à l'ntersection de ces deux droites.
         """
-        L_dep_poss  = self.mvt_poss()
+
         xi, yi = self.coords
-        X,Y = choice(L_dep_poss )
+        
+#-------------------Zone Ouest-----------------------------
+        if ((Constante.ymax>=self.droite1(Constante.xmax)) and (Constante.ymax<=self.droite2(Constante.xmax))):
+            X = xi + randint(0,self.capmvt+1)
+            Y = yi + randint(-self.capmvt,self.capmvt+1)
+            self.mvt_poss_Est()            
+                            
+            if (X,Y) not in self.L_dep_possible :
+                pass
+                
+            else:                
+                                
+                Choix=randint(0,len(self.dep_possible))
+                X=self.L_dep_possible[Choix][0]
+                Y=self.L_dep_possible[Choix][1]
+                self.coords = (X,Y)
+                    
+                        
+
+
+#-------------------Zone Est-----------------------------                                 
+        elif ((self.y<=self.droite1(self.x)) and (self.y>=self.droite2(self.x))):
+            X = xi + randint(-self.capmvt,1)
+            Y = yi + randint(-self.capmvt,self.capmvt+1)
+            self.mvt_poss_Ouest()
+            
+            if (X,Y) not in self.L_dep_possible :
+                pass
+            
+            else:
+                
+                Choix=randint(0,len(self.L_dep_possible))
+                X=self.L_dep_possible[Choix][0]
+                Y=self.L_dep_possible[Choix][1]
+                self.coords = (X,Y)
+                
+
+#-------------------Zone Sud-----------------------------                                    
+        elif ((self.y>self.droite1(self.x)) and (self.y>self.droite2(self.x))):
+            X = xi + randint(-self.capmvt,self.capmvt+1)
+            Y = yi + randint(-self.capmvt,1)
+            self.mvt_poss_Sud()
+            
+            if (X,Y) not in self.L_dep_possible :
+                pass
+            
+            else:
+                
+                Choix=randint(0,len(self.L_dep_possible))
+                X=self.L_dep_possible[Choix][0]
+                Y=self.L_dep_possible[Choix][1]
+                self.coords = (X,Y)
+ 
+#-------------------Zone Nord-----------------------------
+        elif ((self.y<self.droite1(self.x)) and (self.y<self.droite2(self.x))):
+            X = xi + randint(-self.capmvt,self.capmvt+1)
+            Y = yi + randint(-self.capmvt+1)
+            self.mvt_poss_Nord()
+            
+            if (X,Y) not in self.L_dep_possible :
+                pass
+            
+            else:
+                
+                Choix=randint(0,len(self.L_dep_possible))
+                X=self.L_dep_possible[Choix][0]
+                Y=self.L_dep_possible[Choix][1]
+                self.coords = (X,Y)
+                
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)
-        
-        
-        
-
-
-
-
- 
-
-
-            

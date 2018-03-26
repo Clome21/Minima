@@ -5,7 +5,8 @@ import time
 from Un_Tour_Joueur import Un_Tour_Du_Joueur
 from Ressource import metal
 from Batiments import Foreuse,QG,Panneau_solaire
-from unites_IA_facile import Scorpion1,Scorpion2
+from unites_IA_facile import Scorpion0
+from unites_IA_Moyenne import Scorpion1
 from Constantes import Constante
 
 class Map(list):
@@ -28,7 +29,7 @@ class Map(list):
         self.createInitObject()
         
         self.ss_carte = [[' ' for j in range(Constante.ymax)] for i in range(Constante.xmax)]
-        U = QG(Constante.xmax/2,Constante.ymax/2,self)
+        U = QG(Constante.xmax/2,Constante.ymax/2,self,self)
         self.ss_carte[int(Constante.xmax/2)][int(Constante.ymax/2)] = U
         self.append(U)
 #        self.L_joueur[0]._liste_bat.append(U)
@@ -37,8 +38,8 @@ class Map(list):
 
 
     def createInitObject(self):        
-        self.Panneau_solaire=Panneau_solaire(0,0,self)
-        self.Foreuse=Foreuse(0,0,self)
+        self.Panneau_solaire=Panneau_solaire(0,0,self,self)
+        self.Foreuse=Foreuse(0,0,self,self)
 
         
     
@@ -104,15 +105,17 @@ class Map(list):
                 i=randint(0,self.__xmax)
                 j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
                 Obj = self.ss_carte[i][j]
-                if Obj == ' ' :
-                    self.append(metal(i,j,self,self))
-                    self.ss_carte[i][j]=metal(i,j,self,self)
+                if Obj== ' ' :
+                    U=metal(i,j,self,self)
+                    self.append(U)
+                    self.ss_carte[i][j]=U
                 else:
-                    while Obj != ' ':
+                    while Obj.car() != ' ':
                         i=randint(0,self.__xmax)
                         j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
-                    self.append(metal(i,j,self,self))
-                    self.ss_carte[i][j]=metal(i,j,self,self)
+                    U=metal(i,j,self,self)
+                    self.append(U)
+                    self.ss_carte[i][j]=U
         
         elif val==1:
             for z in range(int(self.spawn_ress/2)):                      
@@ -120,14 +123,16 @@ class Map(list):
                 j=randint(0,self.__ymax)
                 Obj = self.ss_carte[i][j]
                 if Obj == ' ' :
-                    self.append(metal(i,j,self,self))
-                    self.ss_carte[i][j]=metal(i,j,self,self)
+                    U=metal(i,j,self,self)
+                    self.append(U)
+                    self.ss_carte[i][j]=U
                 else:
                     while Obj != ' ':
                         i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
                         j=randint(0,self.__ymax)
-                self.append(metal(i,j,self,self))
-                self.ss_carte[i][j]=metal(i,j,self,self)
+                        U=metal(i,j,self,self)
+                        self.append(U)
+                        self.ss_carte[i][j]=U
                 
     
     def grossir_vague(self):
@@ -183,21 +188,28 @@ class Map(list):
                 
             if zone_app==1:
                 self.Zone_Nord()
-                self.append(Scorpion1(self.i_Z1,self.i_Z1,self,self,self))
-                self.L_unite.append(Scorpion1(self.i_Z1,self.i_Z1,self,self,self))
-            
+                U=Scorpion0(self.i_Z1,self.j_Z1,self,self,self)
+                self.append(U)
+                self.L_Joueur.L_unite.append(U)
+                self.ss_carte[self.i_Z1][self.j_Z1]=U
             if zone_app==2:
                self.Zone_Sud()
-               self.append(Scorpion1(self.i_Z2,self.j_Z2,self,self,self))
-            
+               U=Scorpion0(self.i_Z2,self.j_Z2,self,self,self)
+               self.append(U)
+               self.L_Joueur.L_unite.append(U)
+               self.ss_carte[self.i_Z2][self.j_Z2]=U
             if zone_app==3:
                 self.Zone_Ouest()
-                self.append(Scorpion1(self.i_Z3,self.j_Z3,self,self,self))
-        
+                U=Scorpion0(self.i_Z3,self.j_Z3,self,self,self)
+                self.append(U)
+                self.L_Joueur.L_unite.append(U)
+                self.ss_carte[self.i_Z3][self.j_Z3]=U
             if zone_app==4:
-                self.Zone_Est()
-                self.append(Scorpion1(self.i_Z4,self.j_Z4,self,self,self))
-             
+                U=Scorpion0(self.i_Z14,self.j_Z4,self,self,self)
+                self.append(U)
+                self.L_Joueur.L_unite.append(U)
+                self.ss_carte[self.i_Z4][self.j_Z4]=U
+                
     def apparition_vague_Niveau_1(self):
         """
         Permet de faire apparaitre une vague de 60% de Scorpion1 et 30% de Scorpion2 sur une des 4 
@@ -210,32 +222,32 @@ class Map(list):
                 self.Zone_Nord()
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Scorpion1(self.i_Z1,self.j_Z1,self,self,self))
+                    self.append(Scorpion0(self.i_Z1,self.j_Z1,self,self,self))
                 else:
-                    self.append(Scorpion2(self.i_Z1,self.j_Z1,self,self,self))
+                    self.append(Scorpion1(self.i_Z1,self.j_Z1,self,self,self))
         
             if zone_app==2:
                 self.Zone_Sud()
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Scorpion1(self.i_Z2,self.j_Z2,self,self,self))
+                    self.append(Scorpion0(self.i_Z2,self.j_Z2,self,self,self))
                 else:
-                    self.append(Scorpion2(self.i_Z2,self.j_Z2,self,self,self))
+                    self.append(Scorpion1(self.i_Z2,self.j_Z2,self,self,self))
             
             if zone_app==3:
                 self.Zone_Ouest()
                 if (p ==0 or p==1):
-                    self.append(Scorpion1(self.i_Z3,self.j_Z3,self,self,self))
+                    self.append(Scorpion0(self.i_Z3,self.j_Z3,self,self,self))
                 else:
-                    self.append(Scorpion2(self.i_Z3,self.j_Z3,self,self,self))
+                    self.append(Scorpion1(self.i_Z3,self.j_Z3,self,self,self))
         
             if zone_app==4:
                 self.Zone_Est()
                 p=randint(0,3)
                 if (p ==0 or p==1):
-                    self.append(Scorpion1(self.i_Z4,self.j_Z4,self,self,self))
+                    self.append(Scorpion0(self.i_Z4,self.j_Z4,self,self,self))
                 else:
-                    self.append(Scorpion2(self.i_Z4,self.j_Z4,self,self,self))
+                    self.append(Scorpion1(self.i_Z4,self.j_Z4,self,self,self))
         
     def apparition_vague_Niveau_2(self):
         """
@@ -247,19 +259,19 @@ class Map(list):
                 
             if zone_app==1:
                 self.Zone1()
-                self.append(Scorpion2(self.i_Z1,self.j_Z1,self,self,self))
+                self.append(Scorpion1(self.i_Z1,self.j_Z1,self,self,self))
         
             if zone_app==2:
                 self.Zone2()
-                self.append(Scorpion2(self.i_Z2,self.j_Z2,self,self,self))
+                self.append(Scorpion1(self.i_Z2,self.j_Z2,self,self,self))
             
             if zone_app==3:
                 self.Zone_Ouest()
-                self.append(Scorpion2(self.i_Z3,self.j_Z3,self,self,self))
+                self.append(Scorpion1(self.i_Z3,self.j_Z3,self,self,self))
         
             if zone_app==4:
                 self.Zone_Est()
-                self.append(Scorpion2(self.i_Z4,self.j_Z4,self,self,self))  
+                self.append(Scorpion1(self.i_Z4,self.j_Z4,self,self,self))  
         
         
     def ressource_tot(self):
@@ -336,7 +348,7 @@ class Map(list):
             time.sleep(0.2)
 
                  
-if __name__ == "__main__":
-    carte = Map()
-    print(carte)
-    carte.simuler()
+#if __name__ == "__main__":
+#    carte = Map()
+#    print(carte)
+#    carte.simuler()
