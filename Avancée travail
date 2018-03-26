@@ -125,3 +125,20 @@ NB : les tests se font désormais au niveau du fichier Partie.
 
 26/03 - Clome21
   J'ai déposé les fichiers modifier aujourd'hui, il ne semble pas y avoir de pb
+  
+  MAJ Création de 3 classes distinct (Unité_IA_Facile,Unité_IA_Moyenne,Unité_IA_Difficile) avec des fonction mvt_poss qui leur sont propres
+pour l'instant seul les 2 premieres sont opérationnelles. Ainsi que Scorpion0, Scorpion1, Scorpion2
+  MAJ utilisation de la ss carte pour l'apparition est le déplacement de tous nos objets en jeu (metal, Unité_IA, Batiment, etc) en théorie
+aucune collision se fait.
+  MAJ fixe du nombre d'unité qui spawn par vague. Limité à la capacité de nos zones de spawn (/)
+J'ai renomé L_vide par L_dep_poss, pour Unité_IA_Facile,Unité_IA_Moyenne,Unité_IA_Difficile (plus logique à mon sens)
+  
+  - Tentative de déboguage (petite avancée), bloqué par:
+  \Un_Tour_Joueur.py", line 37, in placer_une_foreuse
+    self._carte.L_joueur.L_batiment.append(U)
+    AttributeError: 'list' object has no attribute 'L_batiment'
+    
+    J'ai pensé qu'il fallait que je rajoute L_batiment dans Partie commme L_ennemi mais ça ne change rien donc j'ai pas fait. Je comprends pas
+  tous dans Partie donc je préfère pas trop y toucher.
+
+
