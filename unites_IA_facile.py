@@ -223,8 +223,8 @@ class Scorpion0(Unite_IA_facile):
     def __init__(self, x, y, cart,unite_IA,identifiant):
         super().__init__(x, y, cart,unite_IA)
         self.name = "Scorpion"
-        self.id = Scorpion1.Id 
-        Scorpion1.Id += 1
+        self.id = Scorpion0.Id 
+        Scorpion0.Id += 1
         self.capmvt = 1
 
     def T_car(self):
