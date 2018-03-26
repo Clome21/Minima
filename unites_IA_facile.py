@@ -29,6 +29,7 @@ class Unite_IA():
         self.__sante = 10
         self._cart = cart
         self.coords = abscisse, ordonnee  
+        self._carte.ss_carte[abscisse][ordonnee] = self
 
 
         self.degat=2
@@ -155,15 +156,29 @@ class Unite_IA():
         Ydistance = y2-y1        
         return (math.sqrt(Xdistance**2+Ydistance**2))
     
-    def collision_unite_IA (self,a,c):
-            for b in self._unite_IA:
-                #d=self.distance(a,c,b.x,b.y)           
-                if (a==b.x and c==b.y):
-                    print("collision",a,c)
-                else:
-                    return False
+#    def collision_unite_IA (self,a,c):
+#            for b in self._unite_IA:
+#                #d=self.distance(a,c,b.x,b.y)           
+#                if (a==b.x and c==b.y):
+#                    print("collision",a,c)
+#                else:
+#                    return False
 
-            
+        def mvt_poss(self):
+            x,y = self.coords
+        
+            self.L_vide = []
+            x_inf = max(0,int(-self.capmvt + x))
+            x_sup = min(self._carte.dims[0], int(self.capmvt + x))
+            y_inf = max(0,int(-self.capmvt + y))
+            y_sup = min(self._carte.dims[1], int(self.capmvt + y))
+        
+            for i in range(x_inf,x_sup+1):
+                for j in range(y_inf,y_sup+1):
+                    Obj = self._carte.ss_carte[i][j]
+                    if Obj == ' ' :
+                        self.L_vide.append((i,j))
+            return(self.L_vide)
 
     
 class Scorpion1(Unite_IA):
@@ -177,6 +192,7 @@ class Scorpion1(Unite_IA):
         self.name = "Scorpion"
         self.id = Scorpion1.Id 
         Scorpion1.Id += 1
+        self.capmvt = 1
 
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
@@ -194,48 +210,93 @@ class Scorpion1(Unite_IA):
         zones délimité par droite1 et droite2. Le QG vers lequel les fourmis essaient de ce diriger se trouve 
         à l'ntersection de ces deux droites.
         """
+        L_vide = self.mvt_poss()
         xi, yi = self.coords
         
-        if ((self.y>=self.droite1(self.x)) and (self.y<=self.droite2(self.x))):
-            if (self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
-                self.coords = (self.x,self.y+randint(-1,2))
-            elif ((self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
-                self.coords = (self.x-randint(0,2),self.y)
-            else:
-                self.coords = (self.x-randint(0,2),self.y+randint(-1,2))
+#-------------------Zone Est-----------------------------
+        if ((Constante.ymax>=self.droite1(Constante.xmax)) and (Constante.ymax<=self.droite2(Constante.xmax))):
+            X = xi + randint(-1,2)
+            Y = yi + randint(0,2)
         
-        elif ((self.y<=self.droite1(self.x)) and (self.y>=self.droite2(self.x))):
-            if (self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
-                self.coords = (self.x,self.y+randint(-1,2))
-            elif ((self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
-                self.coords = (self.x+randint(0,2),self.y)
-            else:
-                self.coords = (self.x+randint(0,2),self.y+randint(-1,2))
+            if (X,Y) not in L_vide :
+                pass
                 
-        elif ((self.y>self.droite1(self.x)) and (self.y>self.droite2(self.x))):
-            if ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
-                self.coords = (self.x+randint(-1,2),self.y)
-            elif ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :
-                self.coords = (self.x,self.y-randint(0,2))
-            else:
-                self.coords = (self.x+randint(-1,2),self.y-randint(0,2))        
+            else:                
+                if (xi == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((yi> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and yi< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((yi> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and yi< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
+                    while (X,Y) not in L_vide:
+                        Y = yi + randint(-1,2)
+                    self.coords = (X,Y)
+                elif ((self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
+                    while (X,Y) not in L_vide:
+                        X = xi - randint(0,2)
+                    self.coords = (X,Y)                        
+                else:
+                    while (X,Y) not in L_vide:
+                        X = xi + randint(0,2)
+                        Y = yi + randint(-1,2)
+                    self.coords = (X,Y)
+
+#-------------------Zone Ouest-----------------------------                                 
+        elif ((self.y<=self.droite1(self.x)) and (self.y>=self.droite2(self.x))):
+            X = xi + randint(-1,2)
+            Y = yi + randint(0,2)
         
-        elif ((self.y<self.droite1(self.x)) and (self.y<self.droite2(self.x))):
-            if ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
-                self.coords = (self.x+randint(-1,2),self.y)
-            elif ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :               
-                self.coords = (self.x,self.y+randint(0,2))
-            else: 
-                self.coords = (self.x+randint(-1,2),self.y+randint(0,2))
-        X,Y = self.coords
-        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
+            if (X,Y) not in L_vide :
+                pass
+            
+            else:
+                if (self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
+                    while (X,Y) not in L_vide:
+                        Y = yi + randint(-1,2)
+                    self.coords = (X,Y)
+                elif ((self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
+                    while (X,Y) not in L_vide:
+                        X = xi + randint(0,2)
+                    self.coords = (self.x+randint(0,2),self.y)
+                else:
+                    X = xi + randint(0,2)
+                    Y = yi + randint(-1,2)
+                    self.coords = (X,Y)
+
+#-------------------Zone Sud-----------------------------                                    
+        elif ((self.y>self.droite1(self.x)) and (self.y>self.droite2(self.x))):
+            X = xi + randint(-1,2)
+            Y = yi + randint(0,2)
+        
+            if (X,Y) not in L_vide :
+                pass
+            
+            else:
+                if ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
+                    while (X,Y) not in L_vide:
+                        X = xi + randint(1,2)
+                    self.coords = (X,Y)
+                elif ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :
+                    while (X,Y) not in L_vide:
+                        Y = yi - randint(0,2)
+                    self.coords = (X,Y)
+#            else:
+#                self.coords = (self.x+randint(-1,2),self.y-randint(0,2))        
+# 
+#-------------------Zone Nord-----------------------------
+#        elif ((self.y<self.droite1(self.x)) and (self.y<self.droite2(self.x))):
+#            if ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
+#                self.coords = (self.x+randint(-1,2),self.y)
+#            elif ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :               
+#                self.coords = (self.x,self.y+randint(0,2))
+#            else: 
+#                self.coords = (self.x+randint(-1,2),self.y+randint(0,2))
+#        X,Y = self.coords
+#        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
 #        for b in self._unite_IA: 
 #            if self.id==b.id:
 #                continue
 #            elif ((self.x==b.x) and (self.y==b.y)):
 #                print("collision",self.x,self.y)
         
-
+        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
+        return(self.coords)
+                
 class Scorpion2(Unite_IA):
     
     Id=0
@@ -247,6 +308,7 @@ class Scorpion2(Unite_IA):
         self.name = "Scorpion"
         self.id = Scorpion2.Id 
         Scorpion2.Id += 1
+        self.capmvt = 1
 
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
@@ -262,41 +324,60 @@ class Scorpion2(Unite_IA):
         zones délimité par droite1 et droite2. Le QG vers lequel les fourmis essaient de ce diriger se trouve 
         à l'ntersection de ces deux droites.
         """
-        xi, yi = self.coords
 
+        L_vide = self.mvt_poss()
+        xi, yi = self.coords
         
-        if ((self.y>=self.droite1(self.x)) and (self.y<=self.droite2(self.x))):
-            if (self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
-                self.coords = (self.x,self.y+choice([-1,1]))
-            elif ((self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
-                self.coords = (self.x-1,self.y)
-            else:
-                self.coords = (self.x-1,self.y+choice([-1,1]))
+        X_dep = choice([-1,1])
+        Y_dep = choice([0,1])
+        X = xi + X_dep
+        Y = yi + Y_dep
         
-        elif ((self.y<=self.droite1(self.x)) and (self.y>=self.droite2(self.x))):
-            if (self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
-                self.coords = (self.x,self.y+choice([-1,1]))
-            elif ((self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
-                self.coords = (self.x+1,self.y)
-            else:
-                self.coords = (self.x+1,self.y+choice([-1,1]))
+        if (X,Y) not in L_vide :
+            pass
+        else:
+            while (X,Y) not in L_vide:
+#        while self.capmvt < math.sqrt((X -self.x)**2 + (Y-self.y)**2) :
+                X_dep = randint(-1,2)
+                Y_dep = randint(-1,2)
+                X = xi + X_dep
+                Y = yi + Y_dep
+                self.coords = (X, Y)
                 
-        elif ((self.y>self.droite1(self.x)) and (self.y>self.droite2(self.x))):
-            if ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
-                self.coords = (self.x+choice([-1,1]),self.y)
-            elif ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :
-                self.coords = (self.x,self.y-1)
-            else:
-                self.coords = (self.x+choice([-1,1]),self.y-1)        
-        
-        elif ((self.y<self.droite1(self.x)) and (self.y<self.droite2(self.x))):
-            if ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
-                self.coords = (self.x+choice([-1,1]),self.y)
-            elif ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :               
-                self.coords = (self.x,self.y+1)
-            else: 
-                self.coords = (self.x+choice([-1,1]),self.y+1)
-                
+        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
+        return(self.coords)
+#        if ((self.y>=self.droite1(self.x)) and (self.y<=self.droite2(self.x))):
+#            if (self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
+#                self.coords = (self.x,self.y+choice([-1,1]))
+#            elif ((self.x == self._cart.dims[0]-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
+#                self.coords = (self.x-1,self.y)
+#            else:
+#                self.coords = (self.x-1,self.y+choice([-1,1]))
+#        
+#        elif ((self.y<=self.droite1(self.x)) and (self.y>=self.droite2(self.x))):
+#            if (self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and (((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2-1 and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1)) or((self.y> (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2) and self.y< (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+Constante.H_Z_Constructible+2)):
+#                self.coords = (self.x,self.y+choice([-1,1]))
+#            elif ((self.x == self._cart.dims[0]-Constante.L_Z_Constructible-2-1-((self._cart.dims[0]-1-Constante.L_Z_Constructible-2)/2)) and ((self.y> (self._cart.dims[1] - Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2-1) and (self.y< (self._cart.dims[1] -Constante.H_Z_Constructible-2 )/2+(Constante.H_Z_Constructible+2)/2))) :
+#                self.coords = (self.x+1,self.y)
+#            else:
+#                self.coords = (self.x+1,self.y+choice([-1,1]))
+#                
+#        elif ((self.y>self.droite1(self.x)) and (self.y>self.droite2(self.x))):
+#            if ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
+#                self.coords = (self.x+choice([-1,1]),self.y)
+#            elif ((self.y == self._cart.dims[1]-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :
+#                self.coords = (self.x,self.y-1)
+#            else:
+#                self.coords = (self.x+choice([-1,1]),self.y-1)        
+#        
+#        elif ((self.y<self.droite1(self.x)) and (self.y<self.droite2(self.x))):
+#            if ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2-1 and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) or((self.x> (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2) and self.x< (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+Constante.L_Z_Constructible+2))): 
+#                self.coords = (self.x+choice([-1,1]),self.y)
+#            elif ((self.y == self._cart.dims[1]-Constante.H_Z_Constructible-2-((self._cart.dims[1]-1-Constante.H_Z_Constructible)/2)) and ((self.x> (self._cart.dims[0] - Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2-1) and (self.x< (self._cart.dims[0] -Constante.L_Z_Constructible-2 )/2+(Constante.L_Z_Constructible+2)/2))) :               
+#                self.coords = (self.x,self.y+1)
+#            else: 
+#                self.coords = (self.x+choice([-1,1]),self.y+1)
+#                
         X,Y = self.coords
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
 

@@ -1,4 +1,4 @@
-from Batiments import Foreuse,Panneau_solaire,QG
+from Batiments import Foreuse,Panneau_solaire
 from Constantes import Constante
 
 
@@ -105,5 +105,6 @@ class Un_Tour_Du_Joueur():
             for c in L_unite:
                 print("Tour de %r"%(c.T_car()))
                 c.bouger()
+        
         for obj in self._carte:
             obj.affichage()
