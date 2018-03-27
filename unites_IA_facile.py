@@ -148,9 +148,10 @@ class Unite_IA_Facile():
 
         Ennemi = self.chx_ennemi()
         if Ennemi != None:
+            print( "%r a blessé %c"%(self.T_car(), Ennemi.T_car() ) )
             Ennemi.sante = Ennemi.sante - self.capcbt
-        print(Ennemi)
- 
+        else :
+            print("%r n'a blessé personne"%(self.T_car()) )
     
     def chx_ennemi(self):
         """
@@ -240,12 +241,11 @@ class Scorpion0(Unite_IA_Facile):
         à l'ntersection de ces deux droites.
         """
         L_dep_poss  = self.mvt_poss()
-        if L_dep_poss = []:
-            break
-        xi, yi = self.coords
-        X,Y = choice(L_dep_poss )
-        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
-        return(self.coords)
+        if L_dep_poss != []:
+            xi, yi = self.coords
+            X,Y = choice(L_dep_poss )
+            self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
+            return(self.coords)
         
         
         

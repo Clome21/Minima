@@ -15,7 +15,7 @@ class Constante:
 #----------------------------------------Constantes ressources de départ    
     metal_tot=5
     energie_tot=5
-    nbt=10
+    nbt=1
     spawn_ress=2
 #----------------------------------------Constantes Batiments
 #----------------------------------Foreuse    

@@ -1,19 +1,18 @@
 from Batiments import Foreuse,Panneau_solaire
 from Constantes import Constante
-from Unites_Humain_Defenseur import Robot_combat
-from Unites_Humain_Attaquant import Scorpion
-from numpy import randint
+from Unites_Hn_Defenseur import Robot_combat
+from Unites_Hn_Attaquant import Scorpion
+from numpy.random import randint
 
 
 class Un_Tour_Du_Joueur():
 
 
     
-    def __init__(self,carte,role):
+    def __init__(self,carte):
         self._carte = carte
-        self._role = role
         self.L_joueur = self._carte.L_joueur
-        self.unite_disp_/_tour=0
+        self.unite_disp_par_tour = 0
         self.metal_tot=Constante.metal_tot
         self.energie_tot=Constante.energie_tot
         self.nb_unite_IA_In_Wave=0
@@ -123,9 +122,10 @@ class Un_Tour_Du_Joueur():
             if (self.metal_tot>=Constante.cout_M_RC and self.energie_tot>=Constante.cout_E_RC):
                 choix_DH=input("construire un robot ? (YES/NO)")
                 if choix_DH=='YES':
-                    L_pos_dispo = self.placement_pos_unite([i in range (Constante.xmax/2-1,Constante.xmax/2+2)],[j in range (Constante.ymax/2-1,Constante.ymax/2+2)])
-                    L= list(input("abscisse ordonnée? (format x,y)")) 
-                    print(' ',L_pos_dispo)
+                    L_pos_dispo = self.placement_pos_unite([i for i in range (Constante.xmax/2-1,Constante.xmax/2+2)],[j for j in range (Constante.ymax/2-1,Constante.ymax/2+2)])
+                    print(L_pos_dispo)
+                    L= list(input("/n abscisse ordonnée? (format x,y)")) 
+                    
                     i,j = int(L[0]),int(L[2])
                     
                     while (i,j) not in L_pos_dispo :
@@ -135,7 +135,6 @@ class Un_Tour_Du_Joueur():
                         i,j = int(L[0]),int(L[2])
                         
                     U=Robot_combat(self._role,self._carte,i,j,self)
-                    self._carte.append(U)
                     self.metal_tot=self.metal_tot-Constante.cout_M_P
                     self.energie_tot=self.energie_tot-Constante.cout_E_P
                                                                     
@@ -143,7 +142,7 @@ class Un_Tour_Du_Joueur():
                     pass
         
         if self.role[0:2]=='AH':
-            unite_disp_Tot+=self.unite_disp_/_tour
+            unite_disp_Tot += self.unite_disp_par_tour
             
             while unite_disp_Tot>0:
                 choix_AH=input("placer un Sorpion ? (YES/NO)")
@@ -171,15 +170,14 @@ class Un_Tour_Du_Joueur():
                     U = Scorpion (self._role,self._carte,x,y, self, self)
                     self._carte.append(U)
                     unite_disp_Tot-=1
-                    self.unite_disp_/_tour-=1
+                    self.unite_disp_par_tour-=1
             
                 elif choix_AH == 'NO':
                     break
 
             
                     
-            
-            
+# DEPLACER LA PRODUCTION AU NIVEAU DE JOUEUR.
         
     
         
@@ -197,20 +195,19 @@ class Un_Tour_Du_Joueur():
         Rien
         """
         # rnd.shuffle(self)    Utile si gestion des collisions
-        self.unite_disp_/_tour=0
+        self.unite_disp_par_tour=0
         n = len(self.L_joueur)
         for k in range(n):
             print("\\\ Tour du joueur %r ///"%(self.L_joueur[k]._role))
             if self.L_joueur[k]._role[0] == 'D':
-                Un_Tour_Du_Joueur.construction_bat(self)
-            if self.L_joueur[k]._role[0][2] == 'AH':
-                Un_Tour_Du_Joueur.production_unite(self)
-                self.unite_disp_/_tour+=1
+                self.construction_bat()
+ #           self.production_unite(self.L_joueur[k]._role)
             L_unite = self.L_joueur[k]._liste_unite
             for c in L_unite:
                 print("Tour de %r"%(c.T_car()))
                 c.bouger()
-        
+                c.combat()
+        self.unite_disp_par_tour+=1
         for obj in self._carte:
             obj.affichage()
             

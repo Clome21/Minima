@@ -26,24 +26,24 @@ class Map(list):
         self.metal_tot=Constante.metal_tot
         self.energie_tot=Constante.energie_tot
         self.nb_unite_IA_In_Wave=0
-        self.createInitObject()
+      #  self.createInitObject()
         
         self.ss_carte = [[' ' for j in range(self.__ymax)] for i in range(self.__xmax)]
         U = QG(self.__xmax/2-1,self.__ymax/2-1,self)
         self.ss_carte[int(self.__xmax/2)][int(self.__ymax/2)] = U
         self.append(U)
         # Tracer les murs dans la sous-map
-        for i in ( (self.__xmax - self.L - 1)/2 , (self.__xmax + self.L - 1) /2 ):
+        for i in ( (self.__xmax - self.L - 1)//2 , (self.__xmax + self.L - 1)//2 ):
             #Trace les murs du haut et du bas, avec un trou au milieu de ces deux lignes.
-            for j in range( (self.__ymax - self.H + 1)/2 , self.__ymax/2 - 1):
+            for j in range( (self.__ymax - self.H + 1)//2 , int(self.__ymax//2 - 1)):
                 self.ss_carte[i][j] = '/'
-            for j in range( self.__ymax/2 + 1, (self.__ymax + self.H - 1)/2):
+            for j in range( self.__ymax//2 + 1, (self.__ymax + self.H - 1)//2):
                 self.ss_carte[i][j] = '/'
-        for j in ( (self.__ymax -self.H - 1)/2 , (self.__ymax + self.H - 1)/2 ):
+        for j in ( (self.__ymax -self.H - 1)//2 , (self.__ymax + self.H - 1)//2 ):
             # Trace les murs de gauche et de droite, avec un trou au milieu de ces deux colonnes
-            for i in range( (self.__xmax - self.L +1)/2 , self.__xmax/2 -1 ):
+            for i in range( (self.__xmax - self.L +1)//2 , self.__xmax//2 -1 ):
                 self.ss_carte[i][j] = '/'
-            for i in range( self.__xmax/2 + 1, (self.__xmax + self.L - 1)/2 ) :
+            for i in range( self.__xmax//2 + 1, (self.__xmax + self.L - 1)//2 ) :
                 self.ss_carte[i][j] = '/'
 
           
@@ -53,9 +53,9 @@ class Map(list):
         """Actuellement, carte contient l'ensemble des objets en jeu """
 
 
-    def createInitObject(self):        
-        self.Panneau_solaire=Panneau_solaire(0,0,self,self)
-        self.Foreuse=Foreuse(0,0,self,self)
+ #   def createInitObject(self):        
+  #      self.Panneau_solaire=Panneau_solaire(0,0,self,self)
+   #     self.Foreuse=Foreuse(0,0,self,self)
 
         
     
@@ -372,6 +372,7 @@ class Map(list):
                 self.niveau_choisi()
                     
             self.ressource_tot()
+
             self.Tr.unTour()
             print(self)
             time.sleep(0.2)

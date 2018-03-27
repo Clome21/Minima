@@ -196,8 +196,10 @@ class Unites_Humain_Attaquant():
 
         Ennemi = self.chx_ennemi()
         if Ennemi != None:
+            print( "%s a blessé %s"%(self.T_car(), Ennemi.T_car() ) )
             Ennemi.sante = Ennemi.sante - self.capcbt
-        print(Ennemi)
+        else :
+            print("%s n'a blessé personne"%(self.T_car()) )
  
     
     def chx_ennemi(self):
@@ -286,5 +288,5 @@ class Scorpion(Unites_Humain_Attaquant):
     
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
-        return "%r_U_S%i"%(self._role, self.id )
+        return "%s_U_S%i"%(self._role, self.id )
     

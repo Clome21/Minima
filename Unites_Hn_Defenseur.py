@@ -185,7 +185,7 @@ class Unites_Humain_Defenseur():
             value = 0
     
 
-    def combat(self,carte):
+    def combat(self):
         """
         Méthode permettant à l'unité de combattre, si un objet ennemi se trouve 
         dans sa zone d'attaque.
@@ -194,13 +194,15 @@ class Unites_Humain_Defenseur():
         Si il y a bien un objet, celui-ci perd de la vie.
         """
 
-        Ennemi = self.chx_ennemi(carte)
+        Ennemi = self.chx_ennemi()
         if Ennemi != None:
+            print( "%s a blessé %s"%(self.T_car(), Ennemi.T_car() ) )
             Ennemi.sante = Ennemi.sante - self.capcbt
-        print(Ennemi)
+        else :
+            print("%s n'a blessé personne"%(self.T_car()) )
  
     
-    def chx_ennemi(self,carte):
+    def chx_ennemi(self):
         """
         Méthode sélectionnant l'objet le plus proche de l'unité.
         Elle parcourt pour chaque joueur ennemi l'ensemble des unités qu'elle
@@ -219,20 +221,24 @@ class Unites_Humain_Defenseur():
         y_inf = max(0,int(-self.zonecbt + y))
         y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
         
+        print(x_inf, x_sup)
+        print(y_inf,y_sup)
+        
         Ennemi = None
         R_plus_petit_unit = self.zonecbt +1
-
+       
         
         for i in range(x_inf,x_sup+1):
             for j in range(y_inf,y_sup+1):
-                Obj = carte.ss_carte[i][j]
+                Obj = self._carte.ss_carte[i][j]
                 if Obj != ' ' and Obj.T_car()[0] == 'A':
                     R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
-                    
+                    print(R_Obj,Obj)
+
                     if  R_Obj < R_plus_petit_unit:
                         R_plus_petit_unit = R_Obj
                         Ennemi = Obj
-        
+
         return(Ennemi)
     
     

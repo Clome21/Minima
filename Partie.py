@@ -63,7 +63,7 @@ class Partie():
             nb_ia_2 -= 1
             
         self.mise_en_place()
-        self.carte = Map.Map(40,30,1, self.L_joueur)
+        self.carte = Map.Map(self.L_joueur)
     
     def mise_en_place(self):
         """
