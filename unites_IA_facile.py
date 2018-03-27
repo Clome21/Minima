@@ -33,7 +33,7 @@ class Unite_IA_Facile():
 
 
         self.degat=2
-        self.rayon_hit_box=0,5
+        self.rayon_hit_box=0.5
         self._unite_IA=unite_IA
 
 
@@ -240,6 +240,8 @@ class Scorpion0(Unite_IA_Facile):
         à l'ntersection de ces deux droites.
         """
         L_dep_poss  = self.mvt_poss()
+        if L_dep_poss = []:
+            break
         xi, yi = self.coords
         X,Y = choice(L_dep_poss )
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
