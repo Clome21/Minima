@@ -23,6 +23,8 @@ Zone d'apparition au hasard, déplacement au hasard, toutes unités déployées 
 *Trouver à quoi ça correspond.
 *Trouver où l'appliquer; je pense que ça peut se faire au niveau des méthodes liant notre sous-carte.
 
+- Méthode pour faire des teste
+
 - Interface graphique :
 
 	* Afficher les zones de déplacement et de combat des unités dont on clique dessus ; ces zones doivent être visibles
