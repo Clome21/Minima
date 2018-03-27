@@ -21,7 +21,7 @@ class Map(list):
         self.H=Constante.H_Z_Constructible
         self.L=Constante.L_Z_Constructible
         self.spawn_ress=Constante.spawn_ress
-        
+
         self.Tr = Un_Tour_Du_Joueur(self)
         self.metal_tot=Constante.metal_tot
         self.energie_tot=Constante.energie_tot
