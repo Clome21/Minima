@@ -33,7 +33,7 @@ class Unite_IA_Facile():
 
 
         self.capcbt =2
-        self.zonecbt =0.5
+        self.zonecbt = math.sqrt(2)
         self._unite_IA=unite_IA
 
 
