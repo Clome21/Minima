@@ -32,8 +32,8 @@ class Unite_IA_Facile():
         self._carte.ss_carte[abscisse][ordonnee] = self
 
 
-        self.degat=2
-        self.rayon_hit_box=0.5
+        self.capcbt =2
+        self.zonecbt =0.5
         self._unite_IA=unite_IA
 
 
