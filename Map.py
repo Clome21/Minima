@@ -219,24 +219,24 @@ class Map(list):
                 self.Zone_Nord()
                 U=Scorpion0(self.i_Z1,self.j_Z1,self,self,self)
                 self.append(U)
-                self.L_Joueur.L_unite.append(U)
+                self.L_joueur._liste_unite.append(U)
                 self.ss_carte[self.i_Z1][self.j_Z1]=U
             if zone_app==2:
                self.Zone_Sud()
                U=Scorpion0(self.i_Z2,self.j_Z2,self,self,self)
                self.append(U)
-               self.L_Joueur.L_unite.append(U)
+               self.L_joueur._liste_unite.append(U)
                self.ss_carte[self.i_Z2][self.j_Z2]=U
             if zone_app==3:
                 self.Zone_Ouest()
                 U=Scorpion0(self.i_Z3,self.j_Z3,self,self,self)
                 self.append(U)
-                self.L_Joueur.L_unite.append(U)
+                self.L_joueur._liste_unite.append(U)
                 self.ss_carte[self.i_Z3][self.j_Z3]=U
             if zone_app==4:
-                U=Scorpion0(self.i_Z14,self.j_Z4,self,self,self)
+                U=Scorpion0(self.i_Z4,self.j_Z4,self,self,self)
                 self.append(U)
-                self.L_Joueur.L_unite.append(U)
+                self.L_joueur._liste_unite.append(U)
                 self.ss_carte[self.i_Z4][self.j_Z4]=U
                 
     def apparition_vague_Niveau_1(self):

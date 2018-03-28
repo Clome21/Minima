@@ -150,7 +150,7 @@ class Un_Tour_Du_Joueur():
                     L= list(input("abscisse ordonnée? (format x,y)"))                                               
                     i,j = int(L[0]),int(L[2])
             
-                    A=[(Constante.xmax-Constante.L_Z_Constructible)/2+i in range ((Constante.xmax-constante.L_Z_Constructible)/2,(Constante.xmax-Constante.L_Z_Constructible)/2+Constante.L_Z_Constructible+1)]
+                    A=[(Constante.xmax-Constante.L_Z_Constructible)/2+i in range ((Constante.xmax-Constante.L_Z_Constructible)/2,(Constante.xmax-Constante.L_Z_Constructible)/2+Constante.L_Z_Constructible+1)]
                     B=[(Constante.ymax-Constante.H_Z_Constructible)/2+i in range ((Constante.ymax-Constante.H_Z_Constructible)/2,(Constante.ymax-Constante.H_Z_Constructible)/2+Constante.L_H_Constructible+1)]
                     L_pos_dispo_O = self.placement_pos_unite([0],B)
                     L_pos_dispo_E = self.placement_pos_unite([1],B)

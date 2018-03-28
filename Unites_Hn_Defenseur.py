@@ -89,12 +89,15 @@ class Unites_Humain_Defenseur():
         L_vide = self.mvt_poss()
         xi, yi = self.coords
         print("Mouvements possibles :", L_vide)
-        L = list(input('Envoyez la nouvelle position en x et en y (format x,y. \n'))
-        X,Y = int(L[0]), int(L[2])
+        L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+        k = L.find(',')
+        X = int(L[0:k])
+        Y = int(L[k+1:])
         while (X,Y) not in L_vide:
             print("Position hors du rayon d'action de l'unité. \n")
-            L = list(input('Envoyez la nouvelle position en x et en y (format x,y). \n'))
-            X,Y = L[0], L[2]
+            L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+            k = L.find(',')
+            X,Y = int(L[0:k]) , int(L[k+1:])
         self.coords = (X, Y)
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)  
@@ -103,9 +106,9 @@ class Unites_Humain_Defenseur():
         x,y = self.coords
         
         self.L_vide = []
-        x_inf = max(0,int(-self.capmvt + x))
+        x_inf = max(0,int(-self.capmvt) + x)
         x_sup = min(self._carte.dims[0], int(self.capmvt + x))
-        y_inf = max(0,int(-self.capmvt + y))
+        y_inf = max(0,int(-self.capmvt) + y)
         y_sup = min(self._carte.dims[1], int(self.capmvt + y))
         
         for i in range(x_inf,x_sup+1):
@@ -216,9 +219,9 @@ class Unites_Humain_Defenseur():
 
         """
         x,y = self.coords
-        x_inf = max(0,int(-self.zonecbt + x))
+        x_inf = max(0, int(-self.zonecbt) + x)
         x_sup = min(self._carte.dims[0], int(self.zonecbt + x))
-        y_inf = max(0,int(-self.zonecbt + y))
+        y_inf = max(0,int(-self.zonecbt) + y)
         y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
         
         print(x_inf, x_sup)

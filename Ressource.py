@@ -119,6 +119,9 @@ class metal(Ressource):
     
     def car(self):
         return 'M'
+    
+    def T_car(self):
+        return('N_O_M')
 
 
 

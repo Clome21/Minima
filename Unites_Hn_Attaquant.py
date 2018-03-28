@@ -86,13 +86,15 @@ class Unites_Humain_Attaquant():
         L_vide = self.mvt_poss()
         xi, yi = self.coords
         print("Mouvements possibles :", L_vide)
-        L = list(input('Envoyez la nouvelle position en x et en y (format x,y. \n'))
-        X,Y = int(L[0]), int(L[2])
+        L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+        k = L.find(',')
+        X = int(L[0:k])
+        Y = int(L[k+1:])
         while (X,Y) not in L_vide:
-#        while self.capmvt < math.sqrt((X -self.x)**2 + (Y-self.y)**2) :
             print("Position hors du rayon d'action de l'unité. \n")
-            L = list(input('Envoyez la nouvelle position en x et en y (format x,y). \n'))
-            X,Y = L[0], L[2]
+            L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+            k = L.find(',')
+            X,Y = int(L[0:k]) , int(L[k+1:])
         self.coords = (X, Y)
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)  
@@ -216,9 +218,9 @@ class Unites_Humain_Attaquant():
 
         """
         x,y = self.coords
-        x_inf = max(0,int(-self.zonecbt + x))
+        x_inf = max(0, int(-self.zonecbt) + x)
         x_sup = min(self._carte.dims[0], int(self.zonecbt + x))
-        y_inf = max(0,int(-self.zonecbt + y))
+        y_inf = max(0,int(-self.zonecbt) + y)
         y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
         
         print(x_inf, x_sup)
@@ -226,25 +228,19 @@ class Unites_Humain_Attaquant():
         
         Ennemi = None
         R_plus_petit_unit = self.zonecbt +1
-        R_plus_petit_bat = self.zonecbt + 1
-        
+       
         
         for i in range(x_inf,x_sup+1):
             for j in range(y_inf,y_sup+1):
                 Obj = self._carte.ss_carte[i][j]
-                if Obj != ' ' and Obj.T_car()[0] == 'D':
+                if Obj != ' ' and Obj.T_car()[0] == 'A':
                     R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
-                    
                     print(R_Obj,Obj)
-                    
-                    if Obj.T_car()[2] == 'U' and R_Obj < R_plus_petit_unit:
+
+                    if  R_Obj < R_plus_petit_unit:
                         R_plus_petit_unit = R_Obj
                         Ennemi = Obj
-                        
-                    if Obj.T_car()[2] == 'B' and R_Obj < min(R_plus_petit_bat,R_plus_petit_unit):
-                        R_plus_petit_bat = R_Obj
-                        Ennemi = Obj
-        
+
         return(Ennemi)
 #                
 
