@@ -150,5 +150,8 @@ J'ai renomé L_vide par L_dep_poss, pour Unité_IA_Facile,Unité_IA_Moyenne,Unit
 
 27/03 - XV25
 
-Pas mal de modif, j'expliquerais tout demain!
+Débogages divers (sur les méthodes bouger et combat).
+Mise en place des murs au sein de la sous-map.
+Ajout d'un T_car pour le métal.
 
+Idée test : vérifier si, lorsqu'on met un nombre au hasard dans bouger, que celui-ci soit bien refusé.
