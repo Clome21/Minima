@@ -15,7 +15,7 @@ class Constante:
 #----------------------------------------Constantes ressources de départ    
     metal_tot=5
     energie_tot=5
-    nbt=3
+    nbt= 1
     spawn_ress=2
 #----------------------------------------Constantes Batiments
 #----------------------------------Foreuse    
@@ -26,4 +26,15 @@ class Constante:
     cout_M_P=2  
     cout_E_P=2  
     prod_E_P=3
-        
+
+#----------------------------------QG
+    
+    prod_E_QG = 1
+    prod_M_QG = 1
+    
+    nbe_unite_ajoute = 0.5
+    
+#----------------------------------------Constantes Unites
+    
+    cout_M_RC = 3
+    cout_E_RC = 3

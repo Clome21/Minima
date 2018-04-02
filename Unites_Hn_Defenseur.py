@@ -6,7 +6,7 @@ Created on Wed Mar 21 10:38:35 2018
 """
 
 import math 
-
+import numpy as np
 
 class Unites_Humain_Defenseur():
     """
@@ -86,6 +86,7 @@ class Unites_Humain_Defenseur():
         Mouvement de l'unité, choisie par l'utilisateur. Elle a lieu dans un rayon correspondant 
         à la capacité de mouvement autour de la position courante. Utilise l'accesseur coords.
         """
+
         L_vide = self.mvt_poss()
         xi, yi = self.coords
         print("Mouvements possibles :", L_vide)
@@ -110,12 +111,18 @@ class Unites_Humain_Defenseur():
         x_sup = min(self._carte.dims[0], int(self.capmvt + x))
         y_inf = max(0,int(-self.capmvt) + y)
         y_sup = min(self._carte.dims[1], int(self.capmvt + y))
+
         
-        for i in range(x_inf,x_sup+1):
-            for j in range(y_inf,y_sup+1):
-                Obj = self._carte.ss_carte[i][j]
-                if Obj == ' ' :
-                    self.L_vide.append((i,j))
+        Altrs = self._carte.ss_carte[x_inf:x_sup+1,y_inf:y_sup+1]
+
+        
+        Coords = np.where(Altrs == ' ')
+
+        
+        for k in range(len(Coords[0])):
+            i,j = Coords[0][k],Coords[1][k]
+            self.L_vide.append((i,j))
+
         return(self.L_vide)
         
 
@@ -218,15 +225,15 @@ class Unites_Humain_Defenseur():
         Contient l'ensemble des joueurs ennemis de l'unité.
 
         """
+        
+        
         x,y = self.coords
         x_inf = max(0, int(-self.zonecbt) + x)
         x_sup = min(self._carte.dims[0], int(self.zonecbt + x))
         y_inf = max(0,int(-self.zonecbt) + y)
         y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
         
-        print(x_inf, x_sup)
-        print(y_inf,y_sup)
-        
+
         Ennemi = None
         R_plus_petit_unit = self.zonecbt +1
        
@@ -251,7 +258,7 @@ class Robot_combat(Unites_Humain_Defenseur):
     de combat.
     """
     Id = 0
-    def __init__(self, role, carte,x,y, L_ennemi):
+    def __init__(self, role, carte,x,y, L_ennemi = []):
         """Permet d'initialiser l'unité.
             
     Paramètres

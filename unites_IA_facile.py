@@ -13,7 +13,7 @@ class Unite_IA_Facile():
     utilisée en l'état ou sous classée pour définir des comportements de
     déplacement différents.
     """
-    def __init__(self, abscisse, ordonnee, carte,unite_IA,capacite=10):
+    def __init__(self, abscisse, ordonnee, carte,capacite=10):
         """
         Crée une Unite_IA aux coordonnées désirées.
         
@@ -34,7 +34,8 @@ class Unite_IA_Facile():
 
         self.capcbt =2
         self.zonecbt = math.sqrt(2)
-        self._unite_IA=unite_IA
+
+        self._carte.append(self)
 
 
     def __str__(self):
@@ -218,16 +219,17 @@ class Scorpion0(Unite_IA_Facile):
     
     Id=0
     
-    def __init__(self, x, y, cart,unite_IA,identifiant):
-        super().__init__(x, y, cart,unite_IA)
+    def __init__(self, role, cart, x, y):
+        super().__init__(x, y, cart)
 #        self.name = "Scorpion"
         self.id = Scorpion0.Id 
+        self._role = role
         Scorpion0.Id += 1
         self.capmvt = 1
 
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
-        return "A_U_S0%i"%( self.id )
+        return "%s_U_S0%i"%(self._role, self.id )
     
     def car(self):
         return 's'
@@ -243,7 +245,8 @@ class Scorpion0(Unite_IA_Facile):
         L_dep_poss  = self.mvt_poss()
         if L_dep_poss != []:
             xi, yi = self.coords
-            X,Y = choice(L_dep_poss )
+            k = randint(len(L_dep_poss))
+            X,Y = L_dep_poss[k]
             self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
             return(self.coords)
         

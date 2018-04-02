@@ -5,6 +5,7 @@ Created on Wed Mar 21 10:34:28 2018
 @author: landaier
 """
 
+from Constantes import Constante
 
 class Joueur(object):
     def __init__(self, role):
@@ -20,8 +21,13 @@ class Joueur(object):
         self.L_autres_joueurs = []
         self._role = role
         self._liste_unite = []
-        self._liste_bat = []
+        self._liste_bat = [[],[],[]]
         self.L_ennemi = []
+        self.metal_tot = 0
+        self.energie_tot = 0
+        self.nb_unite_restantes =0
+
+    
 
 
       

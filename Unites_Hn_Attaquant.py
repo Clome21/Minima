@@ -5,6 +5,8 @@ Created on Wed Mar 21 10:56:00 2018
 @author: landaier
 """
 import math
+import numpy as np
+
 
 class Unites_Humain_Attaquant():
     """
@@ -84,6 +86,7 @@ class Unites_Humain_Attaquant():
         à la capacité de mouvement autour de la position courante. Utilise l'accesseur coords.
         """
         L_vide = self.mvt_poss()
+
         xi, yi = self.coords
         print("Mouvements possibles :", L_vide)
         L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
@@ -103,16 +106,22 @@ class Unites_Humain_Attaquant():
         x,y = self.coords
         
         self.L_vide = []
-        x_inf = max(0,int(-self.capmvt + x))
+        x_inf = max(0,int(-self.capmvt) + x)
         x_sup = min(self._carte.dims[0], int(self.capmvt + x))
-        y_inf = max(0,int(-self.capmvt + y))
+        y_inf = max(0,int(-self.capmvt) + y)
         y_sup = min(self._carte.dims[1], int(self.capmvt + y))
+
         
-        for i in range(x_inf,x_sup+1):
-            for j in range(y_inf,y_sup+1):
-                Obj = self._carte.ss_carte[i][j]
-                if Obj == ' ' :
-                    self.L_vide.append((i,j))
+        Altrs = self._carte.ss_carte[x_inf:x_sup+1,y_inf:y_sup+1]
+
+        
+        Coords = np.where(Altrs == ' ')
+
+        
+        for k in range(len(Coords[0])):
+            i,j = Coords[0][k],Coords[1][k]
+            self.L_vide.append((i,j))
+
         return(self.L_vide)
     
 
@@ -233,7 +242,7 @@ class Unites_Humain_Attaquant():
         for i in range(x_inf,x_sup+1):
             for j in range(y_inf,y_sup+1):
                 Obj = self._carte.ss_carte[i][j]
-                if Obj != ' ' and Obj.T_car()[0] == 'A':
+                if Obj != ' ' and Obj.T_car()[0] == 'D':
                     R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
                     print(R_Obj,Obj)
 
@@ -250,7 +259,7 @@ class Scorpion(Unites_Humain_Attaquant):
     Classe spécialisant Unites_Humain_Attaquant pour représenter une Fourmi.
     """
     Id = 0
-    def __init__(self,role,carte,x,y, L_ennemi, L_autres_joueurs):
+    def __init__(self,role,carte,x,y, L_ennemi = [], L_autres_joueurs = []):
         """Permet d'initialiser l'unité.
             
     Paramètres

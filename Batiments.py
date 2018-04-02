@@ -18,9 +18,11 @@ class Batiment(object):
         """
         self._max = capacite
         self.__sante = 20
-        self._cart = cart
+        self._carte = cart
         self.coords = abscisse, ordonnee
         self.rayon_hit_box=0,5
+        self._carte.ss_carte[abscisse][ordonnee] = self
+        self._carte.append(self)
 
     def __str__(self):
         """
@@ -101,9 +103,9 @@ class Batiment(object):
                       le batiment essaie de se rendre.
         """
         x, y = nouv_coords
-        x = min(x, self._cart.dims[0]-1)
+        x = min(x, self._carte.dims[0]-1)
         x = max(x, 0)
-        y = min(y, self._cart.dims[1]-1)
+        y = min(y, self._carte.dims[1]-1)
         y = max(y, 0)
         self.__coords = (x, y)
 
@@ -133,9 +135,10 @@ class QG(Batiment):
     Classe spécialisant Batiments pour représenter le QG.
     """
     def __init__(self, x, y, cart):
+        self.name = "QG"
         super().__init__(x, y, cart)
         self.sante = self._max
-        self.name = "QG"
+
 
     def car(self):
         return 'Q'

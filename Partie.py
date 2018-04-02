@@ -11,6 +11,7 @@ from numpy.random import randint
 import sys
 import math
 from Joueur import Joueur
+from Constantes import Constante
 
 from Unites_Hn_Attaquant import Scorpion
 from Unites_Hn_Defenseur import Robot_combat
@@ -80,6 +81,7 @@ class Partie():
             else : 
                 J_vu.L_ennemi = self.L_joueur[1:n] 
             J_vu.L_autres_joueurs = self.L_joueur[0:k] + self.L_joueur[k+1:n]
+        self.L_joueur[0].metal_tot, self.L_joueur[0].energie_tot = Constante.metal_tot, Constante.energie_tot
     
     def choix_niveau(self,nb_ia):
         """
@@ -114,9 +116,9 @@ class Partie():
 
 if __name__ == "__main__":
     Game = Partie(0,2)
-    Game.L_joueur[1]._liste_unite.append( Scorpion('AH0',Game.carte,0,1, Game.L_joueur[1].L_ennemi, Game.L_joueur[1].L_autres_joueurs ) )
-    Game.L_joueur[0]._liste_unite.append( Robot_combat('DH',Game.carte,1,1, Game.L_joueur[0].L_ennemi) )
-    Game.L_joueur[0]._liste_unite.append( Robot_combat('DH', Game.carte,1,0, Game.L_joueur[0].L_ennemi) )
+#    Game.L_joueur[1]._liste_unite.append( Scorpion('AH0',Game.carte,0,1, Game.L_joueur[1].L_ennemi, Game.L_joueur[1].L_autres_joueurs ) )
+ #   Game.L_joueur[0]._liste_unite.append( Robot_combat('DH',Game.carte,1,1, Game.L_joueur[0].L_ennemi) )
+  #  Game.L_joueur[0]._liste_unite.append( Robot_combat('DH', Game.carte,1,0, Game.L_joueur[0].L_ennemi) )
     Game.carte.simuler()
 
     

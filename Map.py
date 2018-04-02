@@ -8,6 +8,7 @@ from Batiments import Foreuse,QG,Panneau_solaire
 from unites_IA_facile import Scorpion0
 from unites_IA_Moyenne import Scorpion1
 from Constantes import Constante
+import numpy as np
 
 class Map(list):
     """
@@ -28,10 +29,11 @@ class Map(list):
         self.nb_unite_IA_In_Wave=0
       #  self.createInitObject()
         
-        self.ss_carte = [[' ' for j in range(self.__ymax)] for i in range(self.__xmax)]
-        U = QG(self.__xmax/2-1,self.__ymax/2-1,self)
-        self.ss_carte[int(self.__xmax/2)][int(self.__ymax/2)] = U
-        self.append(U)
+        self.ss_carte = np.array([[' ' for j in range(self.__ymax)] for i in range(self.__xmax)], dtype = object)
+        U = QG(int(self.__xmax/2)-1,int(self.__ymax/2)-1,self)
+#        self.ss_carte[int(self.__xmax/2)][int(self.__ymax/2)] = U
+ #       self.append(U)
+        self.L_joueur[0]._liste_bat[0].append(U)
         # Tracer les murs dans la sous-map
         for i in ( (self.__xmax - self.L - 1)//2 , (self.__xmax + self.L - 1)//2 ):
             #Trace les murs du haut et du bas, avec un trou au milieu de ces deux lignes.
@@ -57,8 +59,9 @@ class Map(list):
   #      self.Panneau_solaire=Panneau_solaire(0,0,self,self)
    #     self.Foreuse=Foreuse(0,0,self,self)
 
-        
-    
+
+
+   
     @property
     def dims(self):
         """
@@ -162,191 +165,23 @@ class Map(list):
                             U=metal(i,j,self,self)
                             self.append(U)
                             self.ss_carte[i][j]=U
-                
-    
-    def grossir_vague(self):
-        """
-        Permet d'augmenter le nombre d'unite de l'IA lors de la prochaine vague (toujours inférieur à la taille de la zone d'apparition)
-        """
-        self.nb_unite_IA_In_Wave+=1
-        if self.nb_unite_IA_In_Wave > min(Constante.L_Z_Constructible,Constante.H_Z_Constructible):
-            self.nb_unite_IA_In_Wave=min(Constante.L_Z_Constructible,Constante.H_Z_Constructible)
-            
-            
-    def Zone_Nord(self):
-            self.j_Z1=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
-            self.i_Z1=0
-            for obj in self:
-                while self.i_Z1 ==obj.x and self.j_Z1==obj.y:
-                    self.j_Z1=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
-                    self.i_Z1=0   
+
                     
-    def Zone_Sud(self):
-         self.j_Z2=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
-         self.i_Z2=self.__xmax-1
-         for obj in self:
-             while self.i_Z2 ==obj.x and self.j_Z2==obj.y:
-                 self.j_Z2=randint((self.__ymax-1-self.H-(self.__ymax - self.H)/2),((self.__ymax - self.H )/2+self.H))
-                 self.i_Z2=self.__xmax-1
-                 
-    def Zone_Ouest(self):
-        self.j_Z3=0
-        self.i_Z3=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))           
-        for obj in self:
-            while (self.i_Z3 ==obj.x and self.j_Z3==obj.y):
-                self.j_Z3=0
-                self.i_Z3=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))
-    
-    
-    def Zone_Est(self):
-        self.i_Z4=self.__ymax-1
-        self.i_Z4=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))           
-        for obj in self:
-            while self.i_Z4 ==obj.x and self.i_Z4==obj.y:
-                self.i_Z4=self.__ymax-1
-                self.i_Z4=randint(self.__ymax-self.H-(self.__ymax-self.H)/2,(self.__xmax-(self.__xmax-self.L)/2))
-                
-   
-    def apparition_vague_Niveau_0(self):
-        """
-        Permet de faire apparaitre une vague de scorpion1 sur une des 4 
-        zones prévues à cette effet (!)
-        """
-        zone_app=randint(1,5)
-        for k in range(self.nb_unite_IA_In_Wave):
-                
-            if zone_app==1:
-                self.Zone_Nord()
-                U=Scorpion0(self.i_Z1,self.j_Z1,self,self,self)
-                self.append(U)
-                self.L_joueur._liste_unite.append(U)
-                self.ss_carte[self.i_Z1][self.j_Z1]=U
-            if zone_app==2:
-               self.Zone_Sud()
-               U=Scorpion0(self.i_Z2,self.j_Z2,self,self,self)
-               self.append(U)
-               self.L_joueur._liste_unite.append(U)
-               self.ss_carte[self.i_Z2][self.j_Z2]=U
-            if zone_app==3:
-                self.Zone_Ouest()
-                U=Scorpion0(self.i_Z3,self.j_Z3,self,self,self)
-                self.append(U)
-                self.L_joueur._liste_unite.append(U)
-                self.ss_carte[self.i_Z3][self.j_Z3]=U
-            if zone_app==4:
-                U=Scorpion0(self.i_Z4,self.j_Z4,self,self,self)
-                self.append(U)
-                self.L_joueur._liste_unite.append(U)
-                self.ss_carte[self.i_Z4][self.j_Z4]=U
-                
-    def apparition_vague_Niveau_1(self):
-        """
-        Permet de faire apparaitre une vague de 60% de Scorpion1 et 30% de Scorpion2 sur une des 4 
-        zones prévues à cette effet (!)
-        """
-        zone_app=randint(1,5)
-        for k in range(self.nb_unite_IA_In_Wave):
-                
-            if zone_app==1:
-                self.Zone_Nord()
-                p=randint(0,3)
-                if (p ==0 or p==1):
-                    self.append(Scorpion0(self.i_Z1,self.j_Z1,self,self,self))
-                else:
-                    self.append(Scorpion1(self.i_Z1,self.j_Z1,self,self,self))
-        
-            if zone_app==2:
-                self.Zone_Sud()
-                p=randint(0,3)
-                if (p ==0 or p==1):
-                    self.append(Scorpion0(self.i_Z2,self.j_Z2,self,self,self))
-                else:
-                    self.append(Scorpion1(self.i_Z2,self.j_Z2,self,self,self))
-            
-            if zone_app==3:
-                self.Zone_Ouest()
-                if (p ==0 or p==1):
-                    self.append(Scorpion0(self.i_Z3,self.j_Z3,self,self,self))
-                else:
-                    self.append(Scorpion1(self.i_Z3,self.j_Z3,self,self,self))
-        
-            if zone_app==4:
-                self.Zone_Est()
-                p=randint(0,3)
-                if (p ==0 or p==1):
-                    self.append(Scorpion0(self.i_Z4,self.j_Z4,self,self,self))
-                else:
-                    self.append(Scorpion1(self.i_Z4,self.j_Z4,self,self,self))
-        
-    def apparition_vague_Niveau_2(self):
-        """
-        Permet de faire apparaitre une vague de Scorpion2 sur une des 4 
-        zones prévues à cette effet (!)
-        """
-        zone_app=randint(1,5)
-        for k in range(self.nb_unite_IA_In_Wave):
-                
-            if zone_app==1:
-                self.Zone1()
-                self.append(Scorpion1(self.i_Z1,self.j_Z1,self,self,self))
-        
-            if zone_app==2:
-                self.Zone2()
-                self.append(Scorpion1(self.i_Z2,self.j_Z2,self,self,self))
-            
-            if zone_app==3:
-                self.Zone_Ouest()
-                self.append(Scorpion1(self.i_Z3,self.j_Z3,self,self,self))
-        
-            if zone_app==4:
-                self.Zone_Est()
-                self.append(Scorpion1(self.i_Z4,self.j_Z4,self,self,self))  
-        
-        
     def ressource_tot(self):
         """
         renvoie au joueur l'information su nombre de ressources qu'il possède
         """
-        for obj in self:
-            if obj.car == 'P':
-                self.energie_tot+=self.Panneau_solaire.prod_E
-            elif obj.car == 'F':
-                self.metal_tot+=self.Foreuse.prod_M
+        L_bat = self.L_joueur[0]._liste_bat
+        self.energie_tot += len(L_bat[1])*Constante.prod_E_P 
+        self.metal_tot += len(L_bat[2])*Constante.prod_M_F
+
         print('energie total = ' + str(self.energie_tot))
         print('metal total = ' + str(self.metal_tot))                
         
     
-    def choix_niveau(self):
-        """
-        Permet au joueur de choisir le niveau de difficulté de l'IA
-        """
-        self.niveau=input("Quel niveau voulez vous jouer ? Niveau0 / Niveau1 / Niveau2")
-        
-        if self.niveau=='Niveau0' or self.niveau=='Niveau1' or self.niveau=='Niveau2':
-            self.lvl=True
-        else:
-            self.lvl=False
-            
-            while self.lvl==False:
-                self.niveau=input("Erreur. Quel niveau voulez vous jouer ? Niveau0 / Niveau1 / Niveau2")                    
-                if self.niveau=='Niveau0' or self.niveau=='Niveau1' or self.niveau=='Niveau2':
-                    self.lvl=True
-                else:
-                    self.lvl=False
+
     
-    def niveau_choisi(self):
-        """
-        Execute les actions liées au choix du niveau par le joueur
-        """
-        if self.niveau == 'Niveau0':
-            self.apparition_vague_Niveau_0()
-            self.grossir_vague()
-        if self.niveau == 'Niveau1':
-            self.apparition_vague_Niveau_1()
-            self.grossir_vague()
-        if self.niveau == 'Niveau2':
-            self.apparition_vague_Niveau_2()
-            self.grossir_vague()
+
        
             
     def simuler (self):
@@ -362,14 +197,13 @@ class Map(list):
         -------
         Rien  
         """
-        self.choix_niveau()
+
                     
         for t in range(self.nbtour):
             print("### Tour %i ###"%(t))
 #            if t%5==0:
             self.apparition_ressource()
-            if t%2==0:
-                self.niveau_choisi()
+
                     
             self.ressource_tot()
 
