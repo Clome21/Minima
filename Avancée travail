@@ -159,3 +159,24 @@ Idée test : vérifier si, lorsqu'on met un nombre au hasard dans bouger, que ce
 30/03 - XV25
 
 Attention bug : des métaux peuvent apparaître dans la zone d'apparition des unités attaquantes.
+
+02/04 - XV25
+
+MAJ Majeure
+
+-Mise en place des méthodes de production d'unités, pour les joueurs Humains et l'IA facile.
+C'est pas encore terminé, il reste pas mal de bugs qu'il faut résoudre.
+
+Au final, autant tout laisser dans un tour joueur, c'est plus simple.
+
+- Déplacement de la méthode de choix de difficulté de l'IA.
+Elle est maintenant dans Partie, et ne s'active que si on met un nombre d'IA en entrée.
+
+-Mise à jour des méthodes de recherche de position vide.
+J'ai utilisé la fonction "where" pour cela. 
+
+-Mise à jour du choix d'une position au hasard.
+J'ai utilisé randint pour cela; choice ne semble pas fonctionner pour les listes de couples de coordonnées (type [(i,j]).
+
+Idée test : vérifier que les bâtiments sont bien produits aux endroits indiqués, et qu'il est impossible d'en produire hors
+de la zone.
