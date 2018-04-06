@@ -180,3 +180,18 @@ J'ai utilisé randint pour cela; choice ne semble pas fonctionner pour les liste
 
 Idée test : vérifier que les bâtiments sont bien produits aux endroits indiqués, et qu'il est impossible d'en produire hors
 de la zone.
+
+6/04 - XV25
+
+Débogage des joueurs Humains terminé! Le jeu est fonctionnel, même si il manque encore les méthodes décès et fin de partie.
+Il faut aussi encore tester les joueurs IA.
+
+J'ai joué un peu. De ce qui me semble, les unités ne se déplacent pas assez vite pour le moment, ou le terrain est trop grand;
+donc c'est suuuuper long à jouer.
+L'équilibrage est également aux fraises pour le moment; en 5 tours, le défenseur a tellement de ressources que ça en devient
+ridicule.
+
+Mais le plus lourd pour le moment, c'est de ne pas avoir de vision globale de jeu; c'est chiant pour déplacer les unités,
+et savoir précisément où on peut aller. ça serait mieux si on développait dès maintenant une interface graphique.
+
+Si tu veux bien, tu pourrais commencer ça stp? Je m'occuperais d'ajouter les dernières méthodes.
