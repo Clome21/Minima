@@ -199,21 +199,28 @@ class Unite_IA_Facile():
         
         return(Ennemi)
         
-        def mvt_poss(self):
-            x,y = self.coords
+    def mvt_poss(self):
+        x,y = self.coords
         
-            self.L_dep_poss = []
-            x_inf = max(0,int(-self.capmvt + x))
-            x_sup = min(self._carte.dims[0], int(self.capmvt + x))
-            y_inf = max(0,int(-self.capmvt + y))
-            y_sup = min(self._carte.dims[1], int(self.capmvt + y))
+        self.L_vide = []
+        x_inf = max(0,int(-self.capmvt) + x)
+        x_sup = min(self._carte.dims[0], int(self.capmvt + x))
+        y_inf = max(0,int(-self.capmvt) + y)
+        y_sup = min(self._carte.dims[1], int(self.capmvt + y))
+
         
-            for i in range(x_inf,x_sup+1):
-                for j in range(y_inf,y_sup+1):
-                    Obj = self._carte.ss_carte[i][j]
-                    if Obj == ' ' :
-                        self.L_dep_poss .append((i,j))
-                    return(self.L_dep_poss )
+        Altrs = self._carte.ss_carte[x_inf:x_sup+1,y_inf:y_sup+1]
+
+        
+        Coords = np.where(Altrs == ' ')
+
+        
+        for k in range(len(Coords[0])):
+            i,j = Coords[0][k]+ x_inf,Coords[1][k] + y_inf
+            self.L_vide.append((i,j))
+
+        return(self.L_vide)
+        
         
 class Scorpion0(Unite_IA_Facile):
     

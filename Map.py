@@ -172,11 +172,11 @@ class Map(list):
         renvoie au joueur l'information su nombre de ressources qu'il possède
         """
         L_bat = self.L_joueur[0]._liste_bat
-        self.energie_tot += len(L_bat[1])*Constante.prod_E_P 
-        self.metal_tot += len(L_bat[2])*Constante.prod_M_F
+        self.L_joueur[0].energie_tot += len(L_bat[1])*Constante.prod_E_P + Constante.prod_E_QG
+        self.L_joueur[0].metal_tot += len(L_bat[2])*Constante.prod_M_F + Constante.prod_M_QG
 
-        print('energie total = ' + str(self.energie_tot))
-        print('metal total = ' + str(self.metal_tot))                
+        print('energie total = ' + str(self.L_joueur[0].energie_tot))
+        print('metal total = ' + str(self.L_joueur[0].metal_tot))                
         
     
 
@@ -201,8 +201,8 @@ class Map(list):
                     
         for t in range(self.nbtour):
             print("### Tour %i ###"%(t))
-#            if t%5==0:
-            self.apparition_ressource()
+            if t%5==0:
+                self.apparition_ressource()
 
                     
             self.ressource_tot()

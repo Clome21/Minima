@@ -8,14 +8,14 @@ Created on Sat Mar 24 21:17:38 2018
 class Constante:
     
 #----------------------------------------Constantes map    
-    L_Z_Constructible=15
-    H_Z_Constructible=19
-    xmax = 20
-    ymax = 30 
+    L_Z_Constructible=9
+    H_Z_Constructible=11
+    xmax = 18
+    ymax = 18
 #----------------------------------------Constantes ressources de départ    
     metal_tot=5
     energie_tot=5
-    nbt= 1
+    nbt= 7
     spawn_ress=2
 #----------------------------------------Constantes Batiments
 #----------------------------------Foreuse    

@@ -25,7 +25,7 @@ class Joueur(object):
         self.L_ennemi = []
         self.metal_tot = 0
         self.energie_tot = 0
-        self.nb_unite_restantes =0
+        self.nbe_unite_restantes = 0
 
     
 

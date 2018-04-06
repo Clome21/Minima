@@ -118,7 +118,7 @@ class Un_Tour_Du_Joueur():
         A = self._carte.ss_carte[x_inf : x_sup , y_inf : y_sup]
         L_pos = []
         print(A)
-        print(A[6][15])
+
         Coords = np.where( A == typ)
         for k in range(len(Coords[0])):
             i,j = Coords[0][k]+ x_inf , Coords[1][k] + y_inf
@@ -172,8 +172,8 @@ class Un_Tour_Du_Joueur():
                 y_inf =  (self.__ymax)//2 - 2
                 y_sup = (self.__ymax)//2 +1
                 #A VERIF
-                A = self._carte.ss_carte[x_inf:x_sup,y_inf:y_sup]
-                L_pos = self.placement_pos(A,' ')
+
+                L_pos = self.placement_pos(x_inf,x_sup,y_inf,y_sup,' ')
                 if len(L_pos) == 0:
                     print('Aucune position disponible, étape suivante. \n')
                 else:
@@ -204,66 +204,73 @@ class Un_Tour_Du_Joueur():
     def production_unite_attaque(self,role,k):
         if role[0:2] == 'AI':
             if role[4] == '0':
-                self.production_unite_attaque_IA_0(self,k)
+                self.production_unite_attaque_IA_0(k)
         elif role[0:2] == 'AH' :
-            self.production_unite_attaque_Hn(self,k)
+            self.production_unite_attaque_Hn(k)
     
     def production_unite_attaque_Hn(self,k):
         
         Jr = self.L_joueur[k]
         unite_disp = self.unite_disp_par_tour + Jr.nbe_unite_restantes
         
-        Ht = self._carte.ss_carte[0,(self.__ymax -self.H - 1)//2 : (self.__ymax + self.H - 1)//2]
+        if unite_disp < 1:
+            print("Aucune unité à placer pour ce tour. \n")
         
-        Bas = self._carte.ss_carte[self.__xmax-1,(self.__ymax -self.H - 1)//2 : (self.__ymax + self.H - 1)//2]
+        else:
         
-        Gche = self.carte.ss_carte[(self.__xmax - self.L - 1)//2 : (self.__xmax + self.L - 1)//2,0]
-        
-        Dte = self.carte.ss_carte[(self.__xmax - self.L - 1)//2 : (self.__xmax + self.L - 1)//2, self.__ymax -1]
-        
-        #Sélectionne les 4 zones d'apparitions
-        
-        L_pos = self.placement_pos(Ht,' ') + self.placement_pos(Bas,' ') + self.placement_pos(Gche,' ') + self.placement_pos(Dte,' ')
-        
-        #Sélectionne les emplacements disponibles
-        if len(L_pos) == 0:
-            print("Aucune zone d'apparition d'unité disponible, étape suivante. \n")
-        
-        else : 
-            print("Nombre de scorpions disponibles : ", unite_disp)
-        
-            choix_AH=input("placer un Scorpion ? (YES/NO)")
+            L_Ht = self.placement_pos(0,1,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
             
-            while len(L_pos) != 0 and unite_disp >=1 and choix_AH == 'YES':
-                print('Positions possibles :', L_pos)
-                L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
-                k = L.find(',')
-                X = int(L[0:k])
-                Y = int(L[k+1:])
-                while (X,Y) not in L_pos:
-                    print("Position hors de la zone d'apparition. \n")
+            L_Bas = self.placement_pos(self.__xmax-1,self.__xmax,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
+        
+            L_Gche = self.placement_pos((self.__xmax - self.L - 1)//2 , (self.__xmax + self.L - 1)//2,0,1,' ')
+        
+            L_Dte = self.placement_pos((self.__xmax - self.L - 1)//2,(self.__xmax + self.L - 1)//2,self.__ymax -1,self.__ymax,' ')
+        
+            #Sélectionne les 4 zones d'apparitions
+        
+            L_pos = L_Ht + L_Bas + L_Gche + L_Dte 
+        
+            #Sélectionne les emplacements disponibles
+            if len(L_pos) == 0 :
+                print("Aucune zone d'apparition d'unité disponible, étape suivante. \n")
+        
+            else : 
+                print("Nombre de scorpions disponibles : ", int(unite_disp) )
+                
+                choix_AH=input("placer un Scorpion ? (YES/NO)")
+            
+                while len(L_pos) != 0 and unite_disp >=1 and choix_AH == 'YES':
+                    print('Positions possibles :', L_pos)
                     L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
                     k = L.find(',')
-                    X,Y = int(L[0:k]) , int(L[k+1:])
+                    X = int(L[0:k])
+                    Y = int(L[k+1:])
+                    while (X,Y) not in L_pos:
+                        print("Position hors de la zone d'apparition. \n")
+                        L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+                        k = L.find(',')
+                        X,Y = int(L[0:k]) , int(L[k+1:])
 
-                L_pos.remove((X,Y))
+                    L_pos.remove((X,Y))
     
-                U = Scorpion(Jr._role,self._carte,X,Y)
-                Jr._liste_unite.append(U)
-                unite_disp-=1
+                    U = Scorpion(Jr._role,self._carte,X,Y)
+                    Jr._liste_unite.append(U)
+                    unite_disp-=1
                 
-                if unite_disp <1:
-                    print("Plus d'unité disponible, étape suivante \n")
+                    if unite_disp <1:
+                        print("Plus d'unité disponible, étape suivante \n")
+                        break
                 
-                if len(L_pos) == 0:
-                    print("Aucune zone d'apparition d'unité disponible, étape suivante. \n")
-                    
-                else:
-                    print("Nombre de scorpions disponibles : ", unite_disp)
-                    choix_AH=input("placer un autre Scorpion ? (YES/NO)")
+                    if len(L_pos) == 0:
+                        print("Aucune zone d'apparition d'unité disponible, étape suivante. \n")
+                        break
+                        
+                    else:
+                        print("Nombre de scorpions disponibles : ", int(unite_disp))
+                        choix_AH=input("placer un autre Scorpion ? (YES/NO)")
             
-            if choix_AH == 'NO' or len(L_pos) == 0:
-                Jr.nbe_unite_restantes = unite_disp
+                if choix_AH == 'NO' or len(L_pos) == 0:
+                    Jr.nbe_unite_restantes = unite_disp
 
     def production_unite_attaque_IA_0(self,k):
         """ IA 0 : place toutes ses unités à chaque tour"""
@@ -386,8 +393,8 @@ class Un_Tour_Du_Joueur():
                 c.bouger()
                 c.combat()
         self.unite_disp_par_tour += Constante.nbe_unite_ajoute
-        if self.nb_unite_disp_par_tour > min(self.L,self.H):
-            self.nb_unite_disp_par_tour = min(self.L,self.H)
+        if self.unite_disp_par_tour > min(self.L,self.H):
+            self.unite_disp_par_tour = min(self.L,self.H)
             
         for obj in self._carte:
             obj.affichage()

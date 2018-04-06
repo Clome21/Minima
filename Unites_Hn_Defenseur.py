@@ -120,7 +120,7 @@ class Unites_Humain_Defenseur():
 
         
         for k in range(len(Coords[0])):
-            i,j = Coords[0][k],Coords[1][k]
+            i,j = Coords[0][k]+ x_inf,Coords[1][k] + y_inf
             self.L_vide.append((i,j))
 
         return(self.L_vide)
@@ -241,7 +241,7 @@ class Unites_Humain_Defenseur():
         for i in range(x_inf,x_sup+1):
             for j in range(y_inf,y_sup+1):
                 Obj = self._carte.ss_carte[i][j]
-                if Obj != ' ' and Obj.T_car()[0] == 'A':
+                if Obj != ' ' and Obj !='/' and Obj.T_car()[0] == 'A':
                     R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
                     print(R_Obj,Obj)
 
