@@ -32,9 +32,6 @@ class Unite_IA_Facile():
         self._carte.ss_carte[abscisse][ordonnee] = self
 
 
-        self.capcbt =2
-        self.zonecbt = math.sqrt(2)
-
         self._carte.append(self)
 
 
@@ -51,8 +48,8 @@ class Unite_IA_Facile():
         s: str
             La chaîne de caractères qui sera affichée via ''print''
         """
-        return "%c : position (%i, %i) etat %i/%i "%(
-            self.car(), self.x, self.y,
+        return "%s : position (%i, %i) etat %i/%i "%(
+            self.T_car(), self.x, self.y,
             self.sante, self._max )
     
     def car(self):
@@ -149,8 +146,13 @@ class Unite_IA_Facile():
 
         Ennemi = self.chx_ennemi()
         if Ennemi != None:
-            print( "%r a blessé %c"%(self.T_car(), Ennemi.T_car() ) )
+            print( "%s a blessé %s"%(self.T_car(), Ennemi.T_car() ) )
             Ennemi.sante = Ennemi.sante - self.capcbt
+            if Ennemi.sante <= 0:
+                role = Ennemi.T_car()
+                if role[-3:-1] == 'QG':
+                    self._carte.V_atta = 1
+                Ennemi.disparition()
         else :
             print("%r n'a blessé personne"%(self.T_car()) )
     
@@ -169,9 +171,9 @@ class Unite_IA_Facile():
         """
         x,y = self.coords
         x_inf = max(0,int(-self.zonecbt + x))
-        x_sup = min(self._carte.dims[0], int(self.zonecbt + x))
+        x_sup = min(self._carte.dims[0]-1, int(self.zonecbt + x))
         y_inf = max(0,int(-self.zonecbt + y))
-        y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
+        y_sup = min(self._carte.dims[1]-1, int(self.zonecbt + y))
         
         print(x_inf, x_sup)
         print(y_inf,y_sup)
@@ -184,7 +186,7 @@ class Unite_IA_Facile():
         for i in range(x_inf,x_sup+1):
             for j in range(y_inf,y_sup+1):
                 Obj = self._carte.ss_carte[i][j]
-                if Obj != ' ' and Obj.T_car()[0] == 'D':
+                if Obj != ' ' and Obj !='/' and Obj.T_car()[0] == 'D':
                     R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
                     
                     print(R_Obj,Obj)
@@ -204,9 +206,9 @@ class Unite_IA_Facile():
         
         self.L_vide = []
         x_inf = max(0,int(-self.capmvt) + x)
-        x_sup = min(self._carte.dims[0], int(self.capmvt + x))
+        x_sup = min(self._carte.dims[0]-1, int(self.capmvt + x))
         y_inf = max(0,int(-self.capmvt) + y)
-        y_sup = min(self._carte.dims[1], int(self.capmvt + y))
+        y_sup = min(self._carte.dims[1]-1, int(self.capmvt + y))
 
         
         Altrs = self._carte.ss_carte[x_inf:x_sup+1,y_inf:y_sup+1]
@@ -220,26 +222,37 @@ class Unite_IA_Facile():
             self.L_vide.append((i,j))
 
         return(self.L_vide)
+    
+    def disparition(self):
+        print("%s est mort! \n"%(self.T_car()))
+        (x,y) = self.coords
+        self._carte.remove(self)
+        self._carte.ss_carte[x][y] = ' '
+        k = self.num_joueur
+        self._carte.L_joueur[k]._liste_unite.remove(self)
         
         
 class Scorpion0(Unite_IA_Facile):
+
     
-    Id=0
-    
-    def __init__(self, role, cart, x, y):
+    def __init__(self, role, cart, x, y, k):
         super().__init__(x, y, cart)
 #        self.name = "Scorpion"
-        self.id = Scorpion0.Id 
+        self.id =  self._carte.L_joueur[k].IdU 
         self._role = role
-        Scorpion0.Id += 1
-        self.capmvt = 1
+        self.num_joueur = k
+        self._carte.L_joueur[k].IdU += 1
+        self.capmvt = Constante.capmvt_S0
+        
+        self.capcbt = Constante.capcbt_S0
+        self.zonecbt = math.sqrt(2)
 
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
         return "%s_U_S0%i"%(self._role, self.id )
     
     def car(self):
-        return 's'
+        return 's '
        
     
     def bouger(self):
@@ -250,12 +263,14 @@ class Scorpion0(Unite_IA_Facile):
         à l'ntersection de ces deux droites.
         """
         L_dep_poss  = self.mvt_poss()
+        print(L_dep_poss)
         if L_dep_poss != []:
             xi, yi = self.coords
             k = randint(len(L_dep_poss))
             X,Y = L_dep_poss[k]
+            self.coords = (X,Y)
             self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
-            return(self.coords)
+        return(self.coords)
         
         
         

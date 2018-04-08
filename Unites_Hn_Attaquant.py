@@ -6,6 +6,7 @@ Created on Wed Mar 21 10:56:00 2018
 """
 import math
 import numpy as np
+from Constantes import Constante
 
 
 class Unites_Humain_Attaquant():
@@ -107,9 +108,9 @@ class Unites_Humain_Attaquant():
         
         self.L_vide = []
         x_inf = max(0,int(-self.capmvt) + x)
-        x_sup = min(self._carte.dims[0], int(self.capmvt + x))
+        x_sup = min(self._carte.dims[0]-1, int(self.capmvt + x))
         y_inf = max(0,int(-self.capmvt) + y)
-        y_sup = min(self._carte.dims[1], int(self.capmvt + y))
+        y_sup = min(self._carte.dims[1]-1, int(self.capmvt + y))
 
         
         Altrs = self._carte.ss_carte[x_inf:x_sup+1,y_inf:y_sup+1]
@@ -209,6 +210,11 @@ class Unites_Humain_Attaquant():
         if Ennemi != None:
             print( "%s a blessé %s"%(self.T_car(), Ennemi.T_car() ) )
             Ennemi.sante = Ennemi.sante - self.capcbt
+            if Ennemi.sante <= 0:
+                role = Ennemi.T_car()
+                if role[-3:-1] == 'QG':
+                    self._carte.V_atta = 1
+                Ennemi.disparition()
         else :
             print("%s n'a blessé personne"%(self.T_car()) )
  
@@ -251,7 +257,16 @@ class Unites_Humain_Attaquant():
                         Ennemi = Obj
 
         return(Ennemi)
-#                
+    
+    def disparition(self):
+        print("%s est mort! \n"%(self.T_car()))
+        x,y = self.coords
+        self._carte.remove(self)
+        self._carte.ss_carte[x][y] = ' '
+        k = self.num_joueur
+        self._carte.L_joueur[k]._liste_unite.remove(self)
+        
+#                Supprimer de carte; de ss_carte; de L_unite; 
 
 
 class Scorpion(Unites_Humain_Attaquant):
@@ -259,7 +274,7 @@ class Scorpion(Unites_Humain_Attaquant):
     Classe spécialisant Unites_Humain_Attaquant pour représenter une Fourmi.
     """
     Id = 0
-    def __init__(self,role,carte,x,y, L_ennemi = [], L_autres_joueurs = []):
+    def __init__(self,role,carte,x,y,k, L_ennemi = [], L_autres_joueurs = []):
         """Permet d'initialiser l'unité.
             
     Paramètres
@@ -280,16 +295,18 @@ class Scorpion(Unites_Humain_Attaquant):
         """
         self.__sante = 10
         super().__init__(x, y, carte, role, self.__sante)
+        
         self.L_ennemi = L_ennemi
         self.L_autres_joueurs = L_autres_joueurs
-        self.id = Scorpion.Id 
-        Scorpion.Id += 1
-        self.capmvt = 1
-        self.capcbt = 2
+        self.num_joueur = k
+        self.id = self._carte.L_joueur[k].IdU
+        self._carte.L_joueur[k].IdU += 1
+        self.capmvt = Constante.capmvt_S
+        self.capcbt = Constante.capcbt_S
         self.zonecbt = math.sqrt(2)
     
     def car(self):
-        return 'S'
+        return 'S '
     
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """

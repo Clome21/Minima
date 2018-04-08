@@ -90,10 +90,10 @@ class Partie():
         nb_ia_0 = 0
         nb_ia_1 = 0
         nb_ia_2 = 0
-        self.lvl = False
         for k in range(nb_ia):
+            self.lvl = False
             print("Difficulté IA %i \n"%k )
-            self.niveau=input("Quel niveau voulez vous lui donner ? 0 / 1 / 2")
+            self.niveau=input("Quel niveau voulez-vous lui donner ? 0 / 1 / 2")
             if self.niveau=='0' or self.niveau=='1' or self.niveau=='2':
                 self.lvl=True
             else:

@@ -129,6 +129,8 @@ class Batiment(object):
             self.__sante = value
         if value <= 0:  # <= car certaines cases enlèvent plus de 1 en santé
             value = 0   # ce qui gèrera les décès plus tard
+    
+
             
 class QG(Batiment):
     """
@@ -141,10 +143,17 @@ class QG(Batiment):
 
 
     def car(self):
-        return 'Q'
+        return 'Q '
     
     def T_car(self):
-        return("D_B_QG ")
+        return("D_B_QG")
+    
+    def disparition(self):
+        print("%s est mort! \n"%(self.T_car()))
+        x,y = self.coords
+        self._carte.remove(self)
+        self._carte.ss_carte[x][y] = ' '
+        self._carte.L_joueur[0]._liste_bat[0].remove(self)
 
 
 
@@ -165,7 +174,14 @@ class Panneau_solaire(Batiment):
         return("D_B_P%i"%( self.id ))
         
     def car(self):
-        return 'P'
+        return 'P '
+    
+    def disparition(self):
+        print("%s est mort! \n"%(self.T_car()))
+        x,y = self.coords
+        self._carte.remove(self)
+        self._carte.ss_carte[x][y] = ' '
+        self._carte.L_joueur[0]._liste_bat[1].remove(self)
 
     
 class Foreuse(Batiment):
@@ -182,10 +198,17 @@ class Foreuse(Batiment):
         Foreuse.Id += 1
 
     def car(self):
-        return 'F'
+        return 'F '
     
     def T_car(self):
         return("D_B_F%i"%( self.id ))
+    
+    def disparition(self):
+        print("%s est mort! \n"%(self.T_car()))
+        x,y = self.coords
+        self._carte.remove(self)
+        self._carte.ss_carte[x][y] = ' '
+        self._carte.L_joueur[0]._liste_bat[2].remove(self)
         
 
             

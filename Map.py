@@ -27,6 +27,7 @@ class Map(list):
         self.metal_tot=Constante.metal_tot
         self.energie_tot=Constante.energie_tot
         self.nb_unite_IA_In_Wave=0
+        self.V_atta = 0
       #  self.createInitObject()
         
         self.ss_carte = np.array([[' ' for j in range(self.__ymax)] for i in range(self.__xmax)], dtype = object)
@@ -108,7 +109,7 @@ class Map(list):
                 if (i, j) in pos:
                     s += pos[(i,j)]
                 else:
-                    s += " "
+                    s += "  "
             s += "\n"
         return s
         
@@ -210,6 +211,13 @@ class Map(list):
             self.Tr.unTour()
             print(self)
             time.sleep(0.2)
+            if self.V_atta == 1:
+                break
+        print("Fin de partie \n")
+        if len(self.L_joueur[0]._liste_bat[0]) !=0:
+            print("Le défenseur gagne!")
+        else:
+            print("Les attaquants gagnent!")
 
                  
 #if __name__ == "__main__":

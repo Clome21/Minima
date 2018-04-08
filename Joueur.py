@@ -26,6 +26,7 @@ class Joueur(object):
         self.metal_tot = 0
         self.energie_tot = 0
         self.nbe_unite_restantes = 0
+        self.IdU = 0
 
     
 

@@ -7,6 +7,7 @@ Created on Wed Mar 21 10:38:35 2018
 
 import math 
 import numpy as np
+from Constantes import Constante
 
 class Unites_Humain_Defenseur():
     """
@@ -208,6 +209,8 @@ class Unites_Humain_Defenseur():
         if Ennemi != None:
             print( "%s a blessé %s"%(self.T_car(), Ennemi.T_car() ) )
             Ennemi.sante = Ennemi.sante - self.capcbt
+            if Ennemi.sante <= 0:
+                Ennemi.disparition()
         else :
             print("%s n'a blessé personne"%(self.T_car()) )
  
@@ -229,9 +232,9 @@ class Unites_Humain_Defenseur():
         
         x,y = self.coords
         x_inf = max(0, int(-self.zonecbt) + x)
-        x_sup = min(self._carte.dims[0], int(self.zonecbt + x))
+        x_sup = min(self._carte.dims[0]-1, int(self.zonecbt + x))
         y_inf = max(0,int(-self.zonecbt) + y)
-        y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
+        y_sup = min(self._carte.dims[1]-1, int(self.zonecbt + y))
         
 
         Ennemi = None
@@ -250,6 +253,13 @@ class Unites_Humain_Defenseur():
                         Ennemi = Obj
 
         return(Ennemi)
+
+    def disparition(self):
+        print("%s est mort! \n"%(self.T_car()))
+        x,y = self.coords
+        self._carte.remove(self)
+        self._carte.ss_carte[x][y] = ' '
+        self._carte.L_joueur[0]._liste_unite.remove(self)
     
     
 class Robot_combat(Unites_Humain_Defenseur):
@@ -283,8 +293,8 @@ class Robot_combat(Unites_Humain_Defenseur):
         Robot_combat.Id += 1
         self.L_ennemi = L_ennemi
 
-        self.capmvt = 1
-        self.capcbt = 2
+        self.capmvt = Constante.capmvt_RC
+        self.capcbt = Constante.capcbt_RC
         self.zonecbt = math.sqrt(2)
     
     
