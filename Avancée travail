@@ -195,3 +195,10 @@ Mais le plus lourd pour le moment, c'est de ne pas avoir de vision globale de je
 et savoir précisément où on peut aller. ça serait mieux si on développait dès maintenant une interface graphique.
 
 Si tu veux bien, tu pourrais commencer ça stp? Je m'occuperais d'ajouter les dernières méthodes.
+
+8/04 - XV25
+
+Les méthodes de décès (sous le nom disparition) et les possibilités de fin de partie ont été ajoutées.
+Les IA semblent également fonctionnelles.
+Il ne reste qu'un seul bug pour le moment : le jeu ne se termine pas directement quand le QG est détruit. Il faut attendre
+que toutes les unités de l'attaquant aient finies de bouger pour que le jeu se termine. Il faut encore que je règle ça.
