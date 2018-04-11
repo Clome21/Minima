@@ -207,3 +207,10 @@ que toutes les unités de l'attaquant aient finies de bouger pour que le jeu se 
 J'ai fait l'interface graphique (Minima.ui et Minima.py) avec les différentes fenetre qui s'ouvrent et se ferment, je suis assez fier de moi (même si j'avoue j'en ai chier).
 Faudra que tu me dise si çate va ou si j'ai oublier des buttons, option, etc... Car je ne pourrais pas réutiliser qtdesigner si je link l'interface au code
 Si il n'y a rien à ajouter je m'occuperais de relier les boutons à notre code.
+
+11/04 - XV25
+
+Correction des bugs liés à la fin de la partie.
+Ajout d'une modification dans la classe Constante; désormais, la taille des zones de construction et d'apparition d'ennemis
+dépendent directement de la taille de la map.
+Identification et correction de bugs de position des zones de construction au niveau de la sous-carte.
