@@ -90,6 +90,9 @@ class Unites_Humain_Defenseur():
 
         L_vide = self.mvt_poss()
         xi, yi = self.coords
+        if len(L_vide) == 0:
+            print("Aucun mouvement possible pour l'unité, étape suivante")
+            return(None)
         print("Mouvements possibles :", L_vide)
         L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
         k = L.find(',')
@@ -109,10 +112,13 @@ class Unites_Humain_Defenseur():
         
         self.L_vide = []
         x_inf = max(0,int(-self.capmvt) + x)
-        x_sup = min(self._carte.dims[0], int(self.capmvt + x))
+        x_sup = min(self._carte.dims[0]-1, int(self.capmvt + x))
         y_inf = max(0,int(-self.capmvt) + y)
-        y_sup = min(self._carte.dims[1], int(self.capmvt + y))
-
+        y_sup = min(self._carte.dims[1]-1, int(self.capmvt + y))
+        
+        print(x_inf, x_sup)
+        print(y_inf,y_sup)
+        
         
         Altrs = self._carte.ss_carte[x_inf:x_sup+1,y_inf:y_sup+1]
 

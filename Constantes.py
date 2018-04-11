@@ -8,14 +8,28 @@ Created on Sat Mar 24 21:17:38 2018
 class Constante:
     
 #----------------------------------------Constantes map    
-    L_Z_Constructible=9
-    H_Z_Constructible=11
-    xmax = 18
+    xmax = 26
     ymax = 18
+    if xmax%2 == 0:
+        L_Z_Constructible= int(xmax/2)+1
+    else : 
+        L_Z_Constructible= int(xmax/2)
+    if ymax%2 == 0:
+        H_Z_Constructible= int(ymax/2)+1
+    else:
+        H_Z_Constructible= int(ymax/2)+1
+    
+#    L_Z_Constructible = 9
+#    H_Z_Constructible = 11
+        
+    L_app = L_Z_Constructible + 2
+    H_app = H_Z_Constructible + 2
+    Ep_app = int(max(xmax,ymax)/20)
+    
 #----------------------------------------Constantes ressources de départ    
     metal_tot=4
     energie_tot=4
-    nbt= 4
+    nbt= 2
     spawn_ress=2
 #----------------------------------------Constantes Batiments
 #----------------------------------Foreuse    

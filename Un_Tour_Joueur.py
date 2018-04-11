@@ -21,7 +21,7 @@ class Un_Tour_Du_Joueur():
         
         self.__xmax = Constante.xmax
         self.__ymax = Constante.ymax  
-        
+        self.Epp = Constante.Ep_app
 
         self.H=Constante.H_Z_Constructible
         self.L=Constante.L_Z_Constructible
@@ -218,13 +218,13 @@ class Un_Tour_Du_Joueur():
         
         else:
         
-            L_Ht = self.placement_pos(0,1,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
+            L_Ht = self.placement_pos(0,self.Epp + 1,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
             
-            L_Bas = self.placement_pos(self.__xmax-1,self.__xmax,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
+            L_Bas = self.placement_pos(self.__xmax-1-self.Epp,self.__xmax,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
         
-            L_Gche = self.placement_pos((self.__xmax - self.L - 1)//2 , (self.__xmax + self.L - 1)//2,0,1,' ')
+            L_Gche = self.placement_pos((self.__xmax - self.L - 1)//2 , (self.__xmax + self.L - 1)//2,0,self.Epp+1,' ')
         
-            L_Dte = self.placement_pos((self.__xmax - self.L - 1)//2,(self.__xmax + self.L - 1)//2,self.__ymax -1,self.__ymax,' ')
+            L_Dte = self.placement_pos((self.__xmax - self.L - 1)//2,(self.__xmax + self.L - 1)//2,self.__ymax -1-self.Epp,self.__ymax,' ')
         
             #Sélectionne les 4 zones d'apparitions
         
@@ -243,6 +243,10 @@ class Un_Tour_Du_Joueur():
                     print('Positions possibles :', L_pos)
                     L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
                     c = L.find(',')
+                    while c == -1:
+                        print("Erreur de synthaxe. Recommencez svp")
+                        L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+                        c = L.find(',')                        
                     X = int(L[0:c])
                     Y = int(L[c+1:])
                     while (X,Y) not in L_pos:
@@ -285,13 +289,13 @@ class Un_Tour_Du_Joueur():
         
         else:
         
-            L_Ht = self.placement_pos(0,1,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
+            L_Ht = self.placement_pos(0,self.Epp + 1,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
             
-            L_Bas = self.placement_pos(self.__xmax-1,self.__xmax,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
+            L_Bas = self.placement_pos(self.__xmax-1-self.Epp,self.__xmax,(self.__ymax -self.H - 1)//2,(self.__ymax + self.H - 1)//2,' ')
         
-            L_Gche = self.placement_pos((self.__xmax - self.L - 1)//2 , (self.__xmax + self.L - 1)//2,0,1,' ')
+            L_Gche = self.placement_pos((self.__xmax - self.L - 1)//2 , (self.__xmax + self.L - 1)//2,0,self.Epp+1,' ')
         
-            L_Dte = self.placement_pos((self.__xmax - self.L - 1)//2,(self.__xmax + self.L - 1)//2,self.__ymax -1,self.__ymax,' ')
+            L_Dte = self.placement_pos((self.__xmax - self.L - 1)//2,(self.__xmax + self.L - 1)//2,self.__ymax -1-self.Epp,self.__ymax,' ')
         
             #Sélectionne les 4 zones d'apparitions
         
@@ -396,6 +400,9 @@ class Un_Tour_Du_Joueur():
  #           self.production_unite(self.L_joueur[k]._role)
             L_unite = self.L_joueur[k]._liste_unite
             for c in L_unite:
+                if self._carte.V_atta == 1:
+                    break
+
                 print("Tour de %r \n"%(c.T_car()))
                 print("Position actuelle : (%i,%i) \n"%(c.x,c.y))
                 if c._role[1] == 'H':
@@ -405,8 +412,7 @@ class Un_Tour_Du_Joueur():
                 else : 
                     c.bouger()
                 c.combat()
-                if self._carte.V_atta == 1:
-                    break
+
         self.unite_disp_par_tour += Constante.nbe_unite_ajoute
         if self.unite_disp_par_tour > min(self.L,self.H):
             self.unite_disp_par_tour = min(self.L,self.H)

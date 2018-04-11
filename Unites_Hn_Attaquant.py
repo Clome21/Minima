@@ -212,9 +212,10 @@ class Unites_Humain_Attaquant():
             Ennemi.sante = Ennemi.sante - self.capcbt
             if Ennemi.sante <= 0:
                 role = Ennemi.T_car()
-                if role[-3:-1] == 'QG':
-                    self._carte.V_atta = 1
                 Ennemi.disparition()
+                if role[-2] + role[-1] == 'QG':
+                    self._carte.V_atta = 1
+
         else :
             print("%s n'a blessé personne"%(self.T_car()) )
  
@@ -234,9 +235,9 @@ class Unites_Humain_Attaquant():
         """
         x,y = self.coords
         x_inf = max(0, int(-self.zonecbt) + x)
-        x_sup = min(self._carte.dims[0], int(self.zonecbt + x))
+        x_sup = min(self._carte.dims[0]-1, int(self.zonecbt + x))
         y_inf = max(0,int(-self.zonecbt) + y)
-        y_sup = min(self._carte.dims[1], int(self.zonecbt + y))
+        y_sup = min(self._carte.dims[1]-1, int(self.zonecbt + y))
         
         print(x_inf, x_sup)
         print(y_inf,y_sup)
@@ -258,6 +259,19 @@ class Unites_Humain_Attaquant():
 
         return(Ennemi)
     
+    # Début de méthode pour choisir les ennemis récursivement. Mais oh
+    # mon dieu qu'est-ce que c'est compliqué! Voir plutôt pour améliorer IA.
+    
+    
+#    def chx_ennemi_rec(self,A,x,y,R_bat,R_unit):
+#        if len(A) == 1:
+#            v = A[0,0]
+#            if v == ' ' or v == '/' :
+#                return((self.zonecbt+1,self.zonecbt+1))
+#        return(None)
+#        
+        
+        
     def disparition(self):
         print("%s est mort! \n"%(self.T_car()))
         x,y = self.coords

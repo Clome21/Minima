@@ -27,8 +27,7 @@ class Partie():
     def __init__(self, nb_ia , nb_hn = 1):
         
         """
-        Permet de débuter la partie. La méthode fixe la position 
-        des joueurs attaquants.
+        Permet de débuter la partie. 
             
     Paramètres
     ----------
@@ -68,25 +67,39 @@ class Partie():
     
     def mise_en_place(self):
         """
-        Fixe les listes des ennemis de chaque joueur.
-        Fixe également quels sont les autres joueurs dans la partie pour
-        chaque joueur.
-        """
-        n = len( self.L_joueur )
-        for k in range(n):
-            J_vu = self.L_joueur[k]
-            role = J_vu._role
-            if role[0:1] == 'A':
-                J_vu.L_ennemi = [self.L_joueur[0] ]
-            else : 
-                J_vu.L_ennemi = self.L_joueur[1:n] 
-            J_vu.L_autres_joueurs = self.L_joueur[0:k] + self.L_joueur[k+1:n]
+        Méthode exécutant les ajustements de base pour débuter la partie, sur chaque
+        joueur.
+#        """
+
+#        n = len( self.L_joueur )
+#        for k in range(n):
+#            J_vu = self.L_joueur[k]
+#            role = J_vu._role
+#            if role[0:1] == 'A':
+#                J_vu.L_ennemi = [self.L_joueur[0] ]
+#            else : 
+#                J_vu.L_ennemi = self.L_joueur[1:n] 
+#            J_vu.L_autres_joueurs = self.L_joueur[0:k] + self.L_joueur[k+1:n]
         self.L_joueur[0].metal_tot, self.L_joueur[0].energie_tot = Constante.metal_tot, Constante.energie_tot
     
     def choix_niveau(self,nb_ia):
         """
-        Permet au joueur de choisir le niveau de difficulté de l'IA
-        """
+        Permet au joueur humain de choisir le niveau de difficulté de l'IA.
+        
+        Paramètres
+        ----------
+        Entrée :
+        
+        nb_ia: int
+            Le nombre de joueurs IA.
+        
+        Sortie : 
+            
+        nb_ia_i (i entre 0 et 2) : le nombre d'IA de niveau i, choisies par le 
+        joueur humain.         
+        
+    
+                """
         nb_ia_0 = 0
         nb_ia_1 = 0
         nb_ia_2 = 0

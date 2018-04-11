@@ -21,6 +21,7 @@ class Map(list):
         self.L_joueur = L_joueur
         self.H=Constante.H_Z_Constructible
         self.L=Constante.L_Z_Constructible
+        self.Epp = Constante.Ep_app
         self.spawn_ress=Constante.spawn_ress
 
         self.Tr = Un_Tour_Du_Joueur(self)
@@ -36,17 +37,17 @@ class Map(list):
  #       self.append(U)
         self.L_joueur[0]._liste_bat[0].append(U)
         # Tracer les murs dans la sous-map
-        for i in ( (self.__xmax - self.L - 1)//2 , (self.__xmax + self.L - 1)//2 ):
+        for i in ( (self.__xmax - self.L - 1)//2 +1, (self.__xmax + self.L - 1)//2 +1):
             #Trace les murs du haut et du bas, avec un trou au milieu de ces deux lignes.
-            for j in range( (self.__ymax - self.H + 1)//2 , int(self.__ymax//2 - 1)):
+            for j in range( (self.__ymax - self.H + 1)//2, self.__ymax//2 - 1):
                 self.ss_carte[i][j] = '/'
-            for j in range( self.__ymax//2 + 1, (self.__ymax + self.H - 1)//2):
+            for j in range( self.__ymax//2 + 1, (self.__ymax + self.H - 1)//2+1):
                 self.ss_carte[i][j] = '/'
-        for j in ( (self.__ymax -self.H - 1)//2 , (self.__ymax + self.H - 1)//2 ):
+        for j in ( (self.__ymax -self.H - 1)//2 +1, (self.__ymax + self.H - 1)//2 +1 ):
             # Trace les murs de gauche et de droite, avec un trou au milieu de ces deux colonnes
             for i in range( (self.__xmax - self.L +1)//2 , self.__xmax//2 -1 ):
                 self.ss_carte[i][j] = '/'
-            for i in range( self.__xmax//2 + 1, (self.__xmax + self.L - 1)//2 ) :
+            for i in range( self.__xmax//2 + 1, (self.__xmax + self.L - 1)//2 + 2 ) :
                 self.ss_carte[i][j] = '/'
 
           
@@ -100,9 +101,9 @@ class Map(list):
             for j in range(self.__ymax):  
                 if (i>(self.__xmax-(self.L))/2 and i<(self.__xmax+(self.L-1))/2) and (j>(self.__ymax-(self.H))/2 and j<(self.__ymax+(self.H-1))/2):
                     s += "#" #zone constructible
-                elif (((i> (self.__xmax - self.L )/2-1 and i< (self.__xmax - self.L )/2+self.L/2-1)) or((i> (self.__xmax - self.L )/2+self.L/2) and i< (self.__xmax - self.L )/2+self.L)) and (((j> (self.__ymax - self.H )/2-1) and (j< (self.__ymax - self.H )/2+self.H/2-1)) or((j> (self.__ymax - self.H )/2+self.H/2) and j< (self.__ymax - self.H )/2+self.H)):
+                elif self.ss_carte[i][j] == '/':
                     s += "/" #Mur de protection                 
-                elif ((i==0 ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H))) or ((i==self.__xmax-1 ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H))) or ((j==0) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2))) or ((j==self.__ymax-1) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2))) :
+                elif ((i<= self.Epp ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H+1))) or ((i >= self.__xmax-1-self.Epp ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H+1))) or ((j<= self.Epp) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2+1))) or ((j>=self.__ymax-1-self.Epp) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2+1))) :
                     s +="!" #zone d'apparition des unites qui attaques   
                 else:
                     s += "."
