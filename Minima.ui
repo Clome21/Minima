@@ -1,335 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Minima</class>
- <widget class="QMainWindow" name="Minima">
+ <class>Minima_Accueil</class>
+ <widget class="QMainWindow" name="Minima_Accueil">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>898</width>
-    <height>825</height>
+    <width>1240</width>
+    <height>813</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Minima Accueil</string>
   </property>
-  <widget class="QWidget" name="widget">
-   <widget class="QPushButton" name="Bouton_Generer">
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="groupBox_Accueil">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>750</y>
-      <width>121</width>
-      <height>21</height>
+      <x>280</x>
+      <y>120</y>
+      <width>361</width>
+      <height>401</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Génerer</string>
+    <property name="title">
+     <string/>
     </property>
+    <widget class="QTextBrowser" name="textBrowser">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>591</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:72pt; text-decoration: underline; color:#cd0808;&quot;&gt;Minima&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Button_Ac_Jouer">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>240</y>
+       <width>351</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Jouer</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Button_Ac_Quitter">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>370</y>
+       <width>351</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Quitter</string>
+     </property>
+    </widget>
+    <zorder>textBrowser</zorder>
+    <zorder>Button_Ac_Jouer</zorder>
+    <zorder>Button_Ac_Quitter</zorder>
+    <zorder>groupBox_Option</zorder>
    </widget>
-   <widget class="QPushButton" name="Bouton_Findetour">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>750</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Fin de tour</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Bouton_Quitter">
-    <property name="geometry">
-     <rect>
-      <x>770</x>
-      <y>750</y>
-      <width>91</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Quitter</string>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="Defenseur">
+   <widget class="QGroupBox" name="groupBox_Jeu">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>550</y>
-      <width>451</width>
-      <height>191</height>
+      <y>-10</y>
+      <width>1031</width>
+      <height>811</height>
      </rect>
     </property>
     <property name="title">
-     <string>Défenseur</string>
+     <string/>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QGroupBox" name="groupBox_5">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>30</x>
        <y>30</y>
-       <width>91</width>
-       <height>28</height>
+       <width>621</width>
+       <height>511</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Batiments</string>
+     <property name="title">
+      <string/>
      </property>
     </widget>
-    <widget class="QScrollArea" name="scrollArea">
+    <widget class="QTextBrowser" name="textBrowser_Tours_restants">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>80</y>
-       <width>171</width>
-       <height>80</height>
-      </rect>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOn</enum>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>156</width>
-        <height>78</height>
-       </rect>
-      </property>
-      <widget class="QPushButton" name="pushButton_3">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>121</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Foreuse</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>30</y>
-         <width>121</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Panneau Solaire</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_8">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>0</y>
-         <width>31</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../../Images/croix_rouge.png</normaloff>../../Images/croix_rouge.png</iconset>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
+       <x>660</x>
        <y>30</y>
-       <width>91</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Unitées</string>
-     </property>
-    </widget>
-    <widget class="QScrollArea" name="scrollArea_2">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>80</y>
-       <width>171</width>
-       <height>81</height>
-      </rect>
-     </property>
-     <property name="toolTipDuration">
-      <number>-1</number>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOn</enum>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents_2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>156</width>
-        <height>79</height>
-       </rect>
-      </property>
-      <widget class="QPushButton" name="pushButton_6">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>30</y>
-         <width>111</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Robot Ouvrier</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_7">
-       <property name="geometry">
-        <rect>
-         <x>120</x>
-         <y>0</y>
-         <width>31</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <selectedon>../../Images/croix_rouge.png</selectedon>
-        </iconset>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_5">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>111</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Robot Combat</string>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="Attaquant">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>550</y>
-      <width>361</width>
-      <height>181</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Attaquant</string>
-    </property>
-    <widget class="QPushButton" name="A_Unitees">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>30</y>
-       <width>91</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Unitées</string>
-     </property>
-    </widget>
-    <widget class="QScrollArea" name="scrollArea_3">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>70</y>
-       <width>151</width>
-       <height>80</height>
-      </rect>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOn</enum>
-     </property>
-     <property name="sizeAdjustPolicy">
-      <enum>QAbstractScrollArea::AdjustIgnored</enum>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents_3">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>136</width>
-        <height>78</height>
-       </rect>
-      </property>
-      <widget class="QPushButton" name="pushButton_9">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>91</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Scorpion</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_10">
-       <property name="geometry">
-        <rect>
-         <x>100</x>
-         <y>0</y>
-         <width>31</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>../../Images/croix_rouge.png</normaloff>../../Images/croix_rouge.png</iconset>
-       </property>
-      </widget>
-     </widget>
-    </widget>
-    <widget class="QTextBrowser" name="textBrowser_4">
-     <property name="geometry">
-      <rect>
-       <x>90</x>
-       <y>30</y>
-       <width>101</width>
+       <width>191</width>
        <height>31</height>
       </rect>
      </property>
@@ -338,137 +116,629 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;disponibles&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Il reste                  à survivre &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="lcdNumber_Unitdispo">
+    <widget class="QLCDNumber" name="lcdNumber_Tours_restant">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>720</x>
        <y>30</y>
-       <width>81</width>
+       <width>61</width>
        <height>31</height>
       </rect>
      </property>
     </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>651</width>
-      <height>531</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>GroupBox</string>
-    </property>
-   </widget>
-   <widget class="QLCDNumber" name="lcdNumber_Metal">
-    <property name="geometry">
-     <rect>
-      <x>800</x>
-      <y>60</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="segmentStyle">
-     <enum>QLCDNumber::Filled</enum>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>60</y>
-      <width>201</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="html">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+    <widget class="QTextBrowser" name="textBrowser_Metal">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>70</y>
+       <width>201</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Métal disponible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser_2">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>100</y>
-      <width>201</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="html">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdNumber_Metal">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>70</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="segmentStyle">
+      <enum>QLCDNumber::Filled</enum>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="textBrowser_Energie">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>110</y>
+       <width>201</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Energie disponible&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLCDNumber" name="lcdNumber_Energie">
-    <property name="geometry">
-     <rect>
-      <x>800</x>
-      <y>100</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser_3">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>10</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="html">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="lcdNumber_Energie">
+     <property name="geometry">
+      <rect>
+       <x>790</x>
+       <y>110</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="Defenseur">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>560</y>
+       <width>451</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Défenseur</string>
+     </property>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>91</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Batiments</string>
+      </property>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>80</y>
+        <width>171</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>156</width>
+         <height>79</height>
+        </rect>
+       </property>
+       <widget class="QPushButton" name="Button_Foreuse">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>121</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Foreuse</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Button_Panneau_Solaire">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>30</y>
+          <width>121</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Panneau Solaire</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Button_J_D_B_Fermer">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>0</y>
+          <width>31</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../Images/croix_rouge.png</normaloff>../../Images/croix_rouge.png</iconset>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>30</y>
+        <width>91</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Unitées</string>
+      </property>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea_2">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>80</y>
+        <width>171</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="toolTipDuration">
+       <number>-1</number>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>156</width>
+         <height>79</height>
+        </rect>
+       </property>
+       <widget class="QPushButton" name="Button_Robot_Ouvrier">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>30</y>
+          <width>111</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Robot Ouvrier</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Button_J_D_U_Fermer">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>0</y>
+          <width>31</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <selectedon>../../Images/croix_rouge.png</selectedon>
+         </iconset>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Button_Robot_Combat">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>111</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Robot Combat</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="Attaquant">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>560</y>
+       <width>361</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Attaquant</string>
+     </property>
+     <widget class="QPushButton" name="Jeu_A_Unitees">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>91</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Unitées</string>
+      </property>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>70</y>
+        <width>151</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustIgnored</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>136</width>
+         <height>49</height>
+        </rect>
+       </property>
+       <widget class="QPushButton" name="Button_Scorpion">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>91</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Scorpion</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Button_J_A_Fermer">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>0</y>
+          <width>31</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../Images/croix_rouge.png</normaloff>../../Images/croix_rouge.png</iconset>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QTextBrowser" name="textBrowser_U_dispo">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>30</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Il reste                  à survivre &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;disponibles&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="lcdNumber_Unitdispo">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>30</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="Bouton_Jeu_Quitter">
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>740</y>
+       <width>91</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Quitter</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Bouton_Generer">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>750</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Génerer</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Bouton_Findetour">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>750</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Fin de tour</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QLCDNumber" name="lcdNumber_Tous_restant">
+   <widget class="QGroupBox" name="groupBox_Option">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>10</y>
-      <width>61</width>
-      <height>31</height>
+      <x>70</x>
+      <y>90</y>
+      <width>811</width>
+      <height>441</height>
      </rect>
     </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QTextBrowser" name="textBrowser_2">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>10</y>
+       <width>161</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:36pt; text-decoration: underline;&quot;&gt;Option&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="textBrowser_Humain">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>120</y>
+       <width>256</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jouer contre un adversaire humain ?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_Option_Humain_OUI">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>130</y>
+       <width>93</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>OUI</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_Option_Hum_NON">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>130</y>
+       <width>93</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>NON</string>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>190</y>
+       <width>291</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhHiddenText</set>
+     </property>
+     <property name="title">
+      <string>GroupBox</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <widget class="QTextBrowser" name="textBrowser_IA">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>151</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Cantarell'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Choix du nombre d'IA&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_IA_1">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>30</y>
+        <width>311</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_IA_2">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>50</y>
+        <width>271</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_IA_3">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>70</y>
+        <width>281</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_IA_4">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>90</y>
+        <width>281</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="Button_Retour">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>430</y>
+       <width>211</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Retour</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="Button_Jouer">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>430</y>
+       <width>191</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Jouer</string>
+     </property>
+    </widget>
+    <zorder>textBrowser_2</zorder>
+    <zorder>textBrowser_Humain</zorder>
+    <zorder>checkBox_Option_Humain_OUI</zorder>
+    <zorder>checkBox_Option_Hum_NON</zorder>
+    <zorder>groupBox_3</zorder>
+    <zorder>Button_Retour</zorder>
+    <zorder>Button_Jouer</zorder>
+    <zorder>groupBox_Jeu</zorder>
    </widget>
-   <zorder>Bouton_Generer</zorder>
-   <zorder>Bouton_Findetour</zorder>
-   <zorder>Bouton_Quitter</zorder>
-   <zorder>horizontalSpacer</zorder>
-   <zorder>Defenseur</zorder>
-   <zorder>Attaquant</zorder>
-   <zorder>groupBox</zorder>
-   <zorder>textBrowser</zorder>
-   <zorder>lcdNumber_Metal</zorder>
-   <zorder>textBrowser_2</zorder>
-   <zorder>lcdNumber_Energie</zorder>
-   <zorder>textBrowser_3</zorder>
-   <zorder>lcdNumber_Tous_restant</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>898</width>
+     <width>1240</width>
      <height>28</height>
     </rect>
    </property>
@@ -477,11 +747,17 @@ p, li { white-space: pre-wrap; }
      <string>fichier</string>
     </property>
     <addaction name="actionQuitter"/>
+    <addaction name="actionSauvegarder"/>
    </widget>
    <addaction name="menuFichier"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionQuitter">
+   <property name="icon">
+    <iconset>
+     <normalon>../../Images/croix_rouge.png</normalon>
+    </iconset>
+   </property>
    <property name="text">
     <string>Quitter</string>
    </property>
@@ -489,70 +765,411 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+Q</string>
    </property>
   </action>
+  <action name="actionSauvegarder">
+   <property name="text">
+    <string>Sauvegarder</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
   <connection>
-   <sender>Bouton_Quitter</sender>
+   <sender>Button_Ac_Quitter</sender>
    <signal>clicked()</signal>
-   <receiver>Minima</receiver>
+   <receiver>Minima_Accueil</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>828</x>
-     <y>790</y>
+     <x>618</x>
+     <y>567</y>
     </hint>
     <hint type="destinationlabel">
-     <x>912</x>
-     <y>-42</y>
+     <x>722</x>
+     <y>0</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>pushButton</sender>
-   <signal>pressed()</signal>
-   <receiver>scrollArea</receiver>
-   <slot>showNormal()</slot>
+   <sender>Button_Ac_Jouer</sender>
+   <signal>clicked()</signal>
+   <receiver>groupBox_Accueil</receiver>
+   <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>67</x>
-     <y>623</y>
+     <x>577</x>
+     <y>412</y>
     </hint>
     <hint type="destinationlabel">
-     <x>86</x>
-     <y>669</y>
+     <x>405</x>
+     <y>548</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_7</sender>
+   <sender>Button_Ac_Jouer</sender>
+   <signal>clicked()</signal>
+   <receiver>groupBox_Option</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>681</x>
+     <y>424</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>230</x>
+     <y>412</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_Retour</sender>
+   <signal>clicked()</signal>
+   <receiver>groupBox_Option</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>208</x>
+     <y>548</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>666</x>
+     <y>488</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_Retour</sender>
+   <signal>clicked()</signal>
+   <receiver>groupBox_Accueil</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>230</x>
+     <y>614</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>347</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_Jouer</sender>
+   <signal>clicked()</signal>
+   <receiver>groupBox_Jeu</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>865</x>
+     <y>636</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>850</x>
+     <y>694</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_Jouer</sender>
+   <signal>clicked()</signal>
+   <receiver>groupBox_Option</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>857</x>
+     <y>633</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>741</x>
+     <y>488</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Bouton_Jeu_Quitter</sender>
+   <signal>clicked()</signal>
+   <receiver>Minima_Accueil</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>788</x>
+     <y>782</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>849</x>
+     <y>-66</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_1</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_2</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>247</x>
+     <y>346</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>269</x>
+     <y>364</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_1</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_3</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>269</x>
+     <y>346</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>267</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_1</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_4</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>283</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>248</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_1</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>282</x>
+     <y>365</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>260</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_3</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>262</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>250</x>
+     <y>394</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_4</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>355</x>
+     <y>372</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>322</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_3</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_1</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>356</x>
+     <y>395</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>350</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>groupBox_Option</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_2</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>307</x>
+     <y>298</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>352</x>
+     <y>373</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_3</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_4</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>388</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>304</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_3</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_2</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>354</x>
+     <y>394</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>354</x>
+     <y>373</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_4</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_1</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>319</x>
+     <y>408</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>336</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_4</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_2</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>325</x>
+     <y>405</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>343</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_IA_4</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBox_IA_3</receiver>
+   <slot>setHidden(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>305</x>
+     <y>407</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>347</x>
+     <y>389</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_Option_Hum_NON</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>groupBox_3</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>427</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>205</x>
+     <y>316</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_J_A_Fermer</sender>
+   <signal>clicked()</signal>
+   <receiver>scrollArea_3</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>556</x>
+     <y>660</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>563</x>
+     <y>690</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Jeu_A_Unitees</sender>
+   <signal>clicked()</signal>
+   <receiver>scrollArea_3</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>488</x>
+     <y>624</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>511</x>
+     <y>690</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Button_J_D_U_Fermer</sender>
    <signal>clicked()</signal>
    <receiver>scrollArea_2</receiver>
-   <slot>close()</slot>
+   <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>336</x>
-     <y>674</y>
+     <x>346</x>
+     <y>671</y>
     </hint>
     <hint type="destinationlabel">
-     <x>326</x>
-     <y>673</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_8</sender>
-   <signal>clicked()</signal>
-   <receiver>scrollArea</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>150</x>
-     <y>681</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>178</x>
-     <y>673</y>
+     <x>361</x>
+     <y>693</y>
     </hint>
    </hints>
   </connection>
@@ -563,44 +1180,44 @@ p, li { white-space: pre-wrap; }
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>168</x>
-     <y>614</y>
+     <x>192</x>
+     <y>620</y>
     </hint>
     <hint type="destinationlabel">
-     <x>339</x>
-     <y>700</y>
+     <x>337</x>
+     <y>717</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_10</sender>
+   <sender>Button_J_D_B_Fermer</sender>
    <signal>clicked()</signal>
-   <receiver>scrollArea_3</receiver>
-   <slot>close()</slot>
+   <receiver>scrollArea</receiver>
+   <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>614</x>
-     <y>653</y>
+     <x>158</x>
+     <y>672</y>
     </hint>
     <hint type="destinationlabel">
-     <x>638</x>
-     <y>653</y>
+     <x>165</x>
+     <y>696</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>A_Unitees</sender>
+   <sender>pushButton</sender>
    <signal>clicked()</signal>
-   <receiver>scrollArea_3</receiver>
+   <receiver>scrollArea</receiver>
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>561</x>
-     <y>608</y>
+     <x>75</x>
+     <y>621</y>
     </hint>
     <hint type="destinationlabel">
-     <x>632</x>
-     <y>656</y>
+     <x>153</x>
+     <y>721</y>
     </hint>
    </hints>
   </connection>
