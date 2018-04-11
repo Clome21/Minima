@@ -202,3 +202,8 @@ Les méthodes de décès (sous le nom disparition) et les possibilités de fin d
 Les IA semblent également fonctionnelles.
 Il ne reste qu'un seul bug pour le moment : le jeu ne se termine pas directement quand le QG est détruit. Il faut attendre
 que toutes les unités de l'attaquant aient finies de bouger pour que le jeu se termine. Il faut encore que je règle ça.
+
+11/04 - Clome21
+J'ai fait l'interface graphique (Minima.ui et Minima.py) avec les différentes fenetre qui s'ouvrent et se ferment, je suis assez fier de moi (même si j'avoue j'en ai chier).
+Faudra que tu me dise si çate va ou si j'ai oublier des buttons, option, etc... Car je ne pourrais pas réutiliser qtdesigner si je link l'interface au code
+Si il n'y a rien à ajouter je m'occuperais de relier les boutons à notre code.
