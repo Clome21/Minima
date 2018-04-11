@@ -1,29 +1,10 @@
 Travaux essentiels : 
 
-- Débogage total de la simulation : rendre possible les déplacements, mettre les unités dans les listes des joueurs
-correspondants, faire en sorte que la production de bâtiments fonctionne et donne des ressources au joueur correspondant...
-Il faut qu'au moins 10 tours fonctionnent.
-
-- Méthodes de production d'unité
-Ajout pour les joueurs humains.
-MAJ pour les joueurs IA : ces méthodes doivent être mises en lien avec les joueurs correspondants.
-
-- Méthode gérant la mort des objets
-
-- Méthode gérant la victoire / défaite de la partie.
-Prendre en compte le nombre de tours qui passent pour cela.
-
-- Associer la difficulté 0 aux unités IA faciles UNIQUEMENT. (Donc uniquement scorpion1).
-Cette difficulté est définie par, pour les unités :
-Zone d'apparition au hasard, déplacement au hasard, toutes unités déployées à chaque cycle d’apparition.
-
 - Mettre en place une méthode de sauvegarde et de chargement.
 
-- Appliquer la vectorisation à notre jeu.
-*Trouver à quoi ça correspond.
-*Trouver où l'appliquer; je pense que ça peut se faire au niveau des méthodes liant notre sous-carte.
+- Méthode pour faire des tests.
 
-- Méthode pour faire des teste
+- Documentation à faire
 
 - Interface graphique :
 
