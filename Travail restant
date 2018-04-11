@@ -6,6 +6,8 @@ Travaux essentiels :
 
 - Documentation à faire
 
+- Ajouter algorithme de Djakhata récursif pour l'IA max (essentiel pour avoir une figure récursive!).
+
 - Interface graphique :
 
 	* Afficher les zones de déplacement et de combat des unités dont on clique dessus ; ces zones doivent être visibles
