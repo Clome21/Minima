@@ -6,6 +6,8 @@ Travaux essentiels :
 
 - Rajouter robot ouvrier
 
+- Empêcher que unités puissent escalader les murs.
+
 - Documentation à faire
 
 - Ajouter algorithme de Djakhata récursif pour l'IA max (essentiel pour avoir une figure récursive!).
