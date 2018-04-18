@@ -117,7 +117,6 @@ class Un_Tour_Du_Joueur():
     def placement_pos(self,x_inf,x_sup,y_inf,y_sup,typ):
         A = self._carte.ss_carte[x_inf : x_sup , y_inf : y_sup]
         L_pos = []
-        print(A)
 
         Coords = np.where( A == typ)
         for k in range(len(Coords[0])):
@@ -128,12 +127,10 @@ class Un_Tour_Du_Joueur():
     def placement_pos_bat(self,x_inf_b,x_sup_b,y_inf_b,y_sup_b,typ):
         
         L_pos = self.placement_pos(x_inf_b,x_sup_b,y_inf_b,y_sup_b,typ)
-        x_inf = (self.__xmax )//2 -2
-        x_sup = (self.__xmax)//2 +1
-        y_inf =  (self.__ymax)//2 - 2
-        y_sup = (self.__ymax)//2 +1
-        
-        print(L_pos)
+        x_inf = (self.__xmax )//2 -1
+        x_sup = (self.__xmax)//2 +2
+        y_inf =  (self.__ymax)//2 - 1
+        y_sup = (self.__ymax)//2 +2
         
         L_pos_imp1 = [(i,j) for i in range(x_inf,x_sup) for j in range( (self.__ymax -self.H - 1)//2 , (self.__ymax + self.H - 1)//2)]
         L_pos_imp2 = [(i,j) for i in range((self.__xmax - self.L - 1)//2 , (self.__xmax + self.L - 1)//2) for j in range(y_inf,y_sup)]
@@ -167,10 +164,10 @@ class Un_Tour_Du_Joueur():
         if (self.L_joueur[0].metal_tot>=Constante.cout_M_RC and self.L_joueur[0].energie_tot>=Constante.cout_E_RC):
             choix_DH=input("construire un robot de combat ? (YES/NO)")
             if choix_DH=='YES':
-                x_inf = (self.__xmax )//2 -2
-                x_sup = (self.__xmax)//2 +1
-                y_inf =  (self.__ymax)//2 - 2
-                y_sup = (self.__ymax)//2 +1
+                x_inf = (self.__xmax )//2 -1
+                x_sup = (self.__xmax)//2 +2
+                y_inf =  (self.__ymax)//2 - 1
+                y_sup = (self.__ymax)//2 +2
                 #A VERIF
 
                 L_pos = self.placement_pos(x_inf,x_sup,y_inf,y_sup,' ')
@@ -257,7 +254,6 @@ class Un_Tour_Du_Joueur():
 
                     L_pos.remove((X,Y))
                     
-                    print(k)
     
                     U = Scorpion(Jr._role,self._carte,X,Y,k)
                     Jr._liste_unite.append(U)

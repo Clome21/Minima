@@ -19,7 +19,7 @@ class Ressource(object):
         
         self._cart = cart
         self.coords = abscisse, ordonnee
-        self.valeur=randint(1,5)
+        self.valeur= valeur
 
 
     def __str__(self):
@@ -35,7 +35,7 @@ class Ressource(object):
         s: str
             La chaîne de caractères qui sera affichée via ''print''
         """
-        return "%c : position (%i, %i) valeur %i"%(
+        return "%s: position (%i, %i) valeur %i"%(
             self.car(), self.x, self.y,self.valeur)
         
         
@@ -118,7 +118,7 @@ class metal(Ressource):
         self.name = "metal"
     
     def car(self):
-        return 'M'
+        return 'M '
     
     def T_car(self):
         return('N_O_M')

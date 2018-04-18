@@ -92,18 +92,26 @@ class Unites_Humain_Attaquant():
         print("Mouvements possibles :", L_vide)
         L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
         k = L.find(',')
+        while k == -1:
+            print("Erreur de synthaxe. Recommencez svp")
+            L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+            k = L.find(',')
         X = int(L[0:k])
         Y = int(L[k+1:])
         while (X,Y) not in L_vide:
             print("Position hors du rayon d'action de l'unité. \n")
             L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
             k = L.find(',')
+            while k == -1:
+                print("Erreur de synthaxe. Recommencez svp")
+                L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+                k = L.find(',')
             X,Y = int(L[0:k]) , int(L[k+1:])
         self.coords = (X, Y)
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)  
     
-    def mvt_poss(self):
+    def mvt_poss2(self):
         x,y = self.coords
         
         self.L_vide = []
@@ -114,16 +122,96 @@ class Unites_Humain_Attaquant():
 
         
         Altrs = self._carte.ss_carte[x_inf:x_sup+1,y_inf:y_sup+1]
+        
 
         
         Coords = np.where(Altrs == ' ')
 
         
+
+        
         for k in range(len(Coords[0])):
             i,j = Coords[0][k] + x_inf , Coords[1][k] + y_inf
             self.L_vide.append((i,j))
+            
 
         return(self.L_vide)
+    
+    def mvt_poss(self):
+        x,y = self.coords
+        
+        self.L_vide = []
+
+        L_obj = []
+        x_inf = max(0,int(-self.capmvt) + x)
+        x_sup = min(self._carte.dims[0]-1, int(self.capmvt + x))
+        y_inf = max(0,int(-self.capmvt) + y)
+        y_sup = min(self._carte.dims[1]-1, int(self.capmvt + y))
+        
+        i = x_inf
+        j = y_inf
+        
+        for i in range(x_inf,x_sup+1):
+            for j in range(y_inf,y_sup +1):
+                if self._carte.ss_carte[i,j] == ' ':
+                    
+# SINON : FAIRE IF MUR SUR LIGNE OU COL.
+                    self.L_vide.append((i,j))
+                else:
+                    L_obj.append((i,j))
+                    
+        for k in range(len(L_obj)):
+            ox,oy = L_obj[k]
+            L = []
+            
+            if ox - x <0 and oy - y <0:
+                #Diag H/G
+                
+                L = [(ox-1,oy-1),(ox-1,oy),(ox,oy-1)]
+                
+            elif ox - x <0 and oy - y >0:
+                
+                #Diag H/D
+                
+                L = [(ox-1,oy+1),(ox-1,oy),(ox,oy+1)]
+                
+            elif ox - x >0 and oy - y <0:
+                
+                #Diag B/G
+                
+                L = [(ox,oy-1),(ox+1,oy-1),(ox+1,oy)]
+                
+            elif ox - x >0 and oy - y >0:
+                
+                #Diag B/D
+                
+                L = [(ox+1,oy),(ox+1,oy+1),(ox,oy+1)]
+                
+            elif ox == x:
+                if oy < y:
+                    L = [(ox,oy-1),(ox-1,oy-1),(ox+1,oy-1)]
+                elif oy > y :
+                    L = [(ox,oy+1),(ox-1,oy+1),(ox+1,oy+1)]
+            
+            elif oy == y: 
+                if ox < x:
+                    L = [(ox-1,oy),(ox-1,oy-1),(ox-1,oy+1)]
+                elif ox > x:
+                    L = [(ox+1,oy),(ox+1,oy-1),(ox+1,oy+1)]
+            if len(L) != 0:
+                
+                E_pos_imp = set(L)
+                E_pos = set(self.L_vide)
+                
+                Occ = E_pos&E_pos_imp
+
+                self.L_vide =list( E_pos - Occ)
+            
+            print(self.L_vide)
+        
+        return(self.L_vide)        
+
+       
     
 
     @property
@@ -238,9 +326,7 @@ class Unites_Humain_Attaquant():
         x_sup = min(self._carte.dims[0]-1, int(self.zonecbt + x))
         y_inf = max(0,int(-self.zonecbt) + y)
         y_sup = min(self._carte.dims[1]-1, int(self.zonecbt + y))
-        
-        print(x_inf, x_sup)
-        print(y_inf,y_sup)
+
         
         Ennemi = None
         R_plus_petit_unit = self.zonecbt +1

@@ -8,46 +8,68 @@ from Batiments import Foreuse,QG,Panneau_solaire
 from unites_IA_facile import Scorpion0
 from unites_IA_Moyenne import Scorpion1
 from Constantes import Constante
+from Save_Load import Save, Load
 import numpy as np
 
 class Map(list):
     """
     Classe gérant le déroulement du jeu. 
     """
-    def __init__(self,L_joueur):
-        self.__xmax = Constante.xmax
-        self.__ymax = Constante.ymax  
-        self.nbtour = Constante.nbt 
-        self.L_joueur = L_joueur
-        self.H=Constante.H_Z_Constructible
-        self.L=Constante.L_Z_Constructible
-        self.Epp = Constante.Ep_app
+    def __init__(self,L_joueur,l =0):
+        if l == 0 :
+            
+            self.__xmax = Constante.xmax
+            self.__ymax = Constante.ymax  
+            self.nbtour = Constante.nbt 
+
+
+            self.H=Constante.H_Z_Constructible
+            self.L=Constante.L_Z_Constructible
+            self.Epp = Constante.Ep_app
+            self.Ltr_actuel = 0
+            self.L_joueur = L_joueur
+            self.ss_carte = np.array([[' ' for j in range(self.__ymax)] for i in range(self.__xmax)], dtype = object)
+
+            U = QG(int(self.__xmax/2),int(self.__ymax/2),self)
+#        self.ss_carte[int(self.__xmax/2)][int(self.__ymax/2)] = U
+ #       self.append(U)
+            self.L_joueur[0]._liste_bat[0].append(U)
+        
+        else : 
+            self.__xmax = Constante.xL
+            self.__ymax = Constante.yL  
+            self.nbtour = Constante.Lnbt
+            self.Ltr_actuel = Constante.Lnbta
+
+
+            self.H=Constante.LH_Z_Constructible
+            self.L=Constante.LL_Z_Constructible
+            self.Epp = Constante.LEp_app
+            self.L_joueur = L_joueur
+            self.ss_carte = np.array([[' ' for j in range(self.__ymax)] for i in range(self.__xmax)], dtype = object)
+
+            
         self.spawn_ress=Constante.spawn_ress
 
         self.Tr = Un_Tour_Du_Joueur(self)
-        self.metal_tot=Constante.metal_tot
-        self.energie_tot=Constante.energie_tot
-        self.nb_unite_IA_In_Wave=0
+
         self.V_atta = 0
       #  self.createInitObject()
-        
-        self.ss_carte = np.array([[' ' for j in range(self.__ymax)] for i in range(self.__xmax)], dtype = object)
-        U = QG(int(self.__xmax/2)-1,int(self.__ymax/2)-1,self)
-#        self.ss_carte[int(self.__xmax/2)][int(self.__ymax/2)] = U
- #       self.append(U)
-        self.L_joueur[0]._liste_bat[0].append(U)
+
+            
+
         # Tracer les murs dans la sous-map
-        for i in ( (self.__xmax - self.L - 1)//2 +1, (self.__xmax + self.L - 1)//2 +1):
+        for i in ( (self.__xmax - self.L )//2, (self.__xmax + self.L )//2 ):  # -1 ; -1
             #Trace les murs du haut et du bas, avec un trou au milieu de ces deux lignes.
             for j in range( (self.__ymax - self.H + 1)//2, self.__ymax//2 - 1):
                 self.ss_carte[i][j] = '/'
-            for j in range( self.__ymax//2 + 1, (self.__ymax + self.H - 1)//2+1):
+            for j in range( self.__ymax//2 + 2, (self.__ymax + self.H - 1)//2+1):
                 self.ss_carte[i][j] = '/'
-        for j in ( (self.__ymax -self.H - 1)//2 +1, (self.__ymax + self.H - 1)//2 +1 ):
+        for j in ( (self.__ymax -self.H)//2 , (self.__ymax + self.H )//2 ):
             # Trace les murs de gauche et de droite, avec un trou au milieu de ces deux colonnes
             for i in range( (self.__xmax - self.L +1)//2 , self.__xmax//2 -1 ):
                 self.ss_carte[i][j] = '/'
-            for i in range( self.__xmax//2 + 1, (self.__xmax + self.L - 1)//2 + 2 ) :
+            for i in range( self.__xmax//2 + 2, (self.__xmax + self.L - 1)//2 + 2 ) :
                 self.ss_carte[i][j] = '/'
 
           
@@ -70,6 +92,11 @@ class Map(list):
         Renvoies les dimensions du plateau de jeu
         """
         return (self.__xmax, self.__ymax)
+    
+    @dims.setter
+    def dims(self,x,y):
+        self.__xmax, self.__ymax = x,y
+        return(self.__xmax, self.__ymax)
     
     def __str__(self):
         """Affiche le plateau de jeu en mode texte 
@@ -119,54 +146,32 @@ class Map(list):
         permet de faire apparaitre une ressource de metal en dehors de la zone 
         constructible(#) et du murs de défense(/)
         """
-        val=randint(0,1)
-        if val==0:
-            for z in range(int(self.spawn_ress/2)): #spawn les ressource en generation de map
+        for z in range(int(self.spawn_ress/2)):  #spawn les ressource en generation de map
+            val=randint(0,1)
+            if val==0:
                 i=randint(0,self.__xmax)
                 j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
                 Obj = self.ss_carte[i][j]
-                if Obj == ' ' :                    
-                    U=metal(i,j,self,self)
-                    self.append(U)
-                    self.ss_carte[i][j]=U
-                    
-                else:
-                    A=self[i][j]
-                    if A.car != 'M':
-                        U=metal(i,j,self,self)
-                        self.append(U)
-                        self.ss_carte[i][j]=U
-                    else:
-                        while ( A.car == 'M'):
-                            i=randint(0,self.__xmax)
-                            j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
-                            U=metal(i,j,self,self)
-                            self.append(U)
-                            self.ss_carte[i][j]=U
+                while Obj != ' ' :             
+                    i=randint(0,self.__xmax)
+                    j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
+                    Obj=self.ss_carte[i][j]
+                U=metal(i,j,self,randint(1,5))
+                self.append(U)
+                self.ss_carte[i][j]=U
         
-        elif val==1:
-            for z in range(int(self.spawn_ress/2)):                      
+            elif val==1:
+                 
                 i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
                 j=randint(0,self.__ymax)
                 Obj = self.ss_carte[i][j]
-                if Obj == ' ' :                    
-                    U=metal(i,j,self,self)
-                    self.append(U)
-                    self.ss_carte[i][j]=U
-                    
-                else:
-                    A=self[i][j]
-                    if A.car != 'M':
-                        U=metal(i,j,self,self)
-                        self.append(U)
-                        self.ss_carte[i][j]=U
-                    else:
-                        while ( A.car == 'M'):
-                            i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
-                            j=randint(0,self.__ymax)
-                            U=metal(i,j,self,self)
-                            self.append(U)
-                            self.ss_carte[i][j]=U
+                while Obj != ' ':
+                    i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
+                    j=randint(0,self.__ymax)
+                    Obj = self.ss_carte[i][j]
+                U=metal(i,j,self,randint(1,5))
+                self.append(U)
+                self.ss_carte[i][j]=U
 
                     
     def ressource_tot(self):
@@ -199,10 +204,26 @@ class Map(list):
         -------
         Rien  
         """
+        
+
 
                     
-        for t in range(self.nbtour):
+        for t in range(self.Ltr_actuel, self.nbtour):
+            self.tr_actuel = t
             print("### Tour %i ###"%(t))
+                  
+            Chx = input("Sauvegarder/Charger? (S pour sauvegarder, C pour charger, rien sinon) \n")
+            if Chx == "S":
+                name = input("Entrez le nom de la sauvegarde \n")
+                name = name + ".txt"
+                self.Save = Save(name,self)
+            elif Chx == "C":
+                name = input("Entrez le nom de votre sauvegarde \n")
+                name = name + ".txt"    
+                self.Load = Load(name)
+                break
+                  
+                  
             if t%5==0:
                 self.apparition_ressource()
 
@@ -214,11 +235,13 @@ class Map(list):
             time.sleep(0.2)
             if self.V_atta == 1:
                 break
-        print("Fin de partie \n")
-        if len(self.L_joueur[0]._liste_bat[0]) !=0:
-            print("Le défenseur gagne!")
-        else:
-            print("Les attaquants gagnent!")
+        if Chx != "C":
+            
+            print("Fin de partie \n")
+            if len(self.L_joueur[0]._liste_bat[0]) !=0:
+                print("Le défenseur gagne!")
+            else:
+                print("Les attaquants gagnent!")
 
                  
 #if __name__ == "__main__":
