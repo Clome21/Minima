@@ -214,3 +214,9 @@ Correction des bugs liés à la fin de la partie.
 Ajout d'une modification dans la classe Constante; désormais, la taille des zones de construction et d'apparition d'ennemis
 dépendent directement de la taille de la map.
 Identification et correction de bugs de position des zones de construction au niveau de la sous-carte.
+
+18/04 - XV25
+
+Correction de bugs divers.
+Simplification de la méthode de placement de ressources.
+Mise en place des méthodes de save/load : fonctionnelles pour les humains uniquement.
