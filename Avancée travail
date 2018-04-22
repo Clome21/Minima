@@ -220,3 +220,11 @@ Identification et correction de bugs de position des zones de construction au ni
 Correction de bugs divers.
 Simplification de la méthode de placement de ressources.
 Mise en place des méthodes de save/load : fonctionnelles pour les humains uniquement.
+
+22/04 - Clome21
+j'ai creer un nouveau projet appelé Minima interface (tu as dût recevoir une invitation ) pour ne pas détruire tous ce qui à été fait jusqu'ici
+vu que j'ai un peu touché à tout. Sinon j'ai mis les méthodes de dessin des différents élements mais ça ne me les affiche pas (alors
+que si je lui dit de faire un rectangle classique or liste il le fait).
+Le bouton Generer ne sert à rien pour l'instant, cela fonctionne avec findeTour. Je ne comprends pas trop pourquoi mais j'ai la fenetre de jeu qui 
+ne répond plus quand le programme demande si on veut creer un batiments. Pour l'instant les seules choses qui fonctionnent correctement sont les
+compteur de ressources.
