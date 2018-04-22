@@ -321,40 +321,123 @@ class Unites_Humain_Attaquant():
         Contient l'ensemble des joueurs ennemis de l'unité.
 
         """
-        x,y = self.coords
-        x_inf = max(0, int(-self.zonecbt) + x)
-        x_sup = min(self._carte.dims[0]-1, int(self.zonecbt + x))
-        y_inf = max(0,int(-self.zonecbt) + y)
-        y_sup = min(self._carte.dims[1]-1, int(self.zonecbt + y))
 
+        x,y = self.coords
+        x_inf = max(0,int(-self.zonecbt + x))
+        x_sup = min(self._carte.dims[0]-1, int(self.zonecbt + x))
+        y_inf = max(0,int(-self.zonecbt + y))
+        y_sup = min(self._carte.dims[1]-1, int(self.zonecbt + y))
+        
+        print(x_inf, x_sup)
+        print(y_inf,y_sup)
         
         Ennemi = None
         R_plus_petit_unit = self.zonecbt +1
-       
+        R_plus_petit_bat = self.zonecbt + 1
+        
         
         for i in range(x_inf,x_sup+1):
             for j in range(y_inf,y_sup+1):
                 Obj = self._carte.ss_carte[i][j]
-                if Obj != ' ' and Obj != '/' and Obj.T_car()[0] == 'D':
+                if Obj != ' ' and Obj !='/' and Obj.T_car()[0] == 'D':
                     R_Obj = math.sqrt((x-i)**2 + (y-j)**2)
+                    
                     print(R_Obj,Obj)
-
-                    if  R_Obj < R_plus_petit_unit:
+                    
+                    if Obj.T_car()[2] == 'U' and R_Obj < R_plus_petit_unit:
                         R_plus_petit_unit = R_Obj
                         Ennemi = Obj
-
+                        
+                    if Obj.T_car()[2] == 'B' and R_Obj < min(R_plus_petit_bat,R_plus_petit_unit):
+                        R_plus_petit_bat = R_Obj
+                        Ennemi = Obj
+        
         return(Ennemi)
     
     # Début de méthode pour choisir les ennemis récursivement. Mais oh
     # mon dieu qu'est-ce que c'est compliqué! Voir plutôt pour améliorer IA.
     
     
-#    def chx_ennemi_rec(self,A,x,y,R_bat,R_unit):
-#        if len(A) == 1:
-#            v = A[0,0]
-#            if v == ' ' or v == '/' :
-#                return((self.zonecbt+1,self.zonecbt+1))
-#        return(None)
+    def chx_ennemi_rec(self,A,x,y):
+        if np.shape(A) == (1,1):
+            v = A[0,0]
+            if v == ' ' or v == '/':
+                return((None,self.zonecbt+1,None,self.zonecbt+1))
+            elif v.T_car()[0] == 'D':
+                i,j = v.coords
+                R = math.sqrt((x-i)**2+(y-j)**2)
+                if v.T_car()[2] == 'B':
+                    return((None,self.zonecbt+1,v,R))
+                elif v.T_car()[2] == 'U':
+                    return((v,R,None,self.zonecbt+1))
+            else:
+                return((None,self.zonecbt+1,None,self.zonecbt+1))
+
+        elif np.shape(A) == (0,0) or A.tolist()[0] == []:
+            print("OK")
+            return((None,self.zonecbt+1,None,self.zonecbt+1))
+
+        else : 
+            l,c = np.shape(A)
+            A1 = A[:l//2,:c//2]
+            A2 = A[l//2:,c//2:]
+            
+            print(A1,A2)
+#            print("Type A1 : ",type(A1))
+#            print("Type A2 : ", type(A2))
+            print(np.shape(A1))
+            print(np.shape(A2))
+            
+            U1,ru1,B1,rb1 = self.chx_ennemi_rec(A1,x,y)
+            U2,ru2,B2,rb2 = self.chx_ennemi_rec(A2,x,y)
+            
+            if ru1 > ru2:
+                r_min_u = ru2
+                umin = U2
+            else:
+                r_min_u = ru1
+                umin = U1
+            
+            if rb1 > rb2:
+                r_min_b = rb2
+                bmin = B2
+            
+            else:
+                r_min_b = rb1
+                bmin = B1
+            
+            return(umin,r_min_u,bmin,r_min_b)
+            
+    def combat_rec(self):
+        x,y = self.coords
+        x_inf = max(0,int(-self.zonecbt + x))
+        x_sup = min(self._carte.dims[0]-1, int(self.zonecbt + x))
+        y_inf = max(0,int(-self.zonecbt + y))
+        y_sup = min(self._carte.dims[1]-1, int(self.zonecbt + y))
+        
+        A = self._carte.ss_carte[x_inf:x_sup+1,y_inf:y_sup+1]
+        
+        U,r_min_u,B,r_min_b = self.chx_ennemi_rec(A,x,y)
+        
+        if U == None and B == None:
+            print("%s n'a blessé personne"%(self.T_car()) )
+        else:
+            if r_min_u > r_min_b:
+                Ennemi = B
+            else:
+                Ennemi = U
+            
+            print( "%s a blessé %s"%(self.T_car(), Ennemi.T_car() ) )
+            Ennemi.sante = Ennemi.sante - self.capcbt
+            if Ennemi.sante <= 0:
+                role = Ennemi.T_car()
+                Ennemi.disparition()
+                if role[-2] + role[-1] == 'QG':
+                    self._carte.V_atta = 1
+   
+        
+        
+        
 #        
         
         
@@ -411,4 +494,8 @@ class Scorpion(Unites_Humain_Attaquant):
     def T_car(self):
         """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
         return "%s_U_S%i"%(self._role, self.id )
+    
+    def action(self):
+        self.combat_rec()
+        return(None)
     

@@ -8,7 +8,7 @@ from Batiments import Foreuse,QG,Panneau_solaire
 from unites_IA_facile import Scorpion0
 from unites_IA_Moyenne import Scorpion1
 from Constantes import Constante
-from Save_Load import Save, Load
+import Save_Load as sl
 import numpy as np
 
 class Map(list):
@@ -40,8 +40,6 @@ class Map(list):
             self.__ymax = Constante.yL  
             self.nbtour = Constante.Lnbt
             self.Ltr_actuel = Constante.Lnbta
-
-
             self.H=Constante.LH_Z_Constructible
             self.L=Constante.LL_Z_Constructible
             self.Epp = Constante.LEp_app
@@ -156,9 +154,7 @@ class Map(list):
                     i=randint(0,self.__xmax)
                     j=choice([randint(0,(self.__ymax-self.H)/2),randint((self.__ymax-self.H)/2+self.H+1,self.__ymax)])
                     Obj=self.ss_carte[i][j]
-                U=metal(i,j,self,randint(1,5))
-                self.append(U)
-                self.ss_carte[i][j]=U
+                metal(i,j,self,randint(5,15))
         
             elif val==1:
                  
@@ -169,9 +165,7 @@ class Map(list):
                     i=choice([randint(0,(self.__xmax-self.L)/2),randint((self.__xmax-self.L)/2+self.L+1,self.__xmax)])
                     j=randint(0,self.__ymax)
                     Obj = self.ss_carte[i][j]
-                U=metal(i,j,self,randint(1,5))
-                self.append(U)
-                self.ss_carte[i][j]=U
+                metal(i,j,self,randint(5,15))
 
                     
     def ressource_tot(self):
@@ -185,9 +179,7 @@ class Map(list):
         print('energie total = ' + str(self.L_joueur[0].energie_tot))
         print('metal total = ' + str(self.L_joueur[0].metal_tot))                
         
-    
 
-    
 
        
             
@@ -216,12 +208,15 @@ class Map(list):
             if Chx == "S":
                 name = input("Entrez le nom de la sauvegarde \n")
                 name = name + ".txt"
-                self.Save = Save(name,self)
+                self.Save = sl.Save(name,self)
             elif Chx == "C":
                 name = input("Entrez le nom de votre sauvegarde \n")
                 name = name + ".txt"    
-                self.Load = Load(name)
-                break
+                self.Load = sl.Load(name)
+                if self.Load.Nme != 'Q':
+                    break
+                Chx = ' '
+                print("### Tour %i ###"%(t))
                   
                   
             if t%5==0:
@@ -243,8 +238,3 @@ class Map(list):
             else:
                 print("Les attaquants gagnent!")
 
-                 
-#if __name__ == "__main__":
-#    carte = Map()
-#    print(carte)
-#    carte.simuler()

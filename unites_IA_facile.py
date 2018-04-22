@@ -150,9 +150,9 @@ class Unite_IA_Facile():
             Ennemi.sante = Ennemi.sante - self.capcbt
             if Ennemi.sante <= 0:
                 role = Ennemi.T_car()
-                if role[-3:-1] == 'QG':
-                    self._carte.V_atta = 1
                 Ennemi.disparition()
+                if role[-2] + role[-1] == 'QG':
+                    self._carte.V_atta = 1
         else :
             print("%r n'a blessé personne"%(self.T_car()) )
     
@@ -348,7 +348,10 @@ class Scorpion0(Unite_IA_Facile):
             self.coords = (X,Y)
             self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)
-        
+    
+    def action(self):
+        self.combat()
+        return(None)
         
         
 

@@ -20,6 +20,8 @@ class Ressource(object):
         self._cart = cart
         self.coords = abscisse, ordonnee
         self.valeur= valeur
+        self._cart.append(self)
+        self._cart.ss_carte[abscisse][ordonnee]= self
 
 
     def __str__(self):
@@ -107,6 +109,12 @@ class Ressource(object):
         y = min(y, self._cart.dims[1]-1)
         y = max(y, 0)
         self.__coords = (x, y)
+    
+    def disparition(self):
+        x,y = self.coords
+        self._cart.remove(self)
+        self._cart.ss_carte[x][y] = ' '
+        
         
     
 class metal(Ressource):

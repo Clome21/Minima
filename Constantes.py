@@ -8,8 +8,12 @@ Created on Sat Mar 24 21:17:38 2018
 class Constante:
 
 #----------------------------------------Constantes map    
-    xmax = 25
-    ymax = 25
+    xmax = 15
+    ymax = 15
+    
+    assert(xmax%2 !=0)
+    assert(ymax%2 !=0)
+    
     
 # !!!! xmax, ymax doivent être impairs!
 
@@ -35,8 +39,8 @@ class Constante:
 #----------------------------------------Constantes Batiments
 #----------------------------------Foreuse    
     cout_M_F=2
-    cout_E_F=3    
-    prod_M_F=3
+    cout_E_F=3   
+    prod_M_F=1
 #----------------------------------Panneau solaire
     cout_M_P=2  
     cout_E_P=2  
@@ -56,6 +60,13 @@ class Constante:
     cout_M_RC = 3
     cout_E_RC = 3
     capcbt_RC = 4
+    
+
+#------------------------------Robot Ouvrier
+    
+    capmvt_RO = 2
+    cout_M_RO = 2
+    cout_E_RO = 2
 
 #------------------------------Scorpion0
 
@@ -73,7 +84,6 @@ class Constante:
         
     xL = 20
     yL = 20
-    l = 0
 
     if int(xL/2)%2 == 0:
         LL_Z_Constructible= int(xL/2)+1
