@@ -228,3 +228,14 @@ que si je lui dit de faire un rectangle classique or liste il le fait).
 Le bouton Generer ne sert à rien pour l'instant, cela fonctionne avec findeTour. Je ne comprends pas trop pourquoi mais j'ai la fenetre de jeu qui 
 ne répond plus quand le programme demande si on veut creer un batiments. Pour l'instant les seules choses qui fonctionnent correctement sont les
 compteur de ressources.
+
+25/04 - XV25
+
+Nouveaux fichiers en ligne!
+J'ai réparé le bug concernant l'affichage de la Map.
+Le fichier Game_Test actuel est également fonctionnel. Je vais bientôt devoir le changer vu que tu fais des modifs sur le 
+tour d'un humain, mais on verra ça plus tard.
+J'ai aussi séparé les tours de jeu en deux fichiers : ceux des joueurs humains, et ceux des joueurs IA. 
+Il faut donc juste que tu copies/colles les modifications que tu as fait pour les joueurs humains dans ce nouveau fichier.
+(Fais juste attention à ne pas modifier x_inf,x_sup,y_inf,y_sup, c'est un bordel pour les définir correctement à chaque fois).
+Je vais faire la doc de mon côté. Dès que c'est terminé, je viens t'aider sur l'IHM!
