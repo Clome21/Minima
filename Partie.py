@@ -129,7 +129,7 @@ class Partie():
 
 
 if __name__ == "__main__":
-    Game = Partie(4,)
+    Game = Partie(0,2)
 #    Game.L_joueur[1]._liste_unite.append( Scorpion('AH0',Game.carte,0,1, Game.L_joueur[1].L_ennemi, Game.L_joueur[1].L_autres_joueurs ) )
  #   Game.L_joueur[0]._liste_unite.append( Robot_combat('DH',Game.carte,1,1, Game.L_joueur[0].L_ennemi) )
   #  Game.L_joueur[0]._liste_unite.append( Robot_combat('DH', Game.carte,1,0, Game.L_joueur[0].L_ennemi) )

@@ -2,7 +2,8 @@
 from numpy.random import randint
 from numpy.random import choice
 import time
-from Un_Tour_Joueur import Un_Tour_Du_Joueur
+from Un_Tour_Hn import Un_Tour_Joueur_Hn
+from Un_Tour_IA import Un_Tour_Joueur_IA
 from Ressource import metal
 from Batiments import Foreuse,QG,Panneau_solaire
 from unites_IA_facile import Scorpion0
@@ -21,7 +22,7 @@ class Map(list):
             self.__xmax = Constante.xmax
             self.__ymax = Constante.ymax  
             self.nbtour = Constante.nbt 
-
+            self.tr_actuel = 0
 
             self.H=Constante.H_Z_Constructible
             self.L=Constante.L_Z_Constructible
@@ -49,30 +50,30 @@ class Map(list):
             
         self.spawn_ress=Constante.spawn_ress
 
-        self.Tr = Un_Tour_Du_Joueur(self)
+        self.TrHn = Un_Tour_Joueur_Hn(self)
+        self.TrIA = Un_Tour_Joueur_IA(self)
 
         self.V_atta = 0
       #  self.createInitObject()
 
             
 
-        # Tracer les murs dans la sous-map
-        for i in ( (self.__xmax - self.L )//2, (self.__xmax + self.L )//2 ):  # -1 ; -1
+        # Trace les murs dans la sous-map
+        for i in ( (self.__xmax - self.L )//2, (self.__xmax + self.L )//2-1 ):  # -1 ; -1
             #Trace les murs du haut et du bas, avec un trou au milieu de ces deux lignes.
             for j in range( (self.__ymax - self.H + 1)//2, self.__ymax//2 - 1):
                 self.ss_carte[i][j] = '/'
-            for j in range( self.__ymax//2 + 2, (self.__ymax + self.H - 1)//2+1):
+            for j in range( self.__ymax//2 + 2, (self.__ymax + self.H )//2):
                 self.ss_carte[i][j] = '/'
-        for j in ( (self.__ymax -self.H)//2 , (self.__ymax + self.H )//2 ):
+        for j in ( (self.__ymax -self.H)//2 , (self.__ymax + self.H )//2-1 ):
             # Trace les murs de gauche et de droite, avec un trou au milieu de ces deux colonnes
             for i in range( (self.__xmax - self.L +1)//2 , self.__xmax//2 -1 ):
                 self.ss_carte[i][j] = '/'
-            for i in range( self.__xmax//2 + 2, (self.__xmax + self.L - 1)//2 + 2 ) :
+            for i in range( self.__xmax//2 + 2, (self.__xmax + self.L )//2 ) :
                 self.ss_carte[i][j] = '/'
 
-          
-            
-#        self.L_joueur[0]._liste_bat.append(U)
+        #Note l'ensemble des positions constituant les zones constructibles
+        
 
         """Actuellement, carte contient l'ensemble des objets en jeu """
 
@@ -123,20 +124,45 @@ class Map(list):
         for obj in self:
             pos[obj.coords]=obj.car()
         for i in range(self.__xmax):
-            for j in range(self.__ymax):  
-                if (i>(self.__xmax-(self.L))/2 and i<(self.__xmax+(self.L-1))/2) and (j>(self.__ymax-(self.H))/2 and j<(self.__ymax+(self.H-1))/2):
-                    s += "#" #zone constructible
-                elif self.ss_carte[i][j] == '/':
-                    s += "/" #Mur de protection                 
-                elif ((i<= self.Epp ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H+1))) or ((i >= self.__xmax-1-self.Epp ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H+1))) or ((j<= self.Epp) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2+1))) or ((j>=self.__ymax-1-self.Epp) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2+1))) :
-                    s +="!" #zone d'apparition des unites qui attaques   
+            for j in range(self.__ymax): 
+                
+                if self.ss_carte[i][j] == '/':
+                    s += "/" #Mur de protection
+                
+                elif i == (self.__xmax - self.L )//2 or i == (self.__xmax + self.L )//2-1:
+                    if j<= self.Epp or j >=self.__ymax - self.Epp :
+                        s += '!'
+                    else:
+                        s += '.'                        
+                    
+                
+                elif i >= (self.__xmax - self.L )//2+1 and i < (self.__xmax + self.L )//2-1 :
+                    if j >= (self.__ymax -self.H)//2 +1 and j< (self.__ymax + self.H )//2-1:
+                        s += "#" #zone constructible
+                    elif j<= self.Epp or j >=self.__ymax - self.Epp :
+                        s += "!"
+                    else:
+                        s += "."
+                
+                elif i<= self.Epp or i >= self.__xmax - 1 - self.Epp :
+                    if j >= (self.__ymax -self.H)//2  and j< (self.__ymax + self.H )//2+1:
+                        s += "!"
+                    else:
+                        s+= "."
+                
+
+       #         elif ((i<= self.Epp ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H+1))) or ((i >= self.__xmax-1-self.Epp ) and (j>(self.__ymax-1-self.H-(self.__ymax - self.H)/2) and (j< (self.__ymax - self.H )/2+self.H+1))) or ((j<= self.Epp) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2+1))) or ((j>=self.__ymax-1-self.Epp) and ((i>self.__xmax-1-self.L-(self.__xmax-self.L)/2) and (i<self.__xmax-(self.__xmax-self.L)/2+1))) :
+        #            s +="!" #zone d'apparition des unites qui attaques   
                 else:
                     s += "."
                 if (i, j) in pos:
                     s += pos[(i,j)]
                 else:
                     s += "  "
-            s += "\n"
+            if i >= (self.__xmax - self.L )//2 and i < (self.__xmax + self.L )//2:
+                s += "! \n"  # "! \n"
+            else: 
+                s += ". \n"
         return s
         
     def apparition_ressource(self):
@@ -213,10 +239,13 @@ class Map(list):
                 name = input("Entrez le nom de votre sauvegarde \n")
                 name = name + ".txt"    
                 self.Load = sl.Load(name)
-                if self.Load.Nme != 'Q':
+                if self.Load.Nme == 'Q':
+                    print("### Tour %i ###"%(t))
+                else:
+                    Chx = ' '
+                    self.Load.Lcarte.simuler()
                     break
-                Chx = ' '
-                print("### Tour %i ###"%(t))
+
                   
                   
             if t%5==0:
@@ -225,7 +254,13 @@ class Map(list):
                     
             self.ressource_tot()
 
-            self.Tr.unTour()
+            self.TrHn.unTourHn()
+            self.TrIA.unTourIA()
+            
+                        
+            for obj in self:
+                obj.affichage()
+            
             print(self)
             time.sleep(0.2)
             if self.V_atta == 1:

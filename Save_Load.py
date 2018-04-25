@@ -12,7 +12,8 @@ from Batiments import Foreuse,QG,Panneau_solaire
 from numpy.random import randint
 from numpy.random import choice
 import time
-from Un_Tour_Joueur import Un_Tour_Du_Joueur
+from Un_Tour_Hn import Un_Tour_Joueur_Hn
+from Un_Tour_IA import Un_Tour_Joueur_IA
 from Ressource import metal
 
 from Joueur import Joueur
@@ -29,8 +30,8 @@ from Unites_Hn_Attaquant import Scorpion
 class Save():
     def __init__(self,name,carte):
         
-        Nme = self.Test_nom(name)
-        Save = open(Nme,"w+")
+        self.Nme = self.Test_nom(name)
+        Save = open(self.Nme,"w+")
         
                     
         Save.write("Carte \n")
@@ -44,7 +45,7 @@ class Save():
         Save.write(str(carte.nbtour))
         Save.write(" \n")
                 
-        Save.write(str(carte.Tr.unite_disp_par_tour))
+        Save.write(str(carte.TrIA.unite_disp_par_tour))
         Save.write(" \n")
         
         
@@ -118,6 +119,7 @@ class Save():
 
         L = input("Sauvegarde déjà existante. L'effacer? (Y/N)")
         if L == "Y":
+            name = name+ ".txt"
             return(name)
         else:
             name = input("Entrez un nouveau nom de sauvegarde")
@@ -130,10 +132,9 @@ class Load():
         self.Nme = self.Test_save(name)
         if self.Nme != 'Q':
             with open(self.Nme, 'r') as f:
-                Load = [line.strip() for line in f]
-            self.process(Load)
+                self.Load = [line.strip() for line in f]
+            self.process(self.Load)
             print("Chargement terminé! \n")
-            self.Lcarte.simuler()
 
         
     def Test_save(self,name):
@@ -183,7 +184,7 @@ class Load():
                 Constante.Lnbt = int(Nbt)
                 U_disp = int(U_disp)
                 self.Lcarte = Map.Map([],1)
-                self.Lcarte.Tr.unite_disp_par_tour = U_disp
+                self.Lcarte.TrIA.unite_disp_par_tour = U_disp
                 
             while L[0] == 'Ressource':
                 print("Ressource")
