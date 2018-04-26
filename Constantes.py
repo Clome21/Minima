@@ -6,7 +6,8 @@ Created on Sat Mar 24 21:17:38 2018
 """
 
 class Constante:
-
+    """ Classe contenant l'ensemble des constantes utilisées dans le jeu.
+    """
 #----------------------------------------Constantes map    
     xmax = 15
     ymax = 15
