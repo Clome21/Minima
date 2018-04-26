@@ -239,3 +239,12 @@ J'ai aussi séparé les tours de jeu en deux fichiers : ceux des joueurs humains
 Il faut donc juste que tu copies/colles les modifications que tu as fait pour les joueurs humains dans ce nouveau fichier.
 (Fais juste attention à ne pas modifier x_inf,x_sup,y_inf,y_sup, c'est un bordel pour les définir correctement à chaque fois).
 Je vais faire la doc de mon côté. Dès que c'est terminé, je viens t'aider sur l'IHM!
+
+
+26/04 - Clome21
+J'ai mis en place les méthode pour dessiner ce que l'on veut. Cependant il faut que toutes les méthodes de dessin soit dans la
+fonction PaintEvent.
+Le choix de qui on affiche se fait avec self.l.
+Méthode raz pour annuler l'affichage de L_pos.
+
+
