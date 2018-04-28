@@ -15,27 +15,40 @@ import time
 from Un_Tour_Hn import Un_Tour_Joueur_Hn
 from Un_Tour_IA import Un_Tour_Joueur_IA
 from Ressource import metal
-
 from Joueur import Joueur
-
 from unites_IA_facile import Scorpion0
 from unites_IA_Moyenne import Scorpion1
 from Constantes import Constante
-
 from Unites_Hn_Defenseur import Robot_combat, Robot_Ouvrier
 from Unites_Hn_Attaquant import Scorpion
-
-#rajouter nbe unite dispo/tr
 
 class Save():
     """
     Classe gérant le processus de sauvegarde d'une partie.
     """
     def __init__(self,name,carte):
+        """
+        Initialise la création de la sauvegarde. Les informations nécessaires pour recréer la partie 
+        sauvegardée sont stockées dans un fichier .txt, dont le nom est choisi par l'utilisateur. Le
+        programme vérifie avant si le nom est déjà employé par une autre sauvegarde, puis écrit/modifie
+        le fichier .txt avec les informations.
         
+        Paramètres : 
+        ------------
+        
+        name : str
+            Le nom de la sauvegarde choisi par l'utilisateur.
+            
+        carte : objet Carte.
+            L'objet Carte de la partie devant être sauvegardée.
+            
+        Renvoie :
+        -----------
+        Rien.
+        
+        """
         self.Nme = self.Test_nom(name)
         Save = open(self.Nme,"w+")
-        
         Save.write("Carte \n")
         Save.write("Dimensions \n")
         Save.write(str(carte.dims))
@@ -45,11 +58,9 @@ class Save():
         Save.write(" \n")
         Save.write("Nbe de tours totaux \n")
         Save.write(str(carte.nbtour))
-        Save.write(" \n")
-                
+        Save.write(" \n") 
         Save.write(str(carte.TrIA.unite_disp_par_tour))
         Save.write(" \n")
-        
         for k in range(len(carte)):
             if carte[k].car() == 'M ':
                 R = carte[k]
@@ -59,10 +70,7 @@ class Save():
                 Save.write(str(R.coords))
                 Save.write(" \n")
         Save.write("Fin ressources \n")
-
-        
         L_joueur = carte.L_joueur
-
         for k in range(len(L_joueur)):
             Save.write("Joueur \n")
             Jr = L_joueur[k]
@@ -103,14 +111,26 @@ class Save():
                     Save.write(" \n")
                 Save.write("Fin unite \n")
             Save.write("Fin joueur \n")
-
         Save.write("Fin sauvegarde")
-
         print("Sauvegarde effectuée!")
 
-        
-    
     def Test_nom(self,name):
+        """
+        Contrôle le nom de la sauvegarde choisie par l'utilisateur. Si le nom correspond à une 
+        sauvegarde déjà existante, la méthode demande une confirmation auprès de l'utilisateur 
+        pour l'écraser. Si l'utilisateur refuse, elle invite alors celui-ci à entrer un autre nom.
+        Sinon, la sauvegarde est directement écrite avec le nom choisi.
+        
+        Paramètres : 
+        -------------
+        name : str
+            Le nom de la sauvegarde choisi par l'utilisateur.
+            
+        Renvoie : 
+        ------------
+        name : str
+            Le nom de la sauvegarde, choisi par l'utilisateur et confirmé par la méthode.
+        """
         try:
             f = open(name,"r")
         except FileNotFoundError:
@@ -127,7 +147,25 @@ class Save():
             return(name)
     
 class Load():
+    """
+    Classe gérant le processus de chargement d'une partie.
+    """
     def __init__(self,name):
+        """
+        Permet d'initialiser le chargement de la partie. La méthode vérifie d'abord que le nom entré
+        est correct; ensuite, il rassemble toutes les lignes de caractères de la sauvegarde dans une
+        liste L. Il recrée ensuite la partie grâce à la méthode process(L).
+        
+        Paramètres : 
+        ------------
+        name : str
+            Le nom de la sauvegarde devant être chargée
+        
+        Renvoie :
+        ----------
+        Rien.
+        
+        """
         self.Nme = self.Test_save(name)
         if self.Nme != 'Q':
             with open(self.Nme, 'r') as f:
@@ -137,6 +175,21 @@ class Load():
 
         
     def Test_save(self,name):
+        """
+        Teste le nom de la sauvegarde entré par l'utilisateur. Si ce nom est faux, la méthode le
+        signale à l'utilisateur, et l'invite à entrer un nouveau nom ou à quitter le processus de
+        sauvegarde. Sinon, il confirme le nom entré par l'utilisateur.
+        
+        Paramètres :
+        -------------
+        name : str
+            Le nom de la sauvegarde devant être chargée, entré par l'utilisateur.
+        
+        Renvoie : 
+        ------------
+        name : str
+            Le nom de la sauvegarde devant être chargée, choisi par l'utilisateur et confirmé par la méthode.
+        """
         try:
             f = open(name,"r")
         except FileNotFoundError:
@@ -148,17 +201,30 @@ class Load():
         return(name)
                 
     def process(self,L):
+        """
+        Effectue le processus de chargement de la partie, en testant les différentes chaînes de caractères de
+        la liste L.
+        
+        Paramètres:
+        ------------
+        L : list
+            Liste contenant toutes les chaînes de caractères de la sauvegarde; chaque élément de
+            la liste correspond à une ligne de la sauvegarde.
+            
+        Renvoie : 
+        ----------
+        Rien.
+        
+        """
         Tst = ['S','R']
         while len(L) !=0:
-
             if L[0] == 'Carte':
-
+                # Processus de recréation de la carte sauvegardée.
                 Dims = L[2]
                 Nbta = L[4]
                 Nbt = L[6]
                 U_disp = L[7]
                 L = L[8:]
-                
                 Dims = Dims[1:-1]
                 k = Dims.find(',')
                 X = int(Dims[0:k])
@@ -186,7 +252,7 @@ class Load():
                 self.Lcarte.TrIA.unite_disp_par_tour = U_disp
                 
             while L[0] == 'Ressource':
-                print("Ressource")
+                #Processus de chargement des ressources sauvegardées sur la carte.
                 Val = L[1]
                 Pos = L[2]
                 L = L[4:]
@@ -201,7 +267,7 @@ class Load():
                 metal(X,Y,self.Lcarte,Val)
 
             while L[0] == 'Joueur':
-
+                # Processus de chargement des joueurs de la partie, et de leurs caractéristiques principales.
                 Role = L[1]
                 Metal_tot = int(L[2])
                 Energie_tot = int(L[3])
@@ -213,6 +279,7 @@ class Load():
                 self.Jr.nbe_unite_restantes = Ur                
                 L = L[6:]
                 while L[0] == 'Bat':
+                # Processus de chargement des batiments du joueur actuel.
                     Typ = L[1]
                     Sante = L[2]
                     Pos = L[3]
@@ -243,6 +310,7 @@ class Load():
                     L = L[2:]
                 
                 while L[0] == "Unite":
+                    # Processus de chargement des unités du joueur actuel.
                     k = -2
                     Typ = L[1]
                     Num_joueur = L[2]
@@ -253,8 +321,6 @@ class Load():
                     while tTyp[0] not in Tst:
                          k = k- 1
                          tTyp = Typ[k:]
-                         print(k,tTyp)
-
                     Typ = tTyp
                     Num_joueur = int(Num_joueur)
                     Sante = int(Sante)
@@ -262,7 +328,6 @@ class Load():
                     k = Pos.find(',')
                     X = int(Pos[0:k])
                     Y = int(Pos[k+1:])
-                    print(Typ)
                     if Typ[0:2] == "RC":
                         Id = int(Typ[2])
                         U = Robot_combat(Role,self.Lcarte,X,Y)
@@ -274,8 +339,7 @@ class Load():
                         U = Robot_Ouvrier(Role,self.Lcarte,X,Y)
                         U.sante = Sante
                         self.Jr._liste_unite.append(U)
-                        
-                    
+
                     elif Typ[0] == "S":
                             if Typ[1] == "0":
                                 Id = int(Typ[2:])
