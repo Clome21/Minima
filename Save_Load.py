@@ -28,12 +28,14 @@ from Unites_Hn_Attaquant import Scorpion
 #rajouter nbe unite dispo/tr
 
 class Save():
+    """
+    Classe gérant le processus de sauvegarde d'une partie.
+    """
     def __init__(self,name,carte):
         
         self.Nme = self.Test_nom(name)
         Save = open(self.Nme,"w+")
         
-                    
         Save.write("Carte \n")
         Save.write("Dimensions \n")
         Save.write(str(carte.dims))
@@ -47,7 +49,6 @@ class Save():
                 
         Save.write(str(carte.TrIA.unite_disp_par_tour))
         Save.write(" \n")
-        
         
         for k in range(len(carte)):
             if carte[k].car() == 'M ':
@@ -73,8 +74,6 @@ class Save():
             Save.write(" \n")
             Save.write(str(Jr.nbe_unite_restantes))
             Save.write(" \n")
-#            Save.write(str(Jr.IdU))
-#            Save.write(" \n")
             L_bat = Jr._liste_bat
             if len(L_bat[0]) != 0:
                 Save.write("Batiments du joueur \n")
@@ -207,12 +206,10 @@ class Load():
                 Metal_tot = int(L[2])
                 Energie_tot = int(L[3])
                 Ur = int(L[4])
-   #             Idu = int(L[5])
                 self.Jr = Joueur(Role)
                 self.Lcarte.L_joueur.append(self.Jr)
                 self.Jr.metal_tot = Metal_tot
                 self.Jr.energie_tot = Energie_tot
-  #               self.Jr.IdU = Idu
                 self.Jr.nbe_unite_restantes = Ur                
                 L = L[6:]
                 while L[0] == 'Bat':
@@ -306,103 +303,10 @@ class Load():
                 L = []
             else: 
                 L = L[1:]    
-                
-            
-    
-                            
-                    
-                
-                    
-                    
-                
-                
-        
-            
-                
-    def process2(self,line,carac):
-        line = line[:-2]
-        
-        if line == "Joueur":
-            carac = "jr"
-            self.Jr = Joueur.Joueur("Load")
-            return(carac)
-        if carac[0] == "j":
-            if carac == "jr":
-                self.Jr._role = line
-                carac = "None"
-            if carac[0:2] == "jb":
-                if line == "Bat":
-                    carac = "jbr"
-                    return(carac)
-                if carac == "jbr":
-                    line = line[-2:]
-                    if line == "QG":
-                        B = Batiments.QG(0,0,carte)
-                    elif line[0] == "P":
-                        return(None)
-                        
-                
-        
-        if line == "Batiments du joueur":
-            carac = "jb"
-        
-        
-        
-#VOIR QUI ON CREE EN PREMIER : MAP OU LISTE?
-
-# A NOTER : TOUS LES BATIMENTS ET TOUS LES UNITES ONT BESOIN 
-# D'UNE MAP EN PARAMETRES.
-#SEMBLE MIEUX DE COMMENCER PAR MAP, PUIS D'AJOUTER A MAP LA LISTE DES JOUEURS.
-        
-        
-        
-        
-        if line == "Carte":
-            carac = "c"
-        if carac[0] == "c":
-            if line == "Dimensions":
-                carac = "cd"
-                return(carac)
-            if carac == "cd":
-                line = line[1:-1]
-                k = line.find(',')
-                X = int(line[0:k])
-                Y = int(line[k+1:])
-                Constante.xL = X
-                Constante.yL = Y
-
-            if line == "Tr actuel":
-                carac = "cta"
-                return(carac)
-            if carac == "cta":
-                Constante.Lnbta = int(line)
-            
-            if line == "Nbe de tours totaux":
-                carac = "ct"
-                return(carac)
-            
-            if carac == "ct":
-                Constante.Lnbt = int(line)
-                self.Lcarte = Map.Map([],1)
-                return("None")
-        
-        if line == "Ressources":
-            carac = "r"
-            self.M = metal(0,0,self.Lcarte,0)
-        
-        if carac[0] == "r":
-            return(None)
-            
-                
-                
-        return(carac)
-        
-    
 
     
 if __name__ == "__main__":
     f = open("Text1.txt","w+")
-
     L=  []
     V = []
     Load = open('Test1.txt')
