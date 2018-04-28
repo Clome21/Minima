@@ -45,12 +45,6 @@ class Ressource(object):
         """
         return "%s: position (%i, %i) valeur %i"%(
             self.car(), self.x, self.y,self.valeur)
-        
-        
-    
-
-
-
             
     def car(self):
         """
@@ -69,6 +63,16 @@ class Ressource(object):
     
     def affichage(self):
         """
+        Permet l'affichage de l'objet Ressource.
+        
+        Paramètres
+        ----------
+        Aucun
+        
+        Renvoie
+        -------
+        s : str
+            La chaîne de caractères désignant l'objet Ressource.
         """
         print(str(self))
 
