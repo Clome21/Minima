@@ -15,6 +15,12 @@ class Ressource(object):
         abscisse, ordonnée: int
             Les coordonnées auxquelles la ressource sera créé.
             
+        cart : Objet Map
+            La carte du jeu sur laquelle évolue l'objet.
+            
+        valeur : int
+            La valeur de la ressource.
+            
         """
         
         self._cart = cart
@@ -86,7 +92,7 @@ class Ressource(object):
     def y(self):
         """
         y: nombre entier
-            Abscisse de la ressource
+            Ordonnée de la ressource
         """
         return self.coords[1]
     
@@ -99,8 +105,8 @@ class Ressource(object):
     
         Paramètres
         ----------
-        nouv_coords : tuple représentant les coordonnées auquelles 
-                      la ressource sera.
+        nouv_coords : tuple représentant les nouvelles coordonnées de la ressource.
+
         """
 
         x, y = nouv_coords
@@ -111,6 +117,9 @@ class Ressource(object):
         self.__coords = (x, y)
     
     def disparition(self):
+        """ Méthode permettant de supprimer l'objet ressources. Elle supprime celui-ci
+        de l'ensemble des listes/arrays où cet objet est stocké.
+        """
         x,y = self.coords
         self._cart.remove(self)
         self._cart.ss_carte[x][y] = ' '
@@ -123,12 +132,22 @@ class metal(Ressource):
     """
     def __init__(self, x, y, cart,valeur):
         super().__init__(x, y, cart,valeur)
-        self.name = "metal"
     
     def car(self):
+        """Méthode permettant d'afficher la ressource sur la carte. Elle renvoie
+        le symbole associé à la ressource.
+        """
         return 'M '
     
     def T_car(self):
+        """Méthode contenant l'ensemble des informations permettant d'identifier la ressource.
+        Dans l'ordre : 
+            N : le rôle du joueur possédant l'objet. Ici, aucun joueur : donc la ressource
+            est neutre.
+            O : le type global de l'objet. Ici, Objet.
+            M : le role de l'objet. Ici, Métal.
+
+        """
         return('N_O_M')
 
 
