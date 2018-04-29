@@ -587,7 +587,7 @@ class Scorpion(Unites_Humain_Attaquant):
         return 'S '
     
     def T_car(self):
-        """Méthode contenant l'ensemble des informations permettant d'identifier le batiment.
+        """Méthode contenant l'ensemble des informations permettant d'identifier l'unité.
         Dans l'ordre : 
             self._role : le rôle du joueur possédant l'objet. Ici, l'attaquant (avec un
             identifiant pour le reconnaître).
