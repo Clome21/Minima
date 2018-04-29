@@ -15,9 +15,22 @@ import numpy as np
 
 
 class Un_Tour_Joueur_IA():
-
+"""
+Classe gérant l'ensemble des méthodes et des variables consacrées à l'exécution d'un tour de jeu, pour
+un joueur IA.
+"""
     
     def __init__(self,carte):
+                """
+        Initialise les variables utilisées pour le déroulement des tours de jeu, pour un joueur
+        IA.
+        
+        Paramètres :
+        ------------
+        carte : Objet Map
+            L'objet Map utilisé pour la partie.
+        
+        """
         self._carte = carte
         self.L_joueur = self._carte.L_joueur
         self.unite_disp_par_tour = 0
@@ -32,6 +45,33 @@ class Un_Tour_Joueur_IA():
 
         
     def placement_pos(self,x_inf,x_sup,y_inf,y_sup,typ):
+         """
+        Indique quelles sont les cases de la carte sur lesquelles l'objet typ est présent.
+        Attention : x_sup et y_sup doivent valoir la dernière ligne/ colonne que l'on souhaite contrôler + 1.
+        Ici, elle est régulièrement utilisée pour déterminer les positions où un placement d'unité est possible.
+        
+        Paramètres : 
+        ------------
+        x_inf : int
+            La 1e ligne de la partie de la carte dont on veut contrôler la présence de l'objet typ.
+        
+        x_sup : int
+            La ligne juste après la fin de la partie de la carte dont on veut contrôler la présence de l'objet typ.
+        
+        y_inf : int
+            La 1e colonne de la partie de la carte dont on veut contrôler la présence de l'objet typ.
+        
+        y_sup : int
+            La colonne juste après la fin de la partie de la carte dont on veut contrôler la présence de l'objet typ.
+        
+        typ : objet (souvent string ici)
+            L'objet dont on veut contrôler la présence sur une portion de la carte.
+        
+        Renvoie :
+        ----------
+        L_pos : list
+            L'ensemble des coordonnées sur lesquelles se trouve l'objet typ, dans la portion de carte étudiée.
+        """
         A = self._carte.ss_carte[x_inf : x_sup , y_inf : y_sup]
         L_pos = []
 
@@ -43,24 +83,46 @@ class Un_Tour_Joueur_IA():
         
  
         
-    def production_unite(self,role,k):
-        if role[0] == 'D':
-            self.production_unite_defense()
-        elif role[0] == 'A':
-            self.production_unite_attaque(role,k)
-
-
+    def production_unite_attaque_IA(self,role,k):
+        """
+        Choisit la méthode de production d'unités d'attaque à sélectionner, selon le niveau
+        de l'IA exécutant cette méthode.
         
-    def production_unite_attaque(self,role,k):
-        if role[0:2] == 'AI':
-            if role[3] == '0':
-                self.production_unite_attaque_IA_0(k)
-        elif role[0:2] == 'AH' :
-            self.production_unite_attaque_Hn(k)
+        Paramètres :
+        ------------
+        role : str
+            Le rôle du joueur exécutant la méthode.
+        
+        k : int
+            La position du joueur dans la liste L_joueur.
+        
+        Renvoie :
+        ---------
+        Rien.
+        """
+        if role[3] == '0':
+            self.production_unite_attaque_0(k)
+        elif role[3] == '1':
+            self.production_unite_attaque_1(k)
+        else:
+            self.production_unite_attaque_2(k)
  
 
     def production_unite_attaque_IA_0(self,k):
-        """ IA 0 : place toutes ses unités à chaque tour"""
+        """ 
+        Produit des unités de combat pour l'attaquant IA de niveau 0.
+        Celui-ci placera toutes ses unités au hasard parmi les positions possibles.
+        
+        Paramètres :
+        ------------
+        k : int
+            La position du joueur exécutant la méthode dans la liste L_joueur.
+        
+        Renvoie :
+        ----------
+        Rien.
+        
+        """
         
         Jr = self.L_joueur[k]
         unite_disp = self.unite_disp_par_tour + Jr.nbe_unite_restantes
@@ -109,7 +171,7 @@ class Un_Tour_Joueur_IA():
     def unTourIA(self):
 
         """
-        Effectue toutes les actions liées à un tour de jeu.
+        Effectue toutes les actions liées à un tour de jeu, pour les joueurs IA.
         
         Paramètres
         ----------
@@ -119,7 +181,6 @@ class Un_Tour_Joueur_IA():
         -------
         Rien
         """
-        # rnd.shuffle(self)    Utile si gestion des collisions
 
         n = len(self.L_joueur)
         for k in range(1,n):
@@ -129,7 +190,7 @@ class Un_Tour_Joueur_IA():
             if role[1] == 'I':
                 print("\\\ Tour du joueur %r ///"%(role))
     
-                self.production_unite_attaque_IA_0(k)
+                self.production_unite_attaque_IA(role,k)
     
                 L_unite = self.L_joueur[k]._liste_unite
                 for c in L_unite:
@@ -139,7 +200,7 @@ class Un_Tour_Joueur_IA():
                     print("Tour de %r \n"%(c.T_car()))
                     c.bouger()
                     c.action()
-    
+
         self.unite_disp_par_tour += Constante.nbe_unite_ajoute
         if self.unite_disp_par_tour > min(self.L,self.H):
             self.unite_disp_par_tour = min(self.L,self.H)
