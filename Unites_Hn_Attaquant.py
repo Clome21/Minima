@@ -87,6 +87,10 @@ class Unites_Humain_Attaquant():
         """
         Mouvement de l'unité, choisie par l'utilisateur. Elle a lieu dans un rayon correspondant 
         à la capacité de mouvement autour de la position courante. Utilise l'accesseur coords.
+        La capacité de mouvement restante de l'unité est alors mise à jour, selon le nombre de
+        cases parcourues par l'unité. Si cette capacité est supérieure à 1, le joueur humain a encore
+        la possibilité de déplacer l'unité avant la fin de son tour.        
+
         
         Paramètres :
         ------------
