@@ -247,4 +247,23 @@ fonction PaintEvent.
 Le choix de qui on affiche se fait avec self.l.
 Méthode raz pour annuler l'affichage de L_pos.
 
+29/04 - Clome21
+Le jeu est à 80% jouable depuis l'interface "Gestion du jeu" .
+On peut placer batiment et unité en double cliquant gauche à l'endroit voulue
+On peut déplacer unité en doublecliquant gauche sur l'unité puis double clic droit où on souhaite la déplacer et en cliquant sur genere
+(faut que je change ça en un bouton déplacer)
+
+Pb : pas d'affichage des ennemies, je ne sais pas pourquoi (peut etre que je cherche dans la mauvaise liste mas je ne pense pas...)
+reste à faire : regler le deplacement infini
+                faire apparaitre une fenetre pour dire à qui c'est de jouer
+                faire apparaitre un texte en cas de victoire/défaite
+                methode de déplacement des unité attaques humain attaquant
+                relier les bos de la fenetre d'option à partie
+                le bouton sauvegarde/charger
+                
+Sinon le jeu est jouable malgrès des ennemis IA fantomes.
+ 
+
+
+
 
