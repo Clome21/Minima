@@ -478,7 +478,7 @@ un joueur humain.
     def unTourHn(self):
 
         """
-        Effectue toutes les actions liées à un tour de jeu.
+        Effectue toutes les actions liées à un tour de jeu, pour les joueurs humains dans la partie.
         
         Paramètres
         ----------
@@ -488,7 +488,6 @@ un joueur humain.
         -------
         Rien
         """
-        # rnd.shuffle(self)    Utile si gestion des collisions
 
         n = len(self.L_joueur)
         for k in range(n):
