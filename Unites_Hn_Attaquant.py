@@ -548,7 +548,7 @@ class Unites_Humain_Attaquant():
 
 class Scorpion(Unites_Humain_Attaquant):
     """
-    Classe spécialisant Unites_Humain_Attaquant pour représenter une Fourmi.
+    Classe spécialisant Unites_Humain_Attaquant pour représenter un Scorpion.
     """
     Id = 0
     def __init__(self,role,carte,x,y,k):
