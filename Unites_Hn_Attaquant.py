@@ -77,6 +77,8 @@ class Unites_Humain_Attaquant():
         return 'U'    
     
     def affichage(self):
+        """ Affiche l'unité, selon la méthode str.
+        """
         print(str(self))
     
 
@@ -85,32 +87,44 @@ class Unites_Humain_Attaquant():
         """
         Mouvement de l'unité, choisie par l'utilisateur. Elle a lieu dans un rayon correspondant 
         à la capacité de mouvement autour de la position courante. Utilise l'accesseur coords.
+        
+        Paramètres :
+        ------------
+        Aucun.
+        
+        Renvoie : 
+        -----------
+        Le résultat de la méthode coords.
+        
         """
-        L_vide = self.mvt_poss()
+        if self.capmvt >= 1 :
 
-        xi, yi = self.coords
-        print("Mouvements possibles :", L_vide)
-        L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
-        k = L.find(',')
-        while k == -1:
-            print("Erreur de synthaxe. Recommencez svp")
-            L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
-            k = L.find(',')
-        X = int(L[0:k])
-        Y = int(L[k+1:])
-        while (X,Y) not in L_vide:
-            print("Position hors du rayon d'action de l'unité. \n")
+            L_vide = self.mvt_poss()
+
+            xi, yi = self.coords
+            print("Mouvements possibles :", L_vide)
             L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
             k = L.find(',')
             while k == -1:
                 print("Erreur de synthaxe. Recommencez svp")
                 L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
                 k = L.find(',')
-            X,Y = int(L[0:k]) , int(L[k+1:])
-        self.coords = (X, Y)
-        self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
-        return(self.coords)  
-    
+            X = int(L[0:k])
+            Y = int(L[k+1:])
+            while (X,Y) not in L_vide:
+                print("Position hors du rayon d'action de l'unité. \n")
+                L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+                k = L.find(',')
+                while k == -1:
+                    print("Erreur de synthaxe. Recommencez svp")
+                    L = input('Envoyez la nouvelle position en x et en y (format x,y). \n')
+                    k = L.find(',')
+                X,Y = int(L[0:k]) , int(L[k+1:])
+                self.capmvt -= math.sqrt( X**2 + Y**2)
+                self.coords = (X, Y)
+                self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
+                return(self.coords)  
+
     
     def mvt_poss(self):
         """ Méthode permettant de sélectionner les cases sur lesquelles 
@@ -290,6 +304,15 @@ class Unites_Humain_Attaquant():
         ou négative.
         Si cet objet détruit est le QG, la variable V_atta, désignant la victoire ou non
         des attaquants, passe à 1. Les attaquants gagnent alors.
+        
+        Paramètres : 
+        ------------
+        Aucun.
+        
+        Renvoie :
+        ----------
+        Rien.
+        
         """
 
         Ennemi = self.chx_ennemi()
@@ -467,6 +490,14 @@ class Unites_Humain_Attaquant():
         des attaquants, passe à 1. Les attaquants gagnent alors.
         La méthode signale également quel est l'objet blessé par l'unité.
         
+        Paramètres :
+        ------------
+        Aucun.
+        
+        Renvoie :
+        ---------
+        Rien.
+        
         """
         x,y = self.coords
         x_inf = max(0,int(-self.zonecbt + x))
@@ -498,6 +529,15 @@ class Unites_Humain_Attaquant():
     def disparition(self):
         """ Méthode permettant de détruire l'unité. Elle supprime celui-ci
         de l'ensemble des listes/arrays où l'unité est stockée.
+        
+        Paramètres : 
+        ------------
+        Aucun.
+        
+        Renvoie :
+        ---------
+        Rien.
+        
         """
         print("%s est mort! \n"%(self.T_car()))
         x,y = self.coords
@@ -505,9 +545,6 @@ class Unites_Humain_Attaquant():
         self._carte.ss_carte[x][y] = ' '
         k = self.num_joueur
         self._carte.L_joueur[k]._liste_unite.remove(self)
-        
-#                Supprimer de carte; de ss_carte; de L_unite; 
-
 
 class Scorpion(Unites_Humain_Attaquant):
     """
