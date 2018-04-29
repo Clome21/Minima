@@ -513,7 +513,20 @@ un joueur humain.
                     else : 
                         c.bouger()
                     c.action()
-    
+                for c in L_unite:
+                    role_u = c.T_car()
+                    k = -2
+                    tTyp = role_u[k:]
+                    while tTyp[0] not in ['R','S']:
+                        k = k- 1
+                        tTyp = role_u[k:]
+                    role_u = tTyp
+                    if role_u[0:2] == "RC":
+                       c.capmvt = Constante.capmvt_RC
+                    elif role_u[0:2] == "RO":
+                       c.capmvt = Constante.capmvt_RO
+                    elif role_u[1] == "S":
+                       c.capmvt = Constante.capmvt_S
         self.unite_disp_par_tour += Constante.nbe_unite_ajoute
         if self.unite_disp_par_tour > min(self.L,self.H):
             self.unite_disp_par_tour = min(self.L,self.H)
