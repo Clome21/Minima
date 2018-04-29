@@ -63,7 +63,7 @@ class Unites_Humain_Attaquant():
     
     def car(self):
         """
-        Renvoie l'identifiant de l'unité en question
+        Renvoie l'identifiant de l'unité en question.
         
         Paramètres
         ----------
@@ -111,33 +111,34 @@ class Unites_Humain_Attaquant():
         self._carte.ss_carte[xi][yi], self._carte.ss_carte[X][Y] = self._carte.ss_carte[X][Y], self._carte.ss_carte[xi][yi]
         return(self.coords)  
     
-    def mvt_poss2(self):
-        x,y = self.coords
-        
-        self.L_vide = []
-        x_inf = max(0,int(-self.capmvt) + x)
-        x_sup = min(self._carte.dims[0]-1, int(self.capmvt + x))
-        y_inf = max(0,int(-self.capmvt) + y)
-        y_sup = min(self._carte.dims[1]-1, int(self.capmvt + y))
-
-        
-        Altrs = self._carte.ss_carte[x_inf:x_sup+1,y_inf:y_sup+1]
-        
-
-        
-        Coords = np.where(Altrs == ' ')
-
-        
-
-        
-        for k in range(len(Coords[0])):
-            i,j = Coords[0][k] + x_inf , Coords[1][k] + y_inf
-            self.L_vide.append((i,j))
-            
-
-        return(self.L_vide)
     
     def mvt_poss(self):
+        """ Méthode permettant de sélectionner les cases sur lesquelles 
+        l'unité peut se déplacer. Ces cases doivent être vides.
+        Dans un premier temps, la méthode sélectionne les cases vides et non vides
+        dans la zone de déplacement de l'unité.
+        Cependant, une case non vide bloque également les cases autour de celles-ci
+        (pour des questions de champ de vision, ou d'impossibilité de déplacement au
+        delà de l'obstacle). 
+        Donc dans un second temps, la méthode retire de la liste les cases qui 
+        sont bloqués par les obstacles au déplacement de l'unité.
+        Les cases retirées dépendent de la position de l'unité par rapport aux obstacles.
+        
+        A noter : actuellement, la façon dont les cases bloquées sont choisies a été
+        prévu pour des unitées dont les déplacements sont inférieurs ou égaux à 2. 
+        Une MAJ pourra être faite plus tard pour corriger ce problème.
+        
+        
+        Paramètres
+        ----------
+        Aucun
+        
+        Renvoie
+        -------
+        L_vide : list
+            La liste contenant toutes les cases où l'unité peut se déplacer.
+        
+        """
         x,y = self.coords
         
         self.L_vide = []
@@ -155,7 +156,6 @@ class Unites_Humain_Attaquant():
             for j in range(y_inf,y_sup +1):
                 if self._carte.ss_carte[i,j] == ' ':
                     
-# SINON : FAIRE IF MUR SUR LIGNE OU COL.
                     self.L_vide.append((i,j))
                 else:
                     L_obj.append((i,j))
@@ -202,17 +202,13 @@ class Unites_Humain_Attaquant():
                 
                 E_pos_imp = set(L)
                 E_pos = set(self.L_vide)
-                
                 Occ = E_pos&E_pos_imp
-
                 self.L_vide =list( E_pos - Occ)
             
             print(self.L_vide)
         
         return(self.L_vide)        
 
-       
-    
 
     @property
     def coords(self):
@@ -240,8 +236,6 @@ class Unites_Humain_Attaquant():
         """
         return self.coords[1]
     
-  
-
     @coords.setter
     def coords(self, nouv_coords):
         """
@@ -276,8 +270,7 @@ class Unites_Humain_Attaquant():
     def sante(self, value):
         """
         Met à jour le niveau de santé de l'Unité. Garantit que la valeur arrive 
-        dans l'intervalle [0, self._max]. Met à 0 les valeurs négatives, ne
-        fait rien pour les valeurs trop grandes.
+        dans l'intervalle [0, self._max]. Met à 0 les valeurs négatives.
         """
         if value <= self._max:
             self.__sante = value
@@ -291,7 +284,12 @@ class Unites_Humain_Attaquant():
         dans sa zone d'attaque.
         L'unité recherche les ennemis dans sa zone de combat et sélectionne 
         l'objet le plus proche grâce à la méthode chx_ennemi.
-        Si il y a bien un objet, celui-ci perd de la vie.
+        Si il n'y a pas d'objet à attaquer, la méthode le signale.
+        Si il y a bien un objet, la méthode signale quel est l'objet blessé par l'unité.
+        Cet objet perd alors de la vie, et est supprimé si sa santé devient nulle 
+        ou négative.
+        Si cet objet détruit est le QG, la variable V_atta, désignant la victoire ou non
+        des attaquants, passe à 1. Les attaquants gagnent alors.
         """
 
         Ennemi = self.chx_ennemi()
@@ -310,16 +308,22 @@ class Unites_Humain_Attaquant():
     
     def chx_ennemi(self):
         """
-        Méthode sélectionnant l'objet le plus proche de l'unité.
-        Elle parcourt pour chaque joueur ennemi l'ensemble des unités qu'elle
-        possède, et sélectionne le plus proche.
-        Elle vérifie ensuite si il n'y a pas un bâtiment plus proche.
+        Méthode sélectionnant l'objet ennemi le plus proche de l'unité.
+        Elle parcourt les cases dans le rayon d'attaque de l'unité, et sélectionne
+        les objets ennemis dans ce rayon.
+        Elle sélectionne en priorité les unités ennemis les plus proches; mais si
+        un batiment ennemi est plus proche de l'unité que les autres unités ennemis, 
+        l'unité en train de combattre attaquera alors le batiment.
         
         Paramètres
         ----------
-        L_ennemis : liste
-        Contient l'ensemble des joueurs ennemis de l'unité.
-
+        Aucun
+        
+        Renvoie :
+        ----------
+        Ennemi : Objet (Unité ou Batiment)
+            L'ennemi le plus proche de l'unité en train de combattre.
+        
         """
 
         x,y = self.coords
@@ -354,11 +358,49 @@ class Unites_Humain_Attaquant():
         
         return(Ennemi)
     
-    # Début de méthode pour choisir les ennemis récursivement. Mais oh
-    # mon dieu qu'est-ce que c'est compliqué! Voir plutôt pour améliorer IA.
-    
-    
     def chx_ennemi_rec(self,A,x,y):
+        """
+        Méthode sélectionnant l'objet ennemi le plus proche de l'unité, de façon
+        récursive.
+        Cette méthode se base sur la technique de "Diviser pour régner". Elle sélectionne
+        la sous-carte contenant les cases dans le rayon de combat de l'unité.
+        Elle coupe ensuite cette sous-carte en quatres carrés plus petits, jusqu'à
+        ce que ce carré soit de taille (1,1).
+        Elle détermine alors si l'unité sur cette case est un batiment, ou une unité,
+        et renvoie alors sa distance par rapport à l'unité combattante.
+        
+        Elle compare ensuite les distances des unités (et des batiments) par rapport
+        à l'unité combattante, et renvoie l'unité ennemie la plus proche, sa distance
+        par rapport à l'unité combattante, le batiment ennemi le plus proche, et sa
+        distance par rapport à l'unité combattante.
+
+        
+        Paramètres
+        ----------
+        A : array
+            Sous-carte contenant une partie (la totalité au départ) des cases 
+            dans le rayon de combat de l'unité combattante.
+            
+        x,y : int
+            Abscisse et ordonnée de l'unité combattante.
+        
+        Renvoie :
+        ----------
+        umin : Objet Unité 
+            L'unité ennemie la plus proche de l'unité combattante.
+            
+        r_min_u : float
+            La distance entre l'unité ennemie la plus proche de l'unité
+            combattante et l'unité combattante.
+        
+        bmin : Objet Batiment
+            Le batiment ennemi le plus proche de l'unité combattante.
+        
+        r_min_b : float
+            La distance entre le batiment ennemi le plus proche de l'unité
+            combattante et l'unité combattante.
+        
+        """
         if np.shape(A) == (1,1):
             v = A[0,0]
             if v == ' ' or v == '/':
@@ -373,42 +415,59 @@ class Unites_Humain_Attaquant():
             else:
                 return((None,self.zonecbt+1,None,self.zonecbt+1))
 
-        elif np.shape(A) == (0,0) or A.tolist()[0] == []:
+        elif np.shape(A) == (0,0) or A.tolist() == [] or A.tolist()[0] == []:
             print("OK")
             return((None,self.zonecbt+1,None,self.zonecbt+1))
 
         else : 
             l,c = np.shape(A)
-            A1 = A[:l//2,:c//2]
-            A2 = A[l//2:,c//2:]
-            
-            print(A1,A2)
-#            print("Type A1 : ",type(A1))
-#            print("Type A2 : ", type(A2))
+            A1 = A[l//2:,c//2:]
+            A2 = A[l//2:,:c//2]
+            A3 = A[:l//2,c//2:]
+            A4 = A[:l//2,:c//2]
+
+            print(A1,A2,A3,A4)
             print(np.shape(A1))
             print(np.shape(A2))
+            print(np.shape(A3))
+            print(np.shape(A4))
             
             U1,ru1,B1,rb1 = self.chx_ennemi_rec(A1,x,y)
             U2,ru2,B2,rb2 = self.chx_ennemi_rec(A2,x,y)
+            U3,ru3,B3,rb3 = self.chx_ennemi_rec(A3,x,y)
+            U4,ru4,B4,rb4 = self.chx_ennemi_rec(A4,x,y)
             
-            if ru1 > ru2:
-                r_min_u = ru2
-                umin = U2
-            else:
-                r_min_u = ru1
-                umin = U1
+            Lu = [ru1,ru2,ru3,ru4]
+            LU = [U1,U2,U3,U4]
+            Lb = [rb1,rb2,rb3,rb4]
+            LB = [B1,B2,B3,B4]
             
-            if rb1 > rb2:
-                r_min_b = rb2
-                bmin = B2
+            r_min_u = min(Lu)
+            umin = LU[ Lu.index(r_min_u) ]
             
-            else:
-                r_min_b = rb1
-                bmin = B1
+            r_min_b = min(Lb)
+            bmin = LB[ Lb.index(r_min_b) ]
             
             return(umin,r_min_u,bmin,r_min_b)
             
     def combat_rec(self):
+        """
+        
+        Méthode permettant à l'unité de combattre, si un objet ennemi se trouve 
+        dans sa zone d'attaque.
+        Elle sélectionne les cases de la sous-carte correspondant à la zone d'attaque
+        de l'unité combattante, et applique la méthode chx_ennemi_rec pour trouver
+        le batiment et l'unité ennemie les plus proches. Cette dernière méthode est
+        récursive.
+        Si il n'y a pas d'objet à attaquer, la méthode le signale.
+        Si il y a bien un objet, la méthode sélectionne lequel des deux est le plus
+        proche de l'unité combattante. Cet objet est alors blessé : il perd de la vie, 
+        et est supprimé si sa santé devient nulle ou négative.
+        Si cet objet détruit est le QG, la variable V_atta, désignant la victoire ou non
+        des attaquants, passe à 1. Les attaquants gagnent alors.
+        La méthode signale également quel est l'objet blessé par l'unité.
+        
+        """
         x,y = self.coords
         x_inf = max(0,int(-self.zonecbt + x))
         x_sup = min(self._carte.dims[0]-1, int(self.zonecbt + x))
@@ -434,14 +493,12 @@ class Unites_Humain_Attaquant():
                 Ennemi.disparition()
                 if role[-2] + role[-1] == 'QG':
                     self._carte.V_atta = 1
-   
-        
-        
-        
-#        
-        
+    
         
     def disparition(self):
+        """ Méthode permettant de détruire l'unité. Elle supprime celui-ci
+        de l'ensemble des listes/arrays où l'unité est stockée.
+        """
         print("%s est mort! \n"%(self.T_car()))
         x,y = self.coords
         self._carte.remove(self)
@@ -457,7 +514,7 @@ class Scorpion(Unites_Humain_Attaquant):
     Classe spécialisant Unites_Humain_Attaquant pour représenter une Fourmi.
     """
     Id = 0
-    def __init__(self,role,carte,x,y,k, L_ennemi = [], L_autres_joueurs = []):
+    def __init__(self,role,carte,x,y,k):
         """Permet d'initialiser l'unité.
             
     Paramètres
@@ -471,16 +528,14 @@ class Scorpion(Unites_Humain_Attaquant):
 
     x, y : int
     Les coordonnées de l'unité en abscisse et en ordonnée
-
-    L_ennemis : liste
-    Contient l'ensemble des joueurs ennemis de l'unité.
     
+    k : int
+    La position du joueur possédant l'unité, dans la liste L_joueur.
+
         """
         self.__sante = 10
         super().__init__(x, y, carte, role, self.__sante)
-        
-        self.L_ennemi = L_ennemi
-        self.L_autres_joueurs = L_autres_joueurs
+
         self.num_joueur = k
         self.id = self._carte.L_joueur[k].IdU
         self._carte.L_joueur[k].IdU += 1
@@ -489,13 +544,31 @@ class Scorpion(Unites_Humain_Attaquant):
         self.zonecbt = math.sqrt(2)
     
     def car(self):
+        """Méthode permettant d'afficher le scorpion sur la carte. Elle renvoie
+        le symbole associé au scorpion.
+        """
         return 'S '
     
     def T_car(self):
-        """ Renvoie l'ensemble des caractéristiques de l'objet étudié """
+        """Méthode contenant l'ensemble des informations permettant d'identifier le batiment.
+        Dans l'ordre : 
+            self._role : le rôle du joueur possédant l'objet. Ici, l'attaquant (avec un
+            identifiant pour le reconnaître).
+            U : le type global de l'objet. Ici, Unité.
+            S : le role de l'objet. Ici, Scorpion
+            self.id : l'identifiant de l'objet, afin de le différencier des autres
+            scorpions.
+        """  
+                    
         return "%s_U_S%i"%(self._role, self.id )
     
     def action(self):
+        """ Méthode définissant l'action de l'unité, après s'être déplacée.
+        Pour un scorpion, cette action est une action de combat.
+        
+        A noter : il existe deux méthodes pour cette action de combat : une 
+        méthode itérative, et une méthode récursive.
+        """
         self.combat_rec()
         return(None)
     
