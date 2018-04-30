@@ -112,9 +112,7 @@ class Map(list):
                 self.ss_carte[i][j] = '/'
             for i in range( self.__xmax//2 + 2, (self.__xmax + self.L )//2 ) :
                 self.ss_carte[i][j] = '/'
-
-        #Note l'ensemble des positions constituant les zones constructibles
-        
+  
    
     @property
     def dims(self):
