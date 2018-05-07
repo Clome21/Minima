@@ -110,7 +110,10 @@ class Ressource(object):
         Paramètres
         ----------
         nouv_coords : tuple représentant les nouvelles coordonnées de la ressource.
-
+        
+        Renvoie :
+        ----------
+        Rien.
         """
 
         x, y = nouv_coords
@@ -123,6 +126,15 @@ class Ressource(object):
     def disparition(self):
         """ Méthode permettant de supprimer l'objet ressources. Elle supprime celui-ci
         de l'ensemble des listes/arrays où cet objet est stocké.
+        
+        Paramètres : 
+        -------------
+        Aucun.
+        
+        Renvoie :
+        ----------
+        Rien.
+        
         """
         x,y = self.coords
         self._cart.remove(self)
@@ -134,12 +146,22 @@ class metal(Ressource):
     """
     Classe décrivant les comportement par défaut de la ressource metal
     """
-    def __init__(self, x, y, cart,valeur):
-        super().__init__(x, y, cart,valeur)
+    def __init__(self, abscisse, ordonnee, cart,valeur):
+        super().__init__(abscisse, ordonnee, cart,valeur)
     
     def car(self):
         """Méthode permettant d'afficher la ressource sur la carte. Elle renvoie
         le symbole associé à la ressource.
+        
+        Paramètres :
+        -------------
+        Aucun.
+        
+        Renvoie :
+        -----------
+        'M' : str
+            Le symbole associé à la ressource.
+        
         """
         return 'M '
     
@@ -150,7 +172,15 @@ class metal(Ressource):
             est neutre.
             O : le type global de l'objet. Ici, Objet.
             M : le role de l'objet. Ici, Métal.
-
+        
+        Paramètres : 
+        -------------
+        Aucun.
+        
+        Renvoie : 
+        ----------
+        'N_O_M' : str
+            La chaîne de caractère identifiant la ressource.
         """
         return('N_O_M')
 
