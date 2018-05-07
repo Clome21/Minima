@@ -273,10 +273,15 @@ J'ai pas compris "les bos de la fenêtre d'option" :o
 07-05 - Clome21
 
 Mettre dans le fichier Gestion_du_jeu ta méthode de sélection des joueurs : OK
-Nom du bouton pour placer des scorpions? : OK
-Comment mettre à jour le compteur d'unités pour l'attaquant : OK mais pb car il semblerais que unite_disp soit tjr égale à 1
+Nom du bouton pour placer des scorpions? : OK pb lorsque le scorpion est immobile on a une erreur disant 
+U3,ru3,B3,rb3 = self.chx_ennemi_rec(A3,x,y) TypeError: 'NoneType' object is not iterable
+Je pense que le probleme vient de A3 car avec A1 il n'y a pas d'erreur.
+
+Comment mettre à jour le compteur d'unités pour l'attaquant : OK mais pb car il semblerais que unite_disp soit tjr égale à 1 (alors qu'on
+déduit bien 1 à chaque pose d'unité)
 Supprimer le menu de sauvegarde déroulant : OK
 Mettre les fenêtres remplaçant les prints : OK pour savoir à qui c'est de jouer (on verra le designe plus tard à l'ensta) et OK pour victoire et défaite
 Affichage des métaux : OK
 
+Le jeu est 100% jouable avec les IA mais il y a des soucis dès qu'on ajoute un humain.
 
