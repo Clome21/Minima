@@ -270,4 +270,13 @@ Pour le déplacement, est-ce que tu penses que tu penses que tu pourrais plutôt
 sélectionner/ deux clics-gauches pour déplacer, sans bouton? Je crois avoir une idée pour faire ça.
 J'ai pas compris "les bos de la fenêtre d'option" :o
 
+07-05 - Clome21
+
+Mettre dans le fichier Gestion_du_jeu ta méthode de sélection des joueurs : OK
+Nom du bouton pour placer des scorpions? : OK
+Comment mettre à jour le compteur d'unités pour l'attaquant : OK mais pb car il semblerais que unite_disp soit tjr égale à 1
+Supprimer le menu de sauvegarde déroulant : OK
+Mettre les fenêtres remplaçant les prints : OK pour savoir à qui c'est de jouer (on verra le designe plus tard à l'ensta) et OK pour victoire et défaite
+Affichage des métaux : OK
+
 
