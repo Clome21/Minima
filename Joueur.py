@@ -19,6 +19,11 @@ class Joueur(object):
     ----------
         role: str
             Le rôle du joueur dans la partie.
+            
+    Renvoie :
+    ----------
+    Rien.
+    
         """
         self._role = role
         self._liste_unite = []
