@@ -47,6 +47,14 @@ class Save():
         Rien.
         
         """
+        
+        
+        # Sauvegarder également le joueur en cours, la variable tour_en_crs, et la variable tour_jr_en_cours.
+        # (pas forcément les deux dernières : si la sauvegarde a pu avoir lieu, ça devait forcément être pendant un tour
+        # de jeu d'un joueur humain; donc les deux seraient égales à 1.
+        # Sauvegarder aussi les capacités de mouvement des unités pour le joueur humain en cours (uniquement).
+        # Voir si une option est nécessaire pour quitter (si un objet partie va forcément rester en arrière plan ou non).
+        
         self.Nme = self.Test_nom(name)
         Save = open(self.Nme,"w+")
         Save.write("Carte \n")
