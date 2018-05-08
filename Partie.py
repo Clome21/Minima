@@ -67,6 +67,15 @@ class Partie():
         """
         Méthode exécutant les ajustements de base pour débuter la partie, sur chaque
         joueur.
+        
+        Paramètres :
+        -------------
+        Aucun.
+        
+        Renvoie :
+        ----------
+        Rien.
+        
         """
 
         self.L_joueur[0].metal_tot, self.L_joueur[0].energie_tot = Constante.metal_tot, Constante.energie_tot
