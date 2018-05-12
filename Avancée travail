@@ -291,3 +291,11 @@ J'ai réglé le bug pour les unités attaquantes impossibles à placer. J'ai pas
 Sinon, il y a aussi une fenêtre qui pope maintenant à la fin de la partie.
 Je vais aussi mettre en place la méthode de save/load. Il faudra que tu fasses ce que je t'ai dis dans le message, mais si tu as
 le temps pour avancer un peu plus il faudrait que tu vois dans le fichier save_load ce qu'il y a à faire.
+
+12-05 - Clome21
+
+J'ai commencé le systeme de sauvegarde, lorsque l'on clique sur bouton sauvegarde, une case sur laquelle on peut écrire du texte apparait
+(QLineEdit dans le code) puis une fois la touche enter du clavier cliqué, ça lance la méthode de sauvegarde. Donc on peut sauvegarder.
+Cependant ya un probleme quand le nom de sauvegarde existe déja le code défile est donc il y a un NoneType je pense que c'est self.Nme.
+
+
