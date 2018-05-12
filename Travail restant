@@ -1,5 +1,7 @@
 Travaux essentiels : 
 
+- Supprimer le bouton generer.
+
 - Rapport à écrire
 
 - Documentation à faire
@@ -24,11 +26,3 @@ Travaux secondaires :
 bâtiments ennemis les plus proches, déploiement par vagues aléatoires ( petit / moyen / gros au hasard, +1 à chaque déploiement).
 
 - Ajout d’autres unités, ...
-
-
-
-- Enlever système de MAJ par bouton.
-
-- Voir pour simuler, un_tour_Hn.
-
-- Démarrage de partie.
