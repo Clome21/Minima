@@ -1,27 +1,15 @@
 Travaux essentiels : 
 
-- Méthode pour faire des tests.
-
-- Rajouter robot ouvrier
+- Rapport à écrire
 
 - Documentation à faire
 
-- Ajouter algorithme de Djakhata récursif pour l'IA max (essentiel pour avoir une figure récursive!).
+- Interface graphique : régler le bug d'affichage en haut.
 
-- Interface graphique :
+- Méthode save/load.
 
-	* Afficher les zones de déplacement et de combat des unités dont on clique dessus ; ces zones doivent être visibles
-  pour chaque joueur, dès qu’il clique sur l’unité.
-	*Mettre en place une interface graphique, comptant :  #le nombre de tours avant la fin (via une barre).
-								# les ressources du joueur (Timer avant nouvelles unités disponibles pour le joueur humain attaquant, 
-                métal et énergie pour le joueur humain défenseur.)
-                
-								# boutons de production d’unités (Activer certains / en désactiver d’autres selon le joueur : pas 
-                de production d’unité d’attaque si défenseur, etc …).
-
-								# boutons de production de bâtiments.
-
-								# affichage de la map sur une fenêtre.
+- Ecran de sélection du nombre de joueurs : Bloquer ou cacher le bouton jouer tant que le nombre de joueurs humains et IA
+est égal à 0.
 
 TOUT DOIT ETRE TERMINE POUR LE 5 MAI.
 
