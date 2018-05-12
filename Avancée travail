@@ -285,3 +285,9 @@ Affichage des métaux : OK
 
 Le jeu est 100% jouable avec les IA mais il y a des soucis dès qu'on ajoute un humain.
 
+12-05 - XV25
+
+J'ai réglé le bug pour les unités attaquantes impossibles à placer. J'ai pas vu ton bug par contre avec combat_rec.
+Sinon, il y a aussi une fenêtre qui pope maintenant à la fin de la partie.
+Je vais aussi mettre en place la méthode de save/load. Il faudra que tu fasses ce que je t'ai dis dans le message, mais si tu as
+le temps pour avancer un peu plus il faudrait que tu vois dans le fichier save_load ce qu'il y a à faire.
