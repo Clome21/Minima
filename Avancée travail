@@ -298,4 +298,9 @@ J'ai commencé le systeme de sauvegarde, lorsque l'on clique sur bouton sauvegar
 (QLineEdit dans le code) puis une fois la touche enter du clavier cliqué, ça lance la méthode de sauvegarde. Donc on peut sauvegarder.
 Cependant ya un probleme quand le nom de sauvegarde existe déja le code défile est donc il y a un NoneType je pense que c'est self.Nme.
 
+17/05 - XV25
 
+- Affichage des infos avec double clique gauche dans la fenêtre de jeu.
+- Sauvegarde OP
+- Chargement OP
+- MAJ pour les actions spéciales des unités : les attaquants combattent en priorité les bâtiments au lieu des unités.
