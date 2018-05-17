@@ -304,3 +304,15 @@ Cependant ya un probleme quand le nom de sauvegarde existe déja le code défile
 - Sauvegarde OP
 - Chargement OP
 - MAJ pour les actions spéciales des unités : les attaquants combattent en priorité les bâtiments au lieu des unités.
+
+17/05 - Clome21
+
+code propre
+j'ai fais l'affichage des infos en plus propre ( J'ai remplacé le QlineEdit par des QTextBrowser.
+j'ai fais des fenetre spéciale pour la sauvegarde et le chargement, ce qui est beaucoup plus propre que le QLineEdit d'avant.
+Par contre je ne peux plus charger une partie (crash python), je ne vois pas pk, faudra que tu test sur un autre ordi pour 
+voir si ça vient du code.
+Affichage du bouton Jouer si une boite est coché.
+
+Sinon c'est fini.
+
